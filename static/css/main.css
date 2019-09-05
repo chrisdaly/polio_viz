@@ -1,0 +1,168 @@
+* {
+    font-family: Inconsolata;
+}
+
+.my_sidebar {
+    /*background-color: white;*/
+    /*height: 100%;*/
+    font-family: Inconsolata;
+    z-index: 10;
+    padding-bottom: 10;
+}
+
+div#viz {
+    /*position: absolute;*/
+    width: 100%;
+    height: 100%;
+    text-align: center;
+}
+
+div#middle {
+    pointer-events: none;
+    z-index: -2;
+}
+
+html {
+    font-family: "monserrat";
+}
+
+h1 {
+    font-size: 24px;
+}
+
+.graticule {
+    fill: none;
+    stroke: grey;
+    stroke-width: 0.5px;
+    stroke-opacity: 0.3;
+    pointer-events: none;
+}
+
+.country {
+    pointer-events: none;
+}
+
+.continent {
+    pointer-events: inherit;
+}
+
+.continent.active {
+    pointer-events: none;
+}
+
+path {
+    stroke-linejoin: round;
+}
+
+.label_region {
+    fill: black;
+    fill-opacity: 0.5;
+    font-size: 6px;
+    font-weight: 100;
+    text-anchor: middle;
+}
+
+.label_continent {
+    fill: black;
+    fill-opacity: 0.3;
+    font-size: 20px;
+    font-weight: 300;
+    text-anchor: middle;
+}
+
+text {
+    font-family: montserrat;
+    pointer-events: none;
+}
+
+div#container {
+    display: flex;
+    height: 100%;
+    position: absolute;
+}
+
+div#header {
+    position: relative;
+    padding-left: px;
+    z-index: 10;
+}
+
+div#left_panel {
+    padding-left: 1rem;
+    z-index: 10;
+    opacity: 0.7;
+    background: white;
+    display: block;
+    position: absolute;
+    height: 100%;
+    pointer-events: none;
+
+    /*width: 100px;*/
+}
+
+div#continent_title {
+    padding-top: 15px;
+    /*height: 5%;*/
+}
+
+div#business_title {
+    padding-top: 15;
+    /*height: 5%;*/
+}
+
+div#region_title {
+    /*overflow-x: */
+    padding-top: 5px;
+    /*height*/
+    :5% ;
+}
+
+div#continent {
+    padding-top: 5px;
+    position: relative;
+    /*overflow-y: auto;*/
+    /*height: 10%;*/
+}
+
+div#business {
+    padding-top: 5px;
+    position: relative;
+    /*overflow-y: auto;*/
+    /*height: 50%;*/
+}
+
+div#region {
+    padding-top: 5px;
+    position: relative;
+    /*overflow-y: auto;*/
+    /*height: 20%;*/
+}
+
+table {
+    table-layout: fixed;
+    font-size: 12px;
+    /*position: absolute;*/
+    width: 100%;
+}
+
+th,
+td {
+    font-family: montserrat;
+    text-align: left;
+}
+
+th {
+    font-size: 14px;
+}
+
+td {
+    font-size: 12px;
+}
+
+tr:nth-child(even) {
+    /*background-color: #EEE;*/
+}
+
+tr:nth-child(odd) {
+    /*background-color: #FDFDFD;*/
+}
