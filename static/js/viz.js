@@ -1,16 +1,16 @@
 const margin = { top: 10, right: 10, bottom: 30, left: 30 };
 const width = 1400
 const height = 900
-const graticule = d3.geoGraticule();
 const range = (start, end) => Array.from({ length: (end - start) }, (v, k) => k + start);
+const files = ["./static/data/world-50m.json", "./static/data/coverage_incidents_population_per_country_per_year.json"];
 let datasets
 let countriesData
 let metricsData
-let year = 2018;
-
+let year = 1980;
+const graticule = d3.geoGraticule();
 const projection = d3
-    .geoLarrivee() //geoLarrivee, geoEckert1
-    .scale(220) //width / 3.5 / Math.PI
+    .geoLarrivee()
+    .scale(width / 3.5 / Math.PI)
     .rotate([-11, 0])
     .translate([width / 2, height / 2]);
 
@@ -22,7 +22,6 @@ const svg = d3
     .attr("width", width)
     .attr("height", height)
     .append("g")
-// .attr("transform", `translate(${margin.left},${margin.top})`);
 
 svg.append("path")
     .datum(graticule)
@@ -37,9 +36,7 @@ svg.append("path")
     .attr("stroke", "black")
     .attr("opacity", 0.3);
 
-
-const files = ["./static/data/world-50m.json", "./static/data/coverage_incidents_population_per_country_per_year.json"];
-Promise.all(files.map(f => d3.json(f))).then(init) //draw(data, 1998));
+Promise.all(files.map(f => d3.json(f))).then(init)
 
 function init(datasets) {
     countriesData = datasets[0];
@@ -104,6 +101,19 @@ document.querySelector('input[id="coverage"]').onchange = function() {
     controlsUpdated()
 }
 
+document.getElementById('mySlider').onchange = function() {
+    controlsUpdated()
+}
+
+// Listen to the slider?
+d3.select("#mySlider").on("change", function(d) {
+    controlsUpdated()
+    console.log("mySlider moved", this.value)
+    year = this.value
+    document.getElementById('year').innerHTML = year
+    // updateChart(selectedValue)
+})
+
 function getMetrics() {
     let metrics = []
     if (document.querySelector('input[id="incidents"]').checked == true) {
@@ -121,7 +131,6 @@ function getMetrics() {
 
 function controlsUpdated() {
     let metrics = getMetrics()
-    // year = 1980
+    let year = document.getElementById('mySlider').value
     let dataFiltered = filterData(year, metrics)
-    paint(dataFiltered)
-}
+    paint(dataFiltered)}
