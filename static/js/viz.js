@@ -6,8 +6,14 @@ const files = ["./static/data/world-50m.json", "./static/data/coverage_incidents
 let datasets
 let countriesData
 let metricsData
-let year = 1980;
+let year
+const colors = ["#d1d3ca", "#c5c692", "#b8ba57", "#aaab19", "#a3a7b6", "#999d84", "#8f934f", "#858817", "#767da4", "#6f7576", "#676e47", "#606514", "#4a5491", "#464f69", "#414a3f", "#3c4412"]
+const n = Math.floor(Math.sqrt(colors.length))
+const coverageScale = d3.scaleThreshold([20, 50, 85, 100], d3.range(n))
+const incidentsScale = d3.scaleThreshold([0.0001, .001, .01, 1], d3.range(n))
+
 const graticule = d3.geoGraticule();
+
 const projection = d3
     .geoLarrivee()
     .scale(width / 3.5 / Math.PI)
@@ -41,6 +47,8 @@ Promise.all(files.map(f => d3.json(f))).then(init)
 function init(datasets) {
     countriesData = datasets[0];
     metricsData = datasets[1];
+    console.log("countriesData", countriesData)
+    console.log("metricsData", metricsData)
     draw()
 }
 
@@ -52,9 +60,9 @@ function draw() {
         .append("path")
         .attr("class", "country")
         .attr("d", path)
+        .attr("blah", d => console.log(d))
         .attr("opacity", 1)
-        .attr("fill", "grey")
-    // .on("click", d => console.table(datasets[1][starYear][d.id]))
+        .attr("fill", "#F0F0F0")
 }
 
 function filterData(year, metrics) {
@@ -73,24 +81,37 @@ function filterData(year, metrics) {
     return dataFinal
 }
 
+const getColor = countryMetrics => {
+    if (Object.entries(countryMetrics).length === 0) return "#F0F0F0"
+    const { coverage = 0, incidents = 0 } = countryMetrics;
+    console.log()
+
+    let coverageRank = coverageScale(coverage)
+    let incidentsRank = incidentsScale(incidents)
+    let rank = coverageRank * n + incidentsRank
+    console.log(`coverageRank: ${coverageRank}, incidentsRank: ${incidentsRank}, rank: ${coverageRank * n + incidentsRank}, color: ${colors[rank]}`)
+    return colors[rank]
+}
+
 function paint(data) {
-    const colors = ["#e8e8e8", "#e4acac", "#c85a5a", "#b0d5df", "#ad9ea5", "#985356", "#64acbe", "#627f8c", "#574249"]
-    const n = Math.floor(Math.sqrt(colors.length))
-    const x = d3.scaleQuantile([10, 40, 100], d3.range(n))
-    const y = d3.scaleQuantile([0, .001, .1], d3.range(n))
-
-    const getColor = data => {
-        if (data == null) return "#DCDCDC"
-        const { coverage = 0, incidents_normalized = 0 } = data;
-
-        let x_pos = x(coverage)
-        let y_pos = y(incidents_normalized)
-        let pos = x_pos * n + y_pos
-        return colors[pos]
-    }
-
-    d3.selectAll('.country').attr("fill", d => getColor(data[d.id])).on('click', d => console.table(metricsData[year][d.id]))
-
+    console.log(data)
+    d3.selectAll('.country')
+        .on("mouseover", d => {
+            if (metricsData[year][d.id] != undefined) {
+                return showTooltip(d, metricsData[year][d.id])
+            }
+        })
+        .on("mouseout", hideTooltip)
+        .on('click', d => getColor(data[d.id]))
+        .transition()
+        .duration(1000)
+        .attr("fill", d => {
+            if (data[d.id] != null) {
+                return getColor(data[d.id])
+            } else {
+                return "#F0F0F0"
+            }
+        })
 }
 
 document.querySelector('input[id="incidents"]').onchange = function() {
@@ -105,21 +126,17 @@ document.getElementById('mySlider').onchange = function() {
     controlsUpdated()
 }
 
-// Listen to the slider?
-d3.select("#mySlider").on("change", function(d) {
+d3.select("#mySlider").on("input", function(d) {
     controlsUpdated()
-    console.log("mySlider moved", this.value)
-    year = this.value
-    document.getElementById('year').innerHTML = year
-    // updateChart(selectedValue)
+    document.getElementById('year').innerHTML = this.value
 })
 
 function getMetrics() {
     let metrics = []
     if (document.querySelector('input[id="incidents"]').checked == true) {
-        metrics.push("incidents_normalized")
+        metrics.push("incidents")
     } else {
-        metrics.filter(i => i !== "incidents_normalized")
+        metrics.filter(i => i !== "incidents")
     }
     if (document.querySelector('input[id="coverage"]').checked == true) {
         metrics.push("coverage")
@@ -131,6 +148,72 @@ function getMetrics() {
 
 function controlsUpdated() {
     let metrics = getMetrics()
-    let year = document.getElementById('mySlider').value
+    year = document.getElementById('mySlider').value
     let dataFiltered = filterData(year, metrics)
-    paint(dataFiltered)}
+    paint(dataFiltered)
+}
+
+function createToolTip() {
+    tooltip = d3
+        .select("body")
+        .select("#tooltip")
+        .on("mouseover", function(d, i) {
+            tooltip
+                .transition()
+                .duration(0)
+                .style("display", "")
+                .style("opacity", 0.9); // on mouse over cancel circle mouse out transistion
+        })
+        .on("mouseout", function(d, i) {
+            hideTooltip();
+        });
+}
+
+function showTooltip(dTopo, dMetrics) {
+    var coords = path.centroid(dTopo);
+    tooltip = d3
+        .select("body")
+        .select("#tooltip")
+        .style("left", coords[0] + "px")
+        .style("top", coords[1] + "px")
+        .style("opacity", 0)
+        .style('display', '')
+
+    tooltip
+        .transition()
+        .duration(800)
+        .style("opacity", 1);
+
+    tooltip.html(
+        `
+        <div id="tooltip-Container">
+            <table class="tg">
+                <tr>
+                    <th class="tg-yw4l" colspan="3">
+                        <div class="tooltip-planet">${dMetrics.country}</div>
+                        <div class="tooltip-rule"></div>
+                        <div class="tooltip-year">Year: ${year}</div>
+                        <div class="tooltip-year">Population: ${dMetrics.population}</div>
+                        <div class="tooltip-year">Polio Incidents: ${dMetrics.incidents} per 100k</div>
+                        <div class="tooltip-year">Vaccine Coverage: ${dMetrics.coverage}%</div>
+                    </th>
+                </tr>
+            </table>
+        </div>
+        `
+    );
+}
+
+function hideTooltip() {
+    d3
+        .select("body")
+        .select("#tooltip")
+        .transition()
+        .duration(500)
+        .style("opacity", 0)
+        .transition()
+        .duration(1)
+        .style('display', 'None')
+    // .style("left", 0 + "px")
+    // .style("top", 0 + "px");
+}
