@@ -1,57 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <link rel="stylesheet" type="text/css" href="/static/css/main.css" />
+        <link href="https://fonts.googleapis.com/css?family=Noto+Sans" rel="stylesheet" type="text/css" />
+    </head>
 
-<head>
-    <meta charset="utf-8" />
-    <link rel="stylesheet" type="text/css" href="/static/css/main.css" />
-    <link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet" type="text/css" />
-</head>
-
-<body>
-    <div id="header" class="">
-        <h1>Polio Vaccine Data Visualisation</h1>
-    </div>
-    <div id="content_top" class="">
-        <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-            minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-            reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-            culpa qui officia deserunt mollit anim id est laborum.
-        </p>
-    </div>
-    <div id="viz">
-        <div id="toggles">
-            <input type="checkbox" id="incidents" name="controls">Incidents<br>
-            <input type="checkbox" id="coverage" name="controls">Coverage<br>
-            <input type="range" id="mySlider" name="controls" min="1980" max="2018" value="1980"><br>
-            <p>Year: <span id="year">1980</span></p>
+    <body>
+        <div id="header" class="">
+            <h1>World Polio Day</h1>
         </div>
-        <div id="tooltip"></div>
-    </div>
-    <div id="caption" class="">Source: The World Health Organization (WHO)</div>
-    <div id="content_bottom" class="">
-        <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-            minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-            reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-            culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-            incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-            commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur
-            sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-        </p>
-    </div>
-</body>
-<footer>
-    <script src="https://d3js.org/d3-array.v1.min.js"></script>
-    <script src="https://d3js.org/d3-geo.v1.min.js"></script>
-    <script src="https://d3js.org/d3-geo-projection.v2.min.js"></script>
-    <script src="https://d3js.org/d3.v5.min.js"></script>
-    <script src="https://d3js.org/topojson.v1.min.js"></script>
-    <script src="https://d3js.org/queue.v1.min.js"></script>
-    <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
-    <script src="/static/js/viz.js"></script>
-</footer>
-
+        <div id="content_top" class="">
+            <p>Global polio incidences & vaccine coverage in</p>
+            <h2><span id="year">1980</span></h2>
+        </div>
+        <div id="viz">
+            <div id="toggles">
+                <input type="range" id="mySlider" name="controls" min="1980" max="2018" value="1980" /><br />
+                <br />
+                <input type="checkbox" id="incidents" name="controls" />Incidents<br />
+                <input type="checkbox" id="coverage" name="controls" />Coverage<br />
+            </div>
+            <div id="tooltip"></div>
+        </div>
+        <div id="caption" class="">Source: The World Health Organization (WHO)</div>
+        <div id="content_bottom" class="">
+            <p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+                minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
+                reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+                culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+                incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+                commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur
+                sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+            </p>
+            <div class="chart-wrapper" id="linechart"></div>
+        </div>
+    </body>
+    <footer>
+        <script src="https://d3js.org/d3-array.v1.min.js"></script>
+        <script src="https://d3js.org/d3-geo.v1.min.js"></script>
+        <script src="https://d3js.org/d3-geo-projection.v2.min.js"></script>
+        <script src="https://d3js.org/d3.v5.min.js"></script>
+        <script src="https://d3js.org/topojson.v1.min.js"></script>
+        <script src="https://d3js.org/queue.v1.min.js"></script>
+        <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+        <script src="/static/js/linechart.js"></script>
+        <script src="/static/js/utils.js"></script>
+        <script src="/static/js/viz.js"></script>
+    </footer>
 </html>
-<!-- browser-sync start --server --files="**/*" <-->
-</-->

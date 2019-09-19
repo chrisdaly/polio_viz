@@ -1,5 +1,5 @@
 * {
-    font-family: Inconsolata;
+    font-family: "Noto Sans", sans-serif;
 }
 
 .my_sidebar {
@@ -54,7 +54,6 @@ path {
     stroke-linejoin: round;
 }
 
-
 text {
     font-family: montserrat;
     pointer-events: none;
@@ -70,6 +69,14 @@ div#header {
     position: relative;
     padding-left: px;
     z-index: 10;
+    text-align: center;
+}
+
+div#content_top {
+    position: relative;
+    padding-left: px;
+    z-index: 10;
+    text-align: center;
 }
 
 div#left_panel {
@@ -99,7 +106,7 @@ div#region_title {
     /*overflow-x: */
     padding-top: 5px;
     /*height*/
-    : 5%;
+    :5% ;
 }
 
 div#continent {
@@ -204,7 +211,6 @@ tr:nth-child(odd) {
     /*fill: #DCDCDC;*/
 }
 
-
 #tooltip-Container {
     position: absolute;
     width: 300px;
@@ -225,7 +231,7 @@ tr:nth-child(odd) {
     text-align: center;
     z-index: 1000;
     position: absolute;
-    opacity: .9;
+    opacity: 0.9;
 }
 
 #tooltip .tooltip-tail {
@@ -239,7 +245,7 @@ tr:nth-child(odd) {
 
 #tooltip .tooltip-planet {
     text-transform: uppercase;
-    font-family: 'Oswald', sans-serif;
+    font-family: "Oswald", sans-serif;
     text-align: left;
     font-size: 16px;
     margin-bottom: 4px;
