@@ -61,6 +61,10 @@ svg.append("path")
 	.attr("stroke", "black")
 	.attr("opacity", 0.3);
 
+// var chart = d3_xy_chart()
+// 	.width(960)
+// 	.height(500);
+
 Promise.all(files.map(f => d3.json(f))).then(init);
 
 function init(datasets) {
@@ -73,8 +77,21 @@ function init(datasets) {
 		.object(rawData);
 
 	console.log("countriesData", countriesData);
+	console.log("rawData", rawData);
 	console.log("metricsData", metricsData);
 	draw();
+
+	// d3.select("#linechart")
+	// 	.datum(
+	// 		d3
+	// 			.nest()
+	// 			.key(d => d.year)
+	// 			.rollup(v => {
+	// 				return d3.mean(v, d => d.incidents); //, d3.mean(v, d => d.coverage)]
+	// 			})
+	// 			.entries(rawData)
+	// 	)
+	// 	.call(chart);
 }
 
 function draw() {
@@ -113,7 +130,7 @@ const getColor = countryMetrics => {
 	let coverageRank = coverageScale(coverage);
 	let incidentsRank = incidentsScale(incidents);
 	let rank = coverageRank * n + incidentsRank;
-	console.log(`coverageRank: ${coverageRank}, incidentsRank: ${incidentsRank}, rank: ${coverageRank * n + incidentsRank}, color: ${colors[rank]}`);
+	// console.log(`coverageRank: ${coverageRank}, incidentsRank: ${incidentsRank}, rank: ${coverageRank * n + incidentsRank}, color: ${colors[rank]}`);
 	return colors[rank];
 };
 
@@ -122,7 +139,7 @@ function paint(data) {
 	d3.selectAll(".country")
 		.on("mouseover", d => {
 			if (metricsData[year][d.id] != undefined) {
-				return showTooltip(d, metricsData[year][d.id]);
+				return showTooltip(d, metricsData[year][d.id][0]);
 			}
 		})
 		.on("mouseout", hideTooltip)
@@ -241,10 +258,7 @@ function hideTooltip() {
 	// .style("top", 0 + "px");
 }
 
-var chart = timeSeriesChart()
-	.x(function(d) {
-		return formatDate.parse(d.date);
-	})
-	.y(function(d) {
-		return +d.price;
-	});
+// var formatDate = d3.timeFormat("%Y");
+// var chart = timeSeriesChart()
+// 	.x(d => d.key)
+// 	.y(d => d.value);
