@@ -1,41 +1,15 @@
-var margin = { top: 30, right: 40, bottom: 30, left: 50 },
-    width = 600 - margin.left - margin.right,
-    height = 270 - margin.top - margin.bottom;
+// Input parameters
+let year = 1988;
+let country = "United States of America (the)";
 
-var parseTime = d3.timeParse("%Y");
-var x = d3.scaleTime().range([0, width]);
-var y0 = d3.scaleLinear().range([height, 0]);
-var y1 = d3.scaleLinear().range([height, 0]);
-var year = 1999;
-var coverageMax;
-var incidentsMax;
+// Setup
+let margin = { top: 50, right: 80, bottom: 50, left: 10 };
+let width = 600 - margin.left - margin.right;
+let height = 250 - margin.top - margin.bottom;
+let yearLineOffset = 20;
+const files = ["./static/data/records.json"];
 
-var xAxis = d3
-    .axisBottom()
-    .scale(x)
-    .ticks(5);
-
-var yAxisLeft = d3
-    .axisLeft()
-    .scale(y0)
-    .ticks(5);
-
-var yAxisRight = d3
-    .axisRight()
-    .scale(y1)
-    .ticks(5);
-
-var valueline = d3
-    .line()
-    .x(d => x(d.year))
-    .y(d => y0(d.incidents));
-
-var valueline2 = d3
-    .line()
-    .x(d => x(d.year))
-    .y(d => y1(d.coverage));
-
-var svg = d3
+let svg = d3
     .select("body")
     .append("svg")
     .attr("width", width + margin.left + margin.right)
@@ -43,203 +17,189 @@ var svg = d3
     .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-data = [
-    {
-        key: "1980",
-        value: [1.1317171717171712, 49.464646464646464]
-    },
-    {
-        key: "1981",
-        value: [0.7818750000000002, 52.8125]
-    },
-    {
-        key: "1982",
-        value: [0.8540833333333337, 56.30833333333333]
-    },
-    {
-        key: "1984",
-        value: [0.768, 60.9]
-    },
-    {
-        key: "1985",
-        value: [0.628768115942029, 62.710144927536234]
-    },
-    {
-        key: "1986",
-        value: [0.7852980132450333, 66.43708609271523]
-    },
-    {
-        key: "1987",
-        value: [0.44779874213836474, 68.32075471698113]
-    },
-    {
-        key: "1988",
-        value: [0.36579268292682937, 71.3780487804878]
-    },
-    {
-        key: "1989",
-        value: [0.267625, 74.78125]
-    },
-    {
-        key: "1990",
-        value: [0.16843930635838156, 80.32369942196532]
-    },
-    {
-        key: "1991",
-        value: [0.1449425287356322, 79.39080459770115]
-    },
-    {
-        key: "1993",
-        value: [0.12676136363636362, 79.30681818181819]
-    },
-    {
-        key: "1994",
-        value: [0.1109941520467836, 80.06432748538012]
-    },
-    {
-        key: "1996",
-        value: [0.09262569832402234, 83.03351955307262]
-    },
-    {
-        key: "1997",
-        value: [0.06112299465240643, 81.70588235294117]
-    },
-    {
-        key: "1998",
-        value: [0.03593023255813954, 82.18023255813954]
-    },
-    {
-        key: "1999",
-        value: [0.10597701149425284, 81.21264367816092]
-    },
-    {
-        key: "2000",
-        value: [0.12139664804469276, 82.36312849162012]
-    },
-    {
-        key: "2001",
-        value: [0.0027374301675977654, 82.33519553072625]
-    },
-    {
-        key: "2002",
-        value: [0.001978021978021978, 84.43956043956044]
-    },
-    {
-        key: "2003",
-        value: [0.005274725274725276, 85.75274725274726]
-    },
-    {
-        key: "2004",
-        value: [0.015430107526881719, 85.69354838709677]
-    },
-    {
-        key: "2005",
-        value: [0.028306878306878305, 87.35978835978835]
-    },
-    {
-        key: "2006",
-        value: [0.013089005235602096, 89.16230366492147]
-    },
-    {
-        key: "2007",
-        value: [0.00461139896373057, 89.15544041450777]
-    },
-    {
-        key: "2008",
-        value: [0.00946808510638298, 89.84574468085107]
-    },
-    {
-        key: "2009",
-        value: [0.020317460317460314, 89.47089947089947]
-    },
-    {
-        key: "2010",
-        value: [0.09425531914893616, 90]
-    },
-    {
-        key: "2011",
-        value: [0.012010582010582012, 90.55555555555556]
-    },
-    {
-        key: "2012",
-        value: [0.0024083769633507857, 91.05235602094241]
-    },
-    {
-        key: "2013",
-        value: [0.010264550264550264, 90.25396825396825]
-    },
-    {
-        key: "2014",
-        value: [0.00436842105263158, 89.91578947368421]
-    },
-    {
-        key: "2015",
-        value: [0.0016230366492146595, 89.93193717277487]
-    },
-    {
-        key: "2016",
-        value: [0.00046632124352331605, 89.55958549222798]
-    },
-    {
-        key: "2017",
-        value: [0.002421052631578947, 89.42631578947369]
-    },
-    {
-        key: "2018",
-        value: [0.0024598930481283423, 89.4812834224599]
-    },
-    {
-        key: "1983",
-        value: [0.43111111111111106, 59.92063492063492]
-    },
-    {
-        key: "1992",
-        value: [0.10738372093023255, 79.3313953488372]
-    },
-    {
-        key: "1995",
-        value: [0.09081521739130431, 82.27173913043478]
-    }
-];
+Promise.all(files.map(f => d3.json(f))).then(init);
 
-data.sort((a, b) => a.key - b.key);
-data.forEach(function(d) {
-    d.year = parseTime(d.key);
-    d.incidents = +d.value[1];
-    d.coverage = +d.value[0];
-});
-console.log(data);
+function init(datasets) {
+    // Data Processing.
+    let data = datasets[0].filter(d => d.country == country);
+    let { incidents_total, coverage, population } = data.filter(d => d.year == year)[0];
+    let incidents = incidents_total;
+    data.sort((a, b) => a.year - b.year);
+    console.log(data);
 
-// Scale the range of the data
-x.domain(d3.extent(data, d => d.year));
-y0.domain(d3.extent(data, d => d.incidents));
-y1.domain(d3.extent(data, d => d.coverage));
+    // Scale the range of the data
+    let scaleTime = d3
+        .scaleTime()
+        .domain(d3.extent(data, d => d.year))
+        .range([0, width]);
 
-svg.append("path").attr("d", valueline(data));
+    let scaleIncidents = d3
+        .scaleLinear()
+        .domain([0, d3.max(data, d => d.incidents_total)])
+        .range([height, 0]);
 
-svg.append("path")
-    .style("stroke", "red")
-    .attr("d", valueline2(data));
+    let scaleCoverage = d3
+        .scaleLinear()
+        .domain([0, d3.max(data, d => d.coverage)])
+        .range([height, 0]);
 
-svg.append("g")
-    .attr("class", "x axis")
-    .attr("transform", "translate(0," + height + ")")
-    .call(xAxis);
+    let scalePopulation = d3
+        .scaleLinear()
+        .domain([0, d3.max(data, d => d.population)])
+        .range([height, 0]);
 
-svg.append("g")
-    .attr("class", "y axis")
-    .style("fill", "steelblue")
-    .call(yAxisLeft);
+    // Axes.
+    let xAxis = d3
+        .axisBottom()
+        .scale(scaleTime)
+        .ticks(5);
 
-svg.append("g")
-    .attr("class", "y axis")
-    .attr("transform", "translate(" + width + " ,0)")
-    .style("fill", "red")
-    .call(yAxisRight);
+    let yAxisLeft = d3
+        .axisLeft()
+        .scale(scaleIncidents)
+        .ticks(5);
 
-svg.append("line")
-    .style("stroke", "lightgrey")
-    .attr("x1", x(parseTime(year)))
-    .attr("y1", y1(d3.min(data, d => d.coverage)))
-    .attr("x2", x(parseTime(year)))
-    .attr("y2", y1(d3.max(data, d => d.coverage)));
+    let yAxisLeftPop = d3
+        .axisLeft()
+        .scale(scalePopulation)
+        .ticks(5);
+
+    let yAxisRight = d3
+        .axisRight()
+        .scale(scaleCoverage)
+        .ticks(5);
+
+    // Path generators.
+    let areaPopulation = d3
+        .area()
+        .x(d => scaleTime(d.year))
+        .y0(d => height)
+        .y1(d => scalePopulation(d.population));
+
+    let lineIncidents = d3
+        .line()
+        .x(d => scaleTime(d.year))
+        .y(d => scaleIncidents(d.incidents_total));
+
+    let lineCoverage = d3
+        .line()
+        .x(d => scaleTime(d.year))
+        .y(d => scaleCoverage(d.coverage));
+
+    // Aesthetics
+    let colorPop = "lightgrey";
+    let colorCoverage = "lightblue";
+    let colorIncidents = "purple";
+    let colorYear = "grey";
+
+    // Drawing
+    let populationArea = svg
+        .append("path")
+        .attr("d", areaPopulation(data))
+        .attr("fill", colorPop);
+
+    let coverageLine = svg
+        .append("path")
+        .attr("d", lineCoverage(data))
+        .attr("class", "line")
+        .style("stroke", colorCoverage);
+
+    let incidentsLine = svg
+        .append("path")
+        .attr("d", lineIncidents(data))
+        .attr("class", "line")
+        .style("stroke", colorIncidents);
+
+    let yearLine = svg
+        .append("line")
+        .style("stroke", colorYear)
+        .attr("opacity", 1)
+        .attr("x1", scaleTime(year))
+        .attr("y1", height + yearLineOffset)
+        .attr("x2", scaleTime(year))
+        .attr("y2", d3.min([scaleCoverage(coverage), scaleIncidents(incidents)]));
+
+    let coverageCircle = svg
+        .append("circle")
+        .attr("cx", scaleTime(year))
+        .attr("cy", scaleCoverage(coverage))
+        .attr("r", "6")
+        .style("fill", colorCoverage);
+
+    let incidentsCircle = svg
+        .append("circle")
+        .attr("cx", scaleTime(year))
+        .attr("cy", scaleIncidents(incidents))
+        .attr("r", "6")
+        .style("fill", colorIncidents);
+
+    let yearCircle = svg
+        .append("circle")
+        .attr("cx", scaleTime(year))
+        .attr("cy", height + yearLineOffset)
+        .attr("r", "6")
+        .style("fill", colorYear);
+
+    let yearAxis = svg
+        .append("line")
+        .style("stroke", colorYear)
+        .attr("opacity", 1)
+        .attr("x1", 0)
+        .attr("y1", height + 20)
+        .attr("x2", width)
+        .attr("y2", height + 20);
+
+    // Annotations
+    let countryLabel = svg
+        .append("text")
+        .text(country.toUpperCase())
+        .attr("x", width / 2)
+        .attr("y", -10)
+        .attr("class", "countryText");
+
+    let yearLabel = svg
+        .append("text")
+        .text(year)
+        .attr("x", scaleTime(year))
+        .attr("y", height + 45)
+        .attr("class", "yearText");
+
+    // Coverage Text
+    svg.append("text")
+        .text(`${Math.round(coverage * 100) / 100}%`)
+        .attr("x", width + 20)
+        .attr("y", 0)
+        .attr("fill", "steelblue");
+
+    svg.append("text")
+        .text("coverage")
+        .attr("x", width + 20)
+        .attr("y", 10)
+        .attr("fill", "steelblue");
+
+    // Incidents Text
+    svg.append("text")
+        .text(Math.round(incidents * 100) / 100)
+        .attr("x", width + 20)
+        .attr("y", scaleCoverage.range()[0] / 2 - 10)
+        .attr("fill", colorIncidents);
+
+    svg.append("text")
+        .text("incidents")
+        .attr("x", width + 20)
+        .attr("y", scaleCoverage.range()[0] / 2)
+        .attr("fill", colorIncidents);
+
+    // Population Text
+    svg.append("text")
+        .text(nFormatter(population))
+        .attr("x", width + 20)
+        .attr("y", height - 10)
+        .attr("fill", colorPop);
+
+    svg.append("text")
+        .text("population")
+        .attr("x", width + 20)
+        .attr("y", height)
+        .attr("fill", colorPop);
+}

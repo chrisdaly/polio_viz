@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<meta charset="utf-8" />
+<link href="https://fonts.googleapis.com/css?family=Noto+Sans" rel="stylesheet" type="text/css" />
+<style>
+    body {
+        font: 12px Arial;
+    }
+
+    .line {
+        stroke-width: 5;
+        fill: none;
+    }
+
+    .axis path,
+    .axis line {
+        fill: none;
+        stroke: grey;
+        stroke-width: 1;
+        shape-rendering: crispEdges;
+    }
+
+    .yearText {
+        text-anchor: middle;
+        font-size: 18px;
+        font-family: "Noto Sans";
+    }
+
+    .countryText {
+        text-anchor: middle;
+        font-size: 30px;
+        font-family: "Noto Sans";
+        fill: steelblue;
+    }
+
+    .metricsText {
+    }
+</style>
+
+<body>
+    <script src="http://d3js.org/d3.v5.min.js"></script>
+    <script src="/static/js/utils.js"></script>
+    <script src="./static/js/linechart.js"></script>
+</body>

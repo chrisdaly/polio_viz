@@ -3,6 +3,7 @@ const width = 1400;
 const height = 900;
 const range = (start, end) => Array.from({ length: end - start }, (v, k) => k + start);
 const files = ["./static/data/world-50m.json", "./static/data/records.json"];
+let redundantCountries = [10, 304]; // Greenland, Antarctica
 let datasets;
 let countriesData;
 let metricsData;
@@ -69,6 +70,7 @@ Promise.all(files.map(f => d3.json(f))).then(init);
 
 function init(datasets) {
 	countriesData = datasets[0];
+	countriesData.objects.countries.geometries = countriesData.objects.countries.geometries.filter(d => !redundantCountries.includes(d.id));
 	rawData = datasets[1];
 	metricsData = d3
 		.nest()
