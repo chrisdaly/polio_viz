@@ -11,19 +11,19 @@ let rawData;
 let year;
 const colors = [
     "#d6abd9",
-    "#8bbce3",
-    "#3e90d0",
     "#ff3fab",
-    "#882e94",
-    "#3a2489",
     "#be006b",
+    "#8bbce3",
+    "#882e94",
     "#67045e",
+    "#3e90d0",
+    "#3a2489",
     "#2b0055"
 ];
 
 const n = Math.floor(Math.sqrt(colors.length));
 const coverageScale = d3.scaleThreshold([50, 85, 100], d3.range(n));
-const incidentsScale = d3.scaleThreshold([0.0001, 1, 5], d3.range(n));
+const incidentsScale = d3.scaleThreshold([0.0001, .5, 1], d3.range(n));
 
 const graticule = d3.geoGraticule();
 
@@ -89,18 +89,6 @@ function init(datasets) {
     // 	.call(chart);
 }
 
-function draw() {
-    countries = svg
-        .selectAll(".country")
-        .data(topojson.feature(countriesData, countriesData.objects.countries).features)
-        .enter()
-        .append("path")
-        .attr("class", "country")
-        .attr("d", path)
-        .attr("opacity", 1)
-        .attr("fill", "#F0F0F0");
-}
-
 function filterData(year, metrics) {
     let data = metricsData[year];
     let dataFinal = {};
@@ -115,6 +103,18 @@ function filterData(year, metrics) {
         }
     });
     return dataFinal;
+}
+
+function draw() {
+    countries = svg
+        .selectAll(".country")
+        .data(topojson.feature(countriesData, countriesData.objects.countries).features)
+        .enter()
+        .append("path")
+        .attr("class", "country")
+        .attr("d", path)
+        .attr("opacity", 1)
+        .attr("fill", "#F0F0F0")
 }
 
 const getColor = countryMetrics => {
