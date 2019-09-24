@@ -203,3 +203,5 @@ function init(datasets) {
         .attr("y", height)
         .attr("fill", colorPop);
 }
+
+// browser-sync start --server --files="*/**"
