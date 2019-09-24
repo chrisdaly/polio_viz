@@ -22,8 +22,8 @@ const colors = [
 ];
 
 const n = Math.floor(Math.sqrt(colors.length));
-const coverageScale = d3.scaleThreshold([20, 60, 90, 100], d3.range(n));
-const incidentsScale = d3.scaleThreshold([0.0001, 0.001, 0.01, 1], d3.range(n));
+const coverageScale = d3.scaleThreshold([50, 85, 100], d3.range(n));
+const incidentsScale = d3.scaleThreshold([0.0001, 1, 5], d3.range(n));
 
 const graticule = d3.geoGraticule();
 
