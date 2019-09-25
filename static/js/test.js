@@ -4,15 +4,29 @@ function chart(id, geo, data) {
     console.log("geo", geo)
     console.log("data", data)
 
-    let margin = { top: 40, right: 100, bottom: 50, left: 15 };
-    let width = 500 - margin.left - margin.right;
-    let height = 200 - margin.top - margin.bottom;
+    let margin = { top: 60, right: 120, bottom: 60, left: 20 };
+    let width = 550 - margin.left - margin.right;
+    let height = 210 - margin.top - margin.bottom;
     let yearLineOffset = 20;
 
     let { incidents_total, coverage, population } = data.filter(d => d.year == year)[0];
     let incidents = incidents_total;
     data.sort((a, b) => a.year - b.year);
     let country = data[0].country
+
+
+    function hideTooltip() {
+        d3.select("body")
+            .select("#tooltip-Container")
+            .transition()
+            .duration(500)
+            .style("opacity", 0)
+            .transition()
+            .duration(1)
+            .style("display", "None");
+        // .style("left", 0 + "px")
+        // .style("top", 0 + "px");
+    }
 
     function makeChart() {
         d3
@@ -28,10 +42,20 @@ function chart(id, geo, data) {
         d3
             .select("body")
             .select("#tooltip-Container")
-            .style("left", coords[0] + "px")
-            .style("top", coords[1] + "px")
+            .style("left", coords[0] - 550 / 2 + "px")
+            .style("top", coords[1] - 210 / 2 + "px")
             .attr("width", width + margin.left + margin.right)
             .attr("height", height + margin.top + margin.bottom)
+            .style("opacity", 0)
+            .style("display", "")
+            .transition()
+            .duration(800)
+            .style("opacity", 1);
+
+        d3
+            .select("body")
+            .select("#tooltip-Container")
+            .on("mouseout", hideTooltip)
             .style("opacity", 0)
             .style("display", "")
             .transition()
@@ -53,7 +77,7 @@ function chart(id, geo, data) {
 
         let scaleIncidents = d3
             .scaleLinear()
-            .domain([0, d3.max(data, d => d.incidents_total)])
+            .domain([0, d3.max(data, d => d.incidents)])
             .range([height, 0]);
 
         let scaleCoverage = d3
@@ -97,7 +121,7 @@ function chart(id, geo, data) {
         let lineIncidents = d3
             .line()
             .x(d => scaleTime(d.year))
-            .y(d => scaleIncidents(d.incidents_total));
+            .y(d => scaleIncidents(d.incidents));
 
         let lineCoverage = d3
             .line()
@@ -105,10 +129,10 @@ function chart(id, geo, data) {
             .y(d => scaleCoverage(d.coverage));
 
         // Aesthetics
-        let colorPop = "lightgrey";
-        let colorCoverage = "lightblue";
-        let colorIncidents = "purple";
-        let colorYear = "grey";
+        let colorPop = "#e2e2e2";
+        let colorCoverage = "#3e90d0";
+        let colorIncidents = "#be006b";
+        let colorYear = "#c3c7cb";
 
         // Drawing
         let populationArea = tooltip
@@ -141,21 +165,21 @@ function chart(id, geo, data) {
             .append("circle")
             .attr("cx", scaleTime(year))
             .attr("cy", scaleCoverage(coverage))
-            .attr("r", "6")
+            .attr("r", "5")
             .style("fill", colorCoverage);
 
         let incidentsCircle = tooltip
             .append("circle")
             .attr("cx", scaleTime(year))
             .attr("cy", scaleIncidents(incidents))
-            .attr("r", "6")
+            .attr("r", "5")
             .style("fill", colorIncidents);
 
         let yearCircle = tooltip
             .append("circle")
             .attr("cx", scaleTime(year))
             .attr("cy", height + yearLineOffset)
-            .attr("r", "6")
+            .attr("r", "5")
             .style("fill", colorYear);
 
         let yearAxis = tooltip
@@ -170,9 +194,9 @@ function chart(id, geo, data) {
         // Annotations
         let countryLabel = tooltip
             .append("text")
-            .text(country.toUpperCase())
+            .text(country.replace('(the)', '').toUpperCase())
             .attr("x", width / 2)
-            .attr("y", -10)
+            .attr("y", -30)
             .attr("class", "countryText");
 
         let yearLabel = tooltip
@@ -185,53 +209,47 @@ function chart(id, geo, data) {
         // Coverage Text
         tooltip.append("text")
             .text(`${Math.round(coverage * 100) / 100}%`)
-            .attr("x", width + 20)
+            .attr("x", width + 15)
             .attr("y", 0)
-            .attr("fill", "steelblue");
+            .style("fill", colorCoverage)
+            .attr("class", "numberText");
 
         tooltip.append("text")
-            .text("vaccine")
-            .attr("x", width + 20)
-            .attr("y", 12)
-            .attr("fill", "steelblue");
-
-        tooltip.append("text")
-            .text("coverage")
-            .attr("x", width + 20)
-            .attr("y", 24)
-            .attr("fill", "steelblue");
+            .text("vaccine coverage")
+            .attr("x", width + 15)
+            .attr("y", 14)
+            .style("fill", colorCoverage)
+            .attr("class", "textText");
 
         // Incidents Text
         tooltip.append("text")
             .text(Math.round(incidents * 100) / 100)
-            .attr("x", width + 20)
-            .attr("y", scaleCoverage.range()[0] / 2 - 10)
-            .attr("fill", colorIncidents);
+            .attr("x", width + 15)
+            .attr("y", scaleCoverage.range()[0] / 2 - 6)
+            .style("fill", colorIncidents)
+            .attr("class", "numberText");
 
         tooltip.append("text")
-            .text("polio")
-            .attr("x", width + 20)
-            .attr("y", scaleCoverage.range()[0] / 2)
-            .attr("fill", colorIncidents);
-
-        tooltip.append("text")
-            .text("cases")
-            .attr("x", width + 20)
-            .attr("y", scaleCoverage.range()[0] / 2 + 12)
-            .attr("fill", colorIncidents);
+            .text("polio cases")
+            .attr("x", width + 15)
+            .attr("y", scaleCoverage.range()[0] / 2 + 6)
+            .style("fill", colorIncidents)
+            .attr("class", "textText");
 
         // Population Text
         tooltip.append("text")
             .text(nFormatter(population))
-            .attr("x", width + 20)
-            .attr("y", height - 10)
-            .attr("fill", colorPop);
+            .attr("x", width + 15)
+            .attr("y", height - 14)
+            .style("fill", "#6b747b")
+            .attr("class", "numberText");
 
         tooltip.append("text")
             .text("population")
-            .attr("x", width + 20)
+            .attr("x", width + 15)
             .attr("y", height)
-            .attr("fill", colorPop);
+            .style("fill", "#6b747b")
+            .attr("class", "textText");
     }
 
     return makeChart();

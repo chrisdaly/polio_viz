@@ -2,6 +2,11 @@
     font-family: "Noto Sans", sans-serif;
 }
 
+@font-face {
+    font-family: "Avant";
+    src: url("./ITC Avant Garde Gothic Medium.otf") format("opentype");
+}
+
 .my_sidebar {
     /*background-color: white;
     /*height: 100%;*/
@@ -292,6 +297,10 @@ tr:nth-child(odd) {
     background: url(https://static01.nyt.com/packages/images/newsgraphics/2012/0202-federal-budget/tail_white.png);
 }
 
+body {
+    font: 12px Avant;
+}
+
 .line {
     stroke-width: 2.75;
     stroke-linejoin: round;
@@ -312,23 +321,22 @@ tr:nth-child(odd) {
     font-size: 18px;
     font-family: "Avant";
     fill: #6b747b;
-
 }
 
 .countryText {
     text-anchor: middle;
     font-size: 24px;
-    /*font-family: "Avant";*/
+    font-family: "Avant";
     fill: #4A5491;
-
 }
+
 
 .numberText {
     font-size: 18px;
-
 }
 
 .textText {
     font-size: 12px;
-
 }
+
+.metricsText {}
