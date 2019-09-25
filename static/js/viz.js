@@ -1,4 +1,4 @@
-const margin = { top: 10, right: 10, bottom: 30, left: 30 };
+const margin = { top: 10, right: 10, bottom: 20, left: 30 };
 const width = 1400;
 const height = 900;
 const range = (start, end) => Array.from({ length: end - start }, (v, k) => k + start);
@@ -55,10 +55,6 @@ svg.append("path")
     .attr("stroke", "black")
     .attr("opacity", 0.3);
 
-// var chart = d3_xy_chart()
-// 	.width(960)
-// 	.height(500);
-
 Promise.all(files.map(f => d3.json(f))).then(init);
 
 function init(datasets) {
@@ -75,18 +71,19 @@ function init(datasets) {
     console.log("rawData", rawData);
     console.log("metricsData", metricsData);
     draw();
+    controlsUpdated()
 
     // d3.select("#linechart")
-    // 	.datum(
-    // 		d3
-    // 			.nest()
-    // 			.key(d => d.year)
-    // 			.rollup(v => {
-    // 				return d3.mean(v, d => d.incidents); //, d3.mean(v, d => d.coverage)]
-    // 			})
-    // 			.entries(rawData)
-    // 	)
-    // 	.call(chart);
+    //  .datum(
+    //      d3
+    //          .nest()
+    //          .key(d => d.year)
+    //          .rollup(v => {
+    //              return d3.mean(v, d => d.incidents); //, d3.mean(v, d => d.coverage)]
+    //          })
+    //          .entries(rawData)
+    //  )
+    //  .call(chart);
 }
 
 function filterData(year, metrics) {
@@ -134,10 +131,11 @@ function paint(data) {
     d3.selectAll(".country")
         .on("mouseover", d => {
             if (metricsData[year][d.id] != undefined) {
-                return showTooltip(d, metricsData[year][d.id][0]);
+                chart("#tooltip", d, rawData.filter(x => x.id == d.id))
+                // return showTooltip(d, metricsData[year][d.id][0]);
             }
         })
-        .on("mouseout", hideTooltip)
+        // .on("mouseout", hideTooltip)
         .on("click", d => getColor(data[d.id]))
         .transition()
         .duration(1000)
@@ -189,71 +187,71 @@ function controlsUpdated() {
     paint(dataFiltered);
 }
 
-function createToolTip() {
-    tooltip = d3
-        .select("body")
-        .select("#tooltip")
-        .on("mouseover", function(d, i) {
-            tooltip
-                .transition()
-                .duration(0)
-                .style("display", "")
-                .style("opacity", 0.9); // on mouse over cancel circle mouse out transistion
-        })
-        .on("mouseout", function(d, i) {
-            hideTooltip();
-        });
-}
+// function createToolTip() {
+//     tooltip = d3
+//         .select("body")
+//         .select("#tooltip")
+//         .on("mouseover", function(d, i) {
+//             tooltip
+//                 .transition()
+//                 .duration(0)
+//                 .style("display", "")
+//                 .style("opacity", 0.9); // on mouse over cancel circle mouse out transistion
+//         })
+//         .on("mouseout", function(d, i) {
+//             hideTooltip();
+//         });
+// }
 
-function showTooltip(dTopo, dMetrics) {
-    var coords = path.centroid(dTopo);
-    tooltip = d3
-        .select("body")
-        .select("#tooltip")
-        .style("left", coords[0] + "px")
-        .style("top", coords[1] + "px")
-        .style("opacity", 0)
-        .style("display", "");
+// function showTooltip(dTopo, dMetrics) {
+//     var coords = path.centroid(dTopo);
+//     tooltip = d3
+//         .select("body")
+//         .select("#tooltip")
+//         .style("left", coords[0] + "px")
+//         .style("top", coords[1] + "px")
+//         .style("opacity", 0)
+//         .style("display", "");
 
-    tooltip
-        .transition()
-        .duration(800)
-        .style("opacity", 1);
+//     tooltip
+//         .transition()
+//         .duration(800)
+//         .style("opacity", 1);
 
-    tooltip.html(
-        `
-        <div id="tooltip-Container">
-            <table class="tg">
-                <tr>
-                    <th class="tg-yw4l" colspan="3">
-                        <div class="tooltip-planet">${dMetrics.country}</div>
-                        <div class="tooltip-rule"></div>
-                        <div class="tooltip-year">Year: ${year}</div>
-                        <div class="tooltip-year">Population: ${nFormatter(dMetrics.population)}</div>
-                        <div class="tooltip-year">Polio Incidents: ${dMetrics.incidents} per 100k</div>
-                        <div class="tooltip-year">Vaccine Coverage: ${dMetrics.coverage}%</div>
-                    </th>
-                </tr>
-            </table>
-        </div>
-        `
-    );
-}
+//     tooltip.html(
+//         `
+//         <div id="tooltip-Container">
+//             <table class="tg">
+//                 <tr>
+//                     <th class="tg-yw4l" colspan="3">
+//                         <div class="tooltip-planet">${dMetrics.country}</div>
+//                         <div class="tooltip-rule"></div>
+//                         <div class="tooltip-year">Year: ${year}</div>
+//                         <div class="tooltip-year">Population: ${nFormatter(dMetrics.population)}</div>
+//                         <div class="tooltip-year">Polio Incidents: ${dMetrics.incidents} per 100k</div>
+//                         <div class="tooltip-year">Vaccine Coverage: ${dMetrics.coverage}%</div>
+//                     </th>
+//                 </tr>
+//             </table>
+//         </div>
+//         `
+//     );
+// }
 
-function hideTooltip() {
-    d3.select("body")
-        .select("#tooltip")
-        .transition()
-        .duration(500)
-        .style("opacity", 0)
-        .transition()
-        .duration(1)
-        .style("display", "None");
-    // .style("left", 0 + "px")
-    // .style("top", 0 + "px");
-}
+// function hideTooltip() {
+//     d3.select("body")
+//         .select("#tooltip")
+//         .transition()
+//         .duration(500)
+//         .style("opacity", 0)
+//         .transition()
+//         .duration(1)
+//         .style("display", "None");
+//     // .style("left", 0 + "px")
+//     // .style("top", 0 + "px");
+// }
 
 // var formatDate = d3.timeFormat("%Y");
 // var chart = timeSeriesChart()
-// 	.x(d => d.key)
-// 	.y(d => d.value);
+//  .x(d => d.key)
+//  .y(d => d.value);

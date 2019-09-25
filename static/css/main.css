@@ -19,7 +19,7 @@ div#viz {
 
 div#caption {
     font-style: italic;
-    text-align: center; 
+    text-align: center;
 }
 
 html {
@@ -88,8 +88,6 @@ div#left_panel {
     position: absolute;
     height: 100%;
     pointer-events: none;
-
-    /*width: 100px;*/
 }
 
 div#continent_title {
@@ -106,7 +104,7 @@ div#region_title {
     /*overflow-x: */
     padding-top: 5px;
     /*height*/
-    :5% ;
+    : 5%;
 }
 
 div#continent {
@@ -213,7 +211,7 @@ tr:nth-child(odd) {
 
 #tooltip-Container {
     position: absolute;
-    width: 300px;
+    /*width: 600px;*/
     font-size: 15px;
     line-height: 16px;
     padding: 10px;
@@ -225,6 +223,7 @@ tr:nth-child(odd) {
     border: 1px solid rgba(200, 200, 200, 0.85);
     text-align: center;
     cursor: default;
+    opacity: 0;
 }
 
 #tooltip {
@@ -291,4 +290,45 @@ tr:nth-child(odd) {
     width: 40px;
     height: 9px;
     background: url(https://static01.nyt.com/packages/images/newsgraphics/2012/0202-federal-budget/tail_white.png);
+}
+
+.line {
+    stroke-width: 2.75;
+    stroke-linejoin: round;
+    stroke-linecap: round;
+    fill: none;
+}
+
+.axis path,
+.axis line {
+    fill: none;
+    stroke: grey;
+    stroke-width: 1;
+    shape-rendering: crispEdges;
+}
+
+.yearText {
+    text-anchor: middle;
+    font-size: 18px;
+    font-family: "Avant";
+    fill: #6b747b;
+
+}
+
+.countryText {
+    text-anchor: middle;
+    font-size: 24px;
+    /*font-family: "Avant";*/
+    fill: #4A5491;
+
+}
+
+.numberText {
+    font-size: 18px;
+
+}
+
+.textText {
+    font-size: 12px;
+
 }
