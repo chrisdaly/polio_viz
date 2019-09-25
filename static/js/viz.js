@@ -1,7 +1,14 @@
-const margin = { top: 10, right: 10, bottom: 20, left: 30 };
+const margin = {
+    top: 10,
+    right: 10,
+    bottom: 20,
+    left: 30
+};
 const width = 1400;
 const height = 900;
-const range = (start, end) => Array.from({ length: end - start }, (v, k) => k + start);
+const range = (start, end) => Array.from({
+    length: end - start
+}, (v, k) => k + start);
 const files = ["./static/data/world-50m.json", "./static/data/records.json"];
 let redundantCountries = [10, 304]; // Greenland, Antarctica
 let datasets;
@@ -48,7 +55,9 @@ svg.append("path")
     .attr("d", path);
 
 svg.append("path")
-    .datum({ type: "Sphere" })
+    .datum({
+        type: "Sphere"
+    })
     .attr("class", "sphere")
     .attr("d", path)
     .attr("fill", "#f1f1f1")
@@ -69,7 +78,7 @@ function init(datasets) {
 
     console.log("countriesData", countriesData);
     console.log("rawData", rawData);
-    console.log("metricsData", metricsData);
+    console.log("datadatadata", metricsData);
     draw();
     controlsUpdated()
 
@@ -116,7 +125,9 @@ function draw() {
 
 const getColor = countryMetrics => {
     if (Object.entries(countryMetrics).length === 0) return "#F0F0F0";
-    const { coverage = 0, incidents = 0 } = countryMetrics;
+    const {
+        coverage = 0, incidents = 0
+    } = countryMetrics;
     console.log();
 
     let coverageRank = coverageScale(coverage);
