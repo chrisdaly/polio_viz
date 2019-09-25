@@ -12,7 +12,7 @@ function chart(id, geo, data) {
     let { incidents_total, coverage, population } = data.filter(d => d.year == year)[0];
     let incidents = incidents_total;
     data.sort((a, b) => a.year - b.year);
-    let country = data[0].country
+    let country = data[0].country_new
 
 
     function hideTooltip() {
@@ -80,7 +80,7 @@ function chart(id, geo, data) {
 
         let scaleCoverage = d3
             .scaleLinear()
-            .domain([0, d3.max(data, d => d.coverage)])
+            .domain([0, 100]) //d3.max(data, d => d.coverage)])
             .range([height, 0]);
 
         let scalePopulation = d3
