@@ -204,34 +204,15 @@ button#coverage {
 /*hover buttons
 */
 button#cases:hover {
-    position: center;
     background-color: #FEE5F4;
-    border-radius: 40px;
-    border: 1.3px solid;
     border-color: #be006b;
     color: #be006b;
-    padding: 6px 30px;
-    text-decoration: none;
-    margin: 0 auto;
-    cursor: pointer;
-    outline: 0 !important;
-    width: 210px;
-    margin-right: 5px;
-    font-size: 14px;
 }
 
 button#coverage:hover {
-    position: center;
     background-color: #E4F0F9;
-    border-radius: 40px;
-    border: 1.3px solid;
     border-color: #3e90d0;
     color: #3e90d0;
-    padding: 6px 30px;
-    text-decoration: none;
-    margin: 0 auto;
-    cursor: pointer;
-    outline: 0 !important;
 }
 
 p {
@@ -336,8 +317,8 @@ div#chart_title {
     margin-bottom: 30px;
     text-align: center;
     font-size: 20px;
-    border-top-style: solid;
-    border-color: #c3c7cb;
+    /*border-top-style: solid;*/
+    /*border-color: #c3c7cb;*/
     border-width: 1px;
     color: #2b2b38;
     text-transform: uppercase;
