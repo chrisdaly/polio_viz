@@ -170,11 +170,11 @@ function paint(data) {
 //     controlsUpdated('incidents');
 // };
 
-d3.select("#buttonIncidents").on("click", function(d) {
+d3.select("#cases").on("click", function(d) {
     controlsUpdated('incidents');
 });
 
-d3.select("#buttonCoverage").on("click", function(d) {
+d3.select("#coverage").on("click", function(d) {
     controlsUpdated('coverage');
 });
 
