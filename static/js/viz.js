@@ -156,13 +156,18 @@ function paint(data) {
 // };
 
 d3.select("#cases").on("click", function(d) {
-    controlsUpdated('incidents');
+    d3.select(this).classed("cases_active", true)
+    d3.select("#coverage").attr("class", '')
+    metricActive = 'incidents'
+    controlsUpdated();
 });
 
 d3.select("#coverage").on("click", function(d) {
-    controlsUpdated('coverage');
+    d3.select(this).classed("cover_active", true)
+    d3.select("#cases").attr("class", '')
+    metricActive = 'coverage'
+    controlsUpdated();
 });
-
 
 document.getElementById("mySlider").onchange = function() {
     controlsUpdated();
@@ -195,6 +200,6 @@ function controlsUpdated(metric) {
     // let metrics = getMetrics();
     year = document.getElementById("mySlider").value;
     console.log(year)
-    let dataFiltered = filterData(year, metric);
+    let dataFiltered = filterData(year, metricActive);
     paint(dataFiltered);
 }
