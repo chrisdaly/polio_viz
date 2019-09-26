@@ -1,19 +1,20 @@
 function chart(id, geo, data) {
-    console.log('chart()')
-    console.log("id", id)
-    console.log("geo", geo)
-    console.log("data", data)
+    // console.log('chart()')
+    // console.log("id", id)
+    // console.log("geo", geo)
+    console.log("\ndata")
+    console.log(data)
+    console.table(data)
+    // console.log("incidents": data.map(d => d.incidents))
 
     let margin = { top: 55, right: 130, bottom: 55, left: 20 };
     let width = 310 - margin.left - margin.right;
     let height = 210 - margin.top - margin.bottom;
     let yearLineOffset = 20;
 
-    let { incidents_total, coverage, population } = data.filter(d => d.year == year)[0];
-    let incidents = incidents_total;
+    let { incidents, coverage, population, incidents_total } = data.filter(d => d.year == year)[0];
     data.sort((a, b) => a.year - b.year);
     let country = data[0].country_new
-
 
     function hideTooltip() {
         d3.select("body")
@@ -33,9 +34,9 @@ function chart(id, geo, data) {
             .select("svg")
             .remove()
 
-        console.log('makeChart()')
+
         var coords = path.centroid(geo);
-        console.log('coords', coords)
+        // console.log('coords', coords)
 
         d3
             .select("body")
@@ -119,12 +120,24 @@ function chart(id, geo, data) {
         let lineIncidents = d3
             .line()
             .x(d => scaleTime(d.year))
-            .y(d => scaleIncidents(d.incidents));
+            .defined(function(d) { return d.incidents; })
+            .y(d => scaleIncidents(d.incidents))
+        // {
+        //     console.log(d.incidents)
+        //     if (d.incidents == "") {
+        //         return
+        //     } else if (d.incidents == 0) {
+        //         return height
+        //     } else {
+        //         return scaleIncidents(d.incidents)
+        //     }
+        // });
 
         let lineCoverage = d3
             .line()
             .x(d => scaleTime(d.year))
-            .y(d => scaleCoverage(d.coverage));
+            .defined(function(d) { return d.coverage; })
+            .y(d => scaleCoverage(d.coverage))
 
         // Aesthetics
         let colorPop = "#e2e2e2";
@@ -159,6 +172,7 @@ function chart(id, geo, data) {
             .attr("x2", scaleTime(year))
             .attr("y2", d3.min([scaleCoverage(coverage), scaleIncidents(incidents)]));
 
+        // Circles.
         let coverageCircle = tooltip
             .append("circle")
             .attr("cx", scaleTime(year))
@@ -169,7 +183,13 @@ function chart(id, geo, data) {
         let incidentsCircle = tooltip
             .append("circle")
             .attr("cx", scaleTime(year))
-            .attr("cy", scaleIncidents(incidents))
+            .attr("cy", () => {
+                // console.log("incidents", incidents)
+                // console.log("coverage", coverage)
+                // console.log("scaleIncidents", scaleIncidents)
+                // console.log(scaleIncidents(incidents))
+                return scaleIncidents(incidents)
+            })
             .attr("r", "5")
             .style("fill", colorIncidents);
 
@@ -180,6 +200,7 @@ function chart(id, geo, data) {
             .attr("r", "5")
             .style("fill", colorYear);
 
+        // Bottom year axis.
         let yearAxis = tooltip
             .append("line")
             .style("stroke", colorYear)
@@ -192,7 +213,7 @@ function chart(id, geo, data) {
         // Annotations
         let countryLabel = tooltip
             .append("text")
-            .text(country.replace('(the)', '').toUpperCase())
+            .text(country.toUpperCase())
             .attr("x", width / 2)
             .attr("y", -30)
             .attr("class", "countryText");
@@ -221,7 +242,7 @@ function chart(id, geo, data) {
 
         // Incidents Text
         tooltip.append("text")
-            .text(Math.round(incidents * 100) / 100)
+            .text(Math.round(incidents_total * 100) / 100)
             .attr("x", width + 15)
             .attr("y", scaleCoverage.range()[0] / 2 - 6)
             .style("fill", colorIncidents)

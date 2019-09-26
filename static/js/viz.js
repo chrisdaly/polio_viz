@@ -13,9 +13,9 @@ const files = ["./static/data/world-50m.json", "./static/data/records.json"];
 let redundantCountries = [10, 304]; // Greenland, Antarctica
 let datasets;
 let countriesData;
-let metricsData;
 let rawData;
 let year;
+let metricActive;
 const colors = [
     "#d6abd9",
     "#ff3fab",
@@ -80,28 +80,19 @@ function init(datasets) {
     console.log("rawData", rawData);
     console.log("datadatadata", metricsData);
     draw();
-    controlsUpdated()
-
-    // d3.select("#linechart")
-    //  .datum(
-    //      d3
-    //          .nest()
-    //          .key(d => d.year)
-    //          .rollup(v => {
-    //              return d3.mean(v, d => d.incidents); //, d3.mean(v, d => d.coverage)]
-    //          })
-    //          .entries(rawData)
-    //  )
-    //  .call(chart);
+    // controlsUpdated('incidents')
 }
 
 function filterData(year, metrics) {
+    console.log('filterData')
+    console.log(year)
+    console.log(metrics)
     let data = metricsData[year];
     let dataFinal = {};
     Object.keys(data).map(id => {
         if (data[id] != null) {
             dataFinal[id] = {};
-            metrics.forEach(metric => {
+            [metrics].forEach(metric => {
                 if (data[id][0][metric] != null) {
                     dataFinal[id][metric] = data[id][0][metric];
                 }
@@ -146,6 +137,19 @@ function paint(data) {
                 // return showTooltip(d, metricsData[year][d.id][0]);
             }
         })
+        .on("mouseout", d => {
+            d3
+                .select("body")
+                .select("#tooltip-Container")
+                .transition(200)
+                .style('opacity', 0)
+
+            // d3
+            //     .select("body")
+            //     .select("#tooltip-Container")
+            //     .select("svg")
+            //     .remove()
+        })
         // .on("mouseout", hideTooltip)
         .on("click", d => getColor(data[d.id]))
         .transition()
@@ -159,13 +163,21 @@ function paint(data) {
         });
 }
 
-document.querySelector('input[id="incidents"]').onchange = function() {
-    controlsUpdated();
-};
+// d3.select("#buttonIncidents").on("click", controlsUpdated)
+// d3.select("#buttonCoverage").on("click", controlsUpdated)
+// document.getElementById("#buttonIncidents").onchange = function() {
+//     console.log("#")
+//     controlsUpdated('incidents');
+// };
 
-document.querySelector('input[id="coverage"]').onchange = function() {
-    controlsUpdated();
-};
+d3.select("#buttonIncidents").on("click", function(d) {
+    controlsUpdated('incidents');
+});
+
+d3.select("#buttonCoverage").on("click", function(d) {
+    controlsUpdated('coverage');
+});
+
 
 document.getElementById("mySlider").onchange = function() {
     controlsUpdated();
@@ -177,6 +189,7 @@ d3.select("#mySlider").on("input", function(d) {
 });
 
 function getMetrics() {
+    console.log(getMetrics)
     let metrics = [];
     if (document.querySelector('input[id="incidents"]').checked == true) {
         metrics.push("incidents");
@@ -191,78 +204,12 @@ function getMetrics() {
     return metrics;
 }
 
-function controlsUpdated() {
-    let metrics = getMetrics();
+function controlsUpdated(metric) {
+    console.log('controlsUpdated')
+    console.log(metric)
+    // let metrics = getMetrics();
     year = document.getElementById("mySlider").value;
-    let dataFiltered = filterData(year, metrics);
+    console.log(year)
+    let dataFiltered = filterData(year, metric);
     paint(dataFiltered);
 }
-
-// function createToolTip() {
-//     tooltip = d3
-//         .select("body")
-//         .select("#tooltip")
-//         .on("mouseover", function(d, i) {
-//             tooltip
-//                 .transition()
-//                 .duration(0)
-//                 .style("display", "")
-//                 .style("opacity", 0.9); // on mouse over cancel circle mouse out transistion
-//         })
-//         .on("mouseout", function(d, i) {
-//             hideTooltip();
-//         });
-// }
-
-// function showTooltip(dTopo, dMetrics) {
-//     var coords = path.centroid(dTopo);
-//     tooltip = d3
-//         .select("body")
-//         .select("#tooltip")
-//         .style("left", coords[0] + "px")
-//         .style("top", coords[1] + "px")
-//         .style("opacity", 0)
-//         .style("display", "");
-
-//     tooltip
-//         .transition()
-//         .duration(800)
-//         .style("opacity", 1);
-
-//     tooltip.html(
-//         `
-//         <div id="tooltip-Container">
-//             <table class="tg">
-//                 <tr>
-//                     <th class="tg-yw4l" colspan="3">
-//                         <div class="tooltip-planet">${dMetrics.country}</div>
-//                         <div class="tooltip-rule"></div>
-//                         <div class="tooltip-year">Year: ${year}</div>
-//                         <div class="tooltip-year">Population: ${nFormatter(dMetrics.population)}</div>
-//                         <div class="tooltip-year">Polio Incidents: ${dMetrics.incidents} per 100k</div>
-//                         <div class="tooltip-year">Vaccine Coverage: ${dMetrics.coverage}%</div>
-//                     </th>
-//                 </tr>
-//             </table>
-//         </div>
-//         `
-//     );
-// }
-
-// function hideTooltip() {
-//     d3.select("body")
-//         .select("#tooltip")
-//         .transition()
-//         .duration(500)
-//         .style("opacity", 0)
-//         .transition()
-//         .duration(1)
-//         .style("display", "None");
-//     // .style("left", 0 + "px")
-//     // .style("top", 0 + "px");
-// }
-
-// var formatDate = d3.timeFormat("%Y");
-// var chart = timeSeriesChart()
-//  .x(d => d.key)
-//  .y(d => d.value);
