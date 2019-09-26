@@ -4,7 +4,7 @@ function chart(id, geo, data) {
     // console.log("geo", geo)
     console.log("\ndata")
     console.log(data)
-    console.table(data)
+    // console.table(data)
     // console.log("incidents": data.map(d => d.incidents))
 
     let margin = { top: 55, right: 130, bottom: 55, left: 20 };

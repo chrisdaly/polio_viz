@@ -161,21 +161,16 @@ button#cases:active {
     margin-right: 5px;
 }
 
-button#coverage:active {
-    position: center;
-    background-color: #3e90d0;
-    border-radius: 25px;
-    border: 1.3px solid;
-    border-color: #3e90d0;
-    color: #ffffff;
-    font-size: 1em;
-    padding: 7px 30px;
-    text-decoration: none;
-    margin: 0 auto;
-    cursor: pointer;
-    outline: 0 !important;
-    width: 200px;
-    margin-left: 5px;
+.cases_active {
+    background-color: #be006b !important;
+    border-color: #be006b !important;
+    color: #ffffff !important;
+}
+
+.cover_active {
+    background-color: #3e90d0 !important;
+    border-color: #3e90d0 !important;
+    color: #ffffff !important;
 }
 
 path {
@@ -372,10 +367,8 @@ tr:nth-child(odd) {
     border: 1px solid rgba(200, 200, 200, 0);
     text-align: center;
     cursor: default;
-    opacity: 1;
+    opacity: 0;
 }
-
-
 
 #tooltip .tooltip-tail {
     position: absolute;
