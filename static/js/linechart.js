@@ -1,4 +1,4 @@
-function chart(id, geo, data) {
+function chart(id, geo, data, coords) {
     // console.log('chart()')
     // console.log("id", id)
     // console.log("geo", geo)
@@ -35,14 +35,14 @@ function chart(id, geo, data) {
             .remove()
 
 
-        var coords = path.centroid(geo);
-        // console.log('coords', coords)
+        var centroid = path.centroid(geo);
+        console.log('centroid', centroid)
 
         d3
             .select("body")
             .select("#tooltip-Container")
-            .style("left", coords[0] - 550 / 2 + "px")
-            .style("top", coords[1] - 210 / 2 + "px")
+            .style("left", coords[0] + "px")
+            .style("top", coords[1] + "px")
             .attr("width", width + margin.left + margin.right)
             .attr("height", height + margin.top + margin.bottom)
             .style("opacity", 0)

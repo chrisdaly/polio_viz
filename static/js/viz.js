@@ -45,6 +45,7 @@ const path = d3.geoPath().projection(projection);
 const svg = d3
     .select("#viz")
     .append("svg")
+    .attr("id", "mapSvg")
     .attr("width", width)
     .attr("height", height)
     .append("g");
@@ -118,8 +119,8 @@ function paint(data) {
     d3.selectAll(".country")
         .on("mouseover", d => {
             if (metricsData[year][d.id] != undefined) {
-                chart("#tooltip", d, rawData.filter(x => x.id == d.id))
-                // return showTooltip(d, metricsData[year][d.id][0]);
+                let coords = getCoords("mapSvg")
+                chart("#tooltip", d, rawData.filter(x => x.id == d.id), coords)
             }
         })
         .on("mouseout", d => {
@@ -128,14 +129,7 @@ function paint(data) {
                 .select("#tooltip-Container")
                 .transition(200)
                 .style('opacity', 0)
-
-            // d3
-            //     .select("body")
-            //     .select("#tooltip-Container")
-            //     .select("svg")
-            //     .remove()
         })
-        // .on("mouseout", hideTooltip)
         .on("click", d => getColor(data[d.id]))
         .transition()
         .duration(1000)
