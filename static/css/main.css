@@ -26,7 +26,6 @@ div#viz {
     display: table;
     width: 100%;
     table-layout: fixed;
-
 }
 
 .Column {
@@ -58,7 +57,6 @@ div#chart_title {
     margin: 0px;
 
 }
-
 
 div#playbutton {
     position: relative;
@@ -180,7 +178,6 @@ button#cases:hover {
     border: 1.3px solid;
     border-color: #be006b;
     color: #be006b;
-    font-size: 1em;
     padding: 6px 30px;
     text-decoration: none;
     margin: 0 auto;
@@ -198,7 +195,6 @@ button#coverage:hover {
     border: 1.3px solid;
     border-color: #3e90d0;
     color: #3e90d0;
-    font-size: 1em;
     padding: 6px 30px;
     text-decoration: none;
     margin: 0 auto;
@@ -218,7 +214,6 @@ button#cases:active {
     border: 1.3px solid;
     border-color: #be006b;
     color: #ffffff;
-    font-size: 1em;
     padding: 6px 30px;
     text-decoration: none;
     margin: 0 auto;
@@ -236,7 +231,6 @@ button#coverage:active {
     border: 1.3px solid;
     border-color: #3e90d0;
     color: #ffffff;
-    font-size: 1em;
     padding: 6px 30px;
     text-decoration: none;
     margin: 0 auto;
@@ -246,6 +240,60 @@ button#coverage:active {
     margin-left: 5px;
     font-size: 14px;
 }
+
+/*DROP DOWN*/
+.dropbtn {
+    position: center;
+    background-color: #ffffff;
+    border-radius: 40px;
+    border: 1.3px solid;
+    border-color: #525ca3;
+    color: #525ca3;
+    padding: 6px 30px;
+    text-decoration: none;
+    margin: 0 auto;
+    cursor: pointer;
+    outline: 0 !important;
+    width: 500px;
+    font-size: 14px;
+
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content a:hover {
+    background-color: #f1f1f1
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown:hover .dropbtn {
+    background-color: #525ca3;
+    color: white;
+}
+
+/*DROP DOWN END*/
 
 path {
     stroke-linejoin: round;
