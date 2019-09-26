@@ -20,9 +20,19 @@
             incididunt ut labore et dolore magna aliqua.
         </p>
     </div>
-    <div id="chart_title" class="">
-        <p>Global polio cases & <br> </br> vaccine coverage in</p>
-        <h2><span id="year">1980</span></h2>
+    <hr id="topline" class="" align="center" width="100%">
+    <div class="Row">
+        <div id="chart_title_detailed" class="Column">
+            <p>COUNT OF POLIO CASES & PERCENT OF <br> </br> POLIO VACCINE COVERAGE BY COUNTRY <br> </br> BETWEEN 1980 AND 2018</p>
+        </div>
+        <div id="chart_title" class="Column">
+            <p> Global polio cases & <br> </br> vaccine coverage in </p>
+            <h2><span id="year">1980</span></h2>
+        </div>
+        <div id="playbuttontext" class="Column">
+            <p>PLAY </p><br> </br>
+            <button type="button" id="play"></button>
+        </div>
     </div>
     <div id="viz">
         <div id="toggles">
@@ -33,7 +43,16 @@
         </div>
         <div id="tooltip-Container"></div>
     </div>
+    <div class="dropdown">
+        <button class="dropbtn">SELECT COUNTRY</button>
+        <div class="dropdown-content">
+            <a href="#">United States</a>
+            <a href="#">United Kingdom</a>
+            <a href="#">Ireland</a>
+        </div>
+    </div>
     <div id="caption" class="">Source: The World Health Organization (WHO)</div>
+    <hr id="bottomline" class="" align="center" width="5%">
     <div id="content_bottom" class="">
         <p>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad

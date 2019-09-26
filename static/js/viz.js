@@ -49,21 +49,6 @@ const svg = d3
     .attr("height", height)
     .append("g");
 
-// svg.append("path")
-//     .datum(graticule)
-//     .attr("class", "graticule")
-//     .attr("d", path);
-
-// svg.append("path")
-//     .datum({
-//         type: "Sphere"
-//     })
-//     .attr("class", "sphere")
-//     .attr("d", path)
-//     .attr("fill", "#f1f1f1")
-//     .attr("stroke", "black")
-//     .attr("opacity", 0.3);
-
 Promise.all(files.map(f => d3.json(f))).then(init);
 
 function init(datasets) {
@@ -183,7 +168,6 @@ d3.select("#coverage").on("click", function(d) {
     metricActive = 'coverage'
     controlsUpdated();
 });
-
 
 document.getElementById("mySlider").onchange = function() {
     controlsUpdated();
