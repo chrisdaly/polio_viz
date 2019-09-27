@@ -4,8 +4,8 @@ const margin = {
     bottom: 20,
     left: 30
 };
-const width = 1400;
-const height = 900;
+const width = 1600;
+const height = 1200;
 const range = (start, end) => Array.from({
     length: end - start
 }, (v, k) => k + start);
