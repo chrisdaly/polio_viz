@@ -472,14 +472,6 @@ tr:nth-child(odd) {
     opacity: 0;
 }
 
-#tooltip .tooltip-tail {
-    position: absolute;
-    bottom: -8px;
-    left: 105px;
-    width: 40px;
-    height: 8px;
-    background: url(../img/tail_white.png) 50% 0%;
-}
 
 /*#tooltip .tooltip-planet {
     text-transform: uppercase;
@@ -517,15 +509,6 @@ tr:nth-child(odd) {
     text-align: center;
     overflow: hidden;
     margin-bottom: 2px;
-}
-
-.tooltip-tail {
-    position: relative;
-    bottom: -200px;
-    left: 23px;
-    width: 40px;
-    height: 9px;
-    background: url(https://static01.nyt.com/packages/images/newsgraphics/2012/0202-federal-budget/tail_white.png);
 }
 
 body {
@@ -612,4 +595,17 @@ body {
     color: white;
     /*width: 200px;*/
     margin-right: 5px;
+}
+
+#tooltip_tail {
+    position: absolute;
+    bottom: -12px;
+    left: 155px;
+    width: 0;
+    height: 0;
+    border-right: 12px solid transparent;
+    border-left: 12px solid transparent;
+    border-top: 12px solid white;
+    font-size: 0;
+    line-height: 0;
 }

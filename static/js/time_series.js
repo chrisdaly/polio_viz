@@ -1,4 +1,4 @@
-function chart(id, geo, data, coords) {
+function time_series(divId, geo, data, coords) {
     // console.log('chart()')
     // console.log("id", id)
     // console.log("geo", geo)
@@ -18,7 +18,7 @@ function chart(id, geo, data, coords) {
 
     function hideTooltip() {
         d3.select("body")
-            .select("#tooltip-Container")
+            .select(divId)
             .transition()
             .duration(500)
             .style("opacity", 0)
@@ -30,20 +30,17 @@ function chart(id, geo, data, coords) {
     function makeChart() {
         d3
             .select("body")
-            .select("#tooltip-Container")
+            .select(divId)
             .select("svg")
             .remove()
 
         var centroid = path.centroid(geo);
-        let left = centroid[0] + coords['left'] - (310 / 2);
-        let top = centroid[1] + coords['top'] - (210 + 30);
-        console.log('centroid', centroid)
-        console.log("coords", coords)
-        console.log("left:", left, "top:", top)
+        let left = centroid[0] + coords['left'] - (330 / 2);
+        let top = centroid[1] + coords['top'] - (210 + 40);
 
         d3
             .select("body")
-            .select("#tooltip-Container")
+            .select(divId)
             .style("left", `${left}px`)
             .style("top", `${top}px`)
             .attr("width", tooltipWidth + margin.left + margin.right)
@@ -56,7 +53,7 @@ function chart(id, geo, data, coords) {
 
         d3
             .select("body")
-            .select("#tooltip-Container")
+            .select(divId)
             // .on("mouseout", hideTooltip)
             .style("opacity", 0)
             .style("display", "")
@@ -64,7 +61,7 @@ function chart(id, geo, data, coords) {
             .duration(800)
             .style("opacity", 1);
 
-        tooltip = d3.select("#tooltip-Container")
+        tooltip = d3.select(divId)
             .append('svg')
             .attr("width", tooltipWidth + margin.left + margin.right)
             .attr("height", tooltipHeight + margin.top + margin.bottom)
@@ -80,7 +77,9 @@ function chart(id, geo, data, coords) {
         let scaleIncidents = d3
             .scaleLinear()
             .domain([0, d3.max(data, d => d.incidents)])
-            .range([height, 0]);
+            .range([tooltipHeight, 0]);
+
+        console.log("scaleIncidents", scaleIncidents)
 
         let scaleCoverage = d3
             .scaleLinear()
@@ -123,13 +122,17 @@ function chart(id, geo, data, coords) {
         let lineIncidents = d3
             .line()
             .x(d => scaleTime(d.year))
-            .defined(function(d) { return d.incidents; })
-            .y(d => scaleIncidents(d.incidents))
+            // .defined(d => d.incidents)
+            .y(d => {
+                console.log(d.year, d.incidents, [scaleTime(d.year), scaleIncidents(d.incidents)])
+                return scaleIncidents(d.incidents)
+            })
+
 
         let lineCoverage = d3
             .line()
             .x(d => scaleTime(d.year))
-            .defined(function(d) { return d.coverage; })
+            .defined(d => d.coverage)
             .y(d => scaleCoverage(d.coverage))
 
         // Aesthetics

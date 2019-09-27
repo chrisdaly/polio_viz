@@ -116,20 +116,23 @@ const getColor = countryMetrics => {
 
 function paint(data) {
     console.log(data);
+    // time_series("#global_time_series", d, rawData.filter(x => x.id == d.id), coords)
+
+
     d3.selectAll(".country")
         .on("mouseover", d => {
             if (metricsData[year][d.id] != undefined) {
                 let coords = getCoords("mapSvg")
-                chart("#tooltip", d, rawData.filter(x => x.id == d.id), coords)
+                time_series("#tooltip-Container", d, rawData.filter(x => x.id == d.id), coords)
             }
         })
-        // .on("mouseout", d => {
-        //     d3
-        //         .select("body")
-        //         .select("#tooltip-Container")
-        //         .transition(200)
-        //         .style('opacity', 0)
-        // })
+        .on("mouseout", d => {
+            d3
+                .select("body")
+                .select("#tooltip-Container")
+                .transition(200)
+                .style('opacity', 0)
+        })
         .on("click", d => getColor(data[d.id]))
         .transition()
         .duration(1000)
