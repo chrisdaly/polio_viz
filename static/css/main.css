@@ -166,48 +166,50 @@ h2 {
     pointer-events: none;
 }
 
+p {
+    display: block;
+    margin-block-start: 0em;
+    margin-block-end: 0em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    margin-left: 5px;
+}
+
 /*FILTER BUTTONS*/
 
-/*inactive buttons
-*/
-button#cases {
+.filter {
     position: center;
-    background-color: #ffffff;
     border-radius: 40px;
     border: 1.3px solid;
-    border-color: #be006b;
-    color: #be006b;
-    font-size: 1em;
     padding: 8px 1px 3px 1px;
-    text-decoration: none;
     margin: 0 auto;
     cursor: pointer;
     outline: 0 !important;
     width: 210px;
     margin-right: 5px;
+    font-family: "AvantBook";
     font-size: 14px;
+}
+
+/*inactive filter buttons
+*/
+
+button#cases {
+    background-color: #ffffff;
+    border-color: #be006b;
+    color: #be006b;
 }
 
 button#coverage {
-    position: center;
     background-color: #ffffff;
-    border-radius: 40px;
-    border: 1.3px solid;
     border-color: #3e90d0;
     color: #3e90d0;
-    font-size: 1em;
-    padding: 8px 1px 3px 1px;
-    text-decoration: none;
-    margin: 0 auto;
-    cursor: pointer;
-    outline: 0 !important;
-    width: 210px;
-    margin-left: 5px;
-    font-size: 14px;
+
 }
 
-/*hover buttons
+/*hover filter buttons
 */
+
 button#cases:hover {
     background-color: #FEE5F4;
     border-color: #be006b;
@@ -220,50 +222,21 @@ button#coverage:hover {
     color: #3e90d0;
 }
 
-p {
-    display: block;
-    margin-block-start: 0em;
-    margin-block-end: 0em;
-    margin-inline-start: 0px;
-    margin-inline-end: 0px;
-    /*width: 200px;*/
-    margin-left: 5px;
-}
-
 /*active buttons
 */
+
 button#cases:active {
-    position: center;
     background-color: #be006b;
-    border-radius: 40px;
-    border: 1.3px solid;
     border-color: #be006b;
     color: #ffffff;
-    padding: 8px 1px 3px 1px;
-    text-decoration: none;
-    margin: 0 auto;
-    cursor: pointer;
-    outline: 0 !important;
-    width: 210px;
-    margin-right: 5px;
-    font-size: 14px;
+
 }
 
 button#coverage:active {
-    position: center;
     background-color: #3e90d0;
-    border-radius: 40px;
-    border: 1.3px solid;
     border-color: #3e90d0;
     color: #ffffff;
-    padding: 8px 1px 3px 1px;
-    text-decoration: none;
-    margin: 0 auto;
-    cursor: pointer;
-    outline: 0 !important;
-    width: 210px;
-    margin-left: 5px;
-    font-size: 14px;
+
 }
 
 .cases_active {
