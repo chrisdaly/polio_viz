@@ -37,13 +37,17 @@
         </div>
     </div>
     <div id="viz">
+        <div id="global_time_series"></div>
         <div id="toggles">
             <input type="range" id="mySlider" name="controls" min="1980" max="2018" value="1980" /><br />
             <br />
             <button type="button" id="cases" class="filter">POLIO CASES</button>
             <button type="button" id="coverage" class="filter">VACCINE COVERAGE</button>
         </div>
-        <div id="tooltip-Container"></div>
+        <div id="tooltip-Container">
+            <div class="tooltip"></div>
+            <div id="tooltip_tail"></div>
+        </div>
     </div>
     <div class="dropdown">
         <button class="dropbtn">SELECT COUNTRY</button>
@@ -325,7 +329,8 @@
     <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
     <!-- <script src="/static/js/linechart.js"></script> -->
     <script src="/static/js/utils.js"></script>
-    <script src="/static/js/linechart.js"></script>
+    <script src="/static/js/time_series.js"></script>
+    <script src="/static/js/global_time_series.js"></script>
     <script src="/static/js/viz.js"></script>
 </footer>
 

@@ -1,4 +1,4 @@
-function chart(id, geo, data, coords) {
+function time_series(divId, geo, data, coords) {
     // console.log('chart()')
     // console.log("id", id)
     // console.log("geo", geo)
@@ -8,8 +8,8 @@ function chart(id, geo, data, coords) {
     // console.log("incidents": data.map(d => d.incidents))
 
     let margin = { top: 55, right: 130, bottom: 55, left: 20 };
-    let width = 310 - margin.left - margin.right;
-    let height = 210 - margin.top - margin.bottom;
+    let tooltipWidth = 310 - margin.left - margin.right;
+    let tooltipHeight = 210 - margin.top - margin.bottom;
     let yearLineOffset = 20;
 
     let { incidents, coverage, population, incidents_total } = data.filter(d => d.year == year)[0];
@@ -18,7 +18,7 @@ function chart(id, geo, data, coords) {
 
     function hideTooltip() {
         d3.select("body")
-            .select("#tooltip-Container")
+            .select(divId)
             .transition()
             .duration(500)
             .style("opacity", 0)
@@ -30,21 +30,21 @@ function chart(id, geo, data, coords) {
     function makeChart() {
         d3
             .select("body")
-            .select("#tooltip-Container")
+            .select(divId)
             .select("svg")
             .remove()
 
-
         var centroid = path.centroid(geo);
-        console.log('centroid', centroid)
+        let left = centroid[0] + coords['left'] - (330 / 2);
+        let top = centroid[1] + coords['top'] - (210 + 40);
 
         d3
             .select("body")
-            .select("#tooltip-Container")
-            .style("left", coords[0] + "px")
-            .style("top", coords[1] + "px")
-            .attr("width", width + margin.left + margin.right)
-            .attr("height", height + margin.top + margin.bottom)
+            .select(divId)
+            .style("left", `${left}px`)
+            .style("top", `${top}px`)
+            .attr("width", tooltipWidth + margin.left + margin.right)
+            .attr("height", tooltipHeight + margin.top + margin.bottom)
             .style("opacity", 0)
             .style("display", "")
             .transition()
@@ -53,18 +53,18 @@ function chart(id, geo, data, coords) {
 
         d3
             .select("body")
-            .select("#tooltip-Container")
-            .on("mouseout", hideTooltip)
+            .select(divId)
+            // .on("mouseout", hideTooltip)
             .style("opacity", 0)
             .style("display", "")
             .transition()
             .duration(800)
             .style("opacity", 1);
 
-        tooltip = d3.select("#tooltip-Container")
+        tooltip = d3.select(divId)
             .append('svg')
-            .attr("width", width + margin.left + margin.right)
-            .attr("height", height + margin.top + margin.bottom)
+            .attr("width", tooltipWidth + margin.left + margin.right)
+            .attr("height", tooltipHeight + margin.top + margin.bottom)
             .append("g")
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
@@ -72,22 +72,24 @@ function chart(id, geo, data, coords) {
         let scaleTime = d3
             .scaleTime()
             .domain(d3.extent(data, d => d.year))
-            .range([0, width]);
+            .range([0, tooltipWidth]);
 
         let scaleIncidents = d3
             .scaleLinear()
             .domain([0, d3.max(data, d => d.incidents)])
-            .range([height, 0]);
+            .range([tooltipHeight, 0]);
+
+        console.log("scaleIncidents", scaleIncidents)
 
         let scaleCoverage = d3
             .scaleLinear()
             .domain([0, 100]) //d3.max(data, d => d.coverage)])
-            .range([height, 0]);
+            .range([tooltipHeight, 0]);
 
         let scalePopulation = d3
             .scaleLinear()
             .domain([0, d3.max(data, d => d.population)])
-            .range([height, 0]);
+            .range([tooltipHeight, 0]);
 
         // Axes.
         let xAxis = d3
@@ -114,29 +116,23 @@ function chart(id, geo, data, coords) {
         let areaPopulation = d3
             .area()
             .x(d => scaleTime(d.year))
-            .y0(d => height)
+            .y0(d => tooltipHeight)
             .y1(d => scalePopulation(d.population));
 
         let lineIncidents = d3
             .line()
             .x(d => scaleTime(d.year))
-            .defined(function(d) { return d.incidents; })
-            .y(d => scaleIncidents(d.incidents))
-        // {
-        //     console.log(d.incidents)
-        //     if (d.incidents == "") {
-        //         return
-        //     } else if (d.incidents == 0) {
-        //         return height
-        //     } else {
-        //         return scaleIncidents(d.incidents)
-        //     }
-        // });
+            // .defined(d => d.incidents)
+            .y(d => {
+                console.log(d.year, d.incidents, [scaleTime(d.year), scaleIncidents(d.incidents)])
+                return scaleIncidents(d.incidents)
+            })
+
 
         let lineCoverage = d3
             .line()
             .x(d => scaleTime(d.year))
-            .defined(function(d) { return d.coverage; })
+            .defined(d => d.coverage)
             .y(d => scaleCoverage(d.coverage))
 
         // Aesthetics
@@ -168,7 +164,7 @@ function chart(id, geo, data, coords) {
             .style("stroke", colorYear)
             .attr("opacity", 1)
             .attr("x1", scaleTime(year))
-            .attr("y1", height + yearLineOffset)
+            .attr("y1", tooltipHeight + yearLineOffset)
             .attr("x2", scaleTime(year))
             .attr("y2", d3.min([scaleCoverage(coverage), scaleIncidents(incidents)]));
 
@@ -196,7 +192,7 @@ function chart(id, geo, data, coords) {
         let yearCircle = tooltip
             .append("circle")
             .attr("cx", scaleTime(year))
-            .attr("cy", height + yearLineOffset)
+            .attr("cy", tooltipHeight + yearLineOffset)
             .attr("r", "5")
             .style("fill", colorYear);
 
@@ -206,15 +202,15 @@ function chart(id, geo, data, coords) {
             .style("stroke", colorYear)
             .attr("opacity", 1)
             .attr("x1", 0)
-            .attr("y1", height + 20)
-            .attr("x2", width)
-            .attr("y2", height + 20);
+            .attr("y1", tooltipHeight + 20)
+            .attr("x2", tooltipWidth)
+            .attr("y2", tooltipHeight + 20);
 
         // Annotations
         let countryLabel = tooltip
             .append("text")
             .text(country.toUpperCase())
-            .attr("x", width / 2)
+            .attr("x", tooltipWidth / 2)
             .attr("y", -30)
             .attr("class", "countryText");
 
@@ -222,20 +218,20 @@ function chart(id, geo, data, coords) {
             .append("text")
             .text(year)
             .attr("x", scaleTime(year))
-            .attr("y", height + 45)
+            .attr("y", tooltipHeight + 45)
             .attr("class", "yearText");
 
         // Coverage Text
         tooltip.append("text")
             .text(`${Math.round(coverage * 100) / 100}%`)
-            .attr("x", width + 15)
+            .attr("x", tooltipWidth + 15)
             .attr("y", 0)
             .style("fill", colorCoverage)
             .attr("class", "numberText");
 
         tooltip.append("text")
             .text("vaccine coverage")
-            .attr("x", width + 15)
+            .attr("x", tooltipWidth + 15)
             .attr("y", 14)
             .style("fill", colorCoverage)
             .attr("class", "textText");
@@ -243,14 +239,14 @@ function chart(id, geo, data, coords) {
         // Incidents Text
         tooltip.append("text")
             .text(Math.round(incidents_total * 100) / 100)
-            .attr("x", width + 15)
+            .attr("x", tooltipWidth + 15)
             .attr("y", scaleCoverage.range()[0] / 2 - 6)
             .style("fill", colorIncidents)
             .attr("class", "numberText");
 
         tooltip.append("text")
             .text("polio cases")
-            .attr("x", width + 15)
+            .attr("x", tooltipWidth + 15)
             .attr("y", scaleCoverage.range()[0] / 2 + 6)
             .style("fill", colorIncidents)
             .attr("class", "textText");
@@ -258,15 +254,15 @@ function chart(id, geo, data, coords) {
         // Population Text
         tooltip.append("text")
             .text(nFormatter(population))
-            .attr("x", width + 15)
-            .attr("y", height - 14)
+            .attr("x", tooltipWidth + 15)
+            .attr("y", tooltipHeight - 14)
             .style("fill", "#6b747b")
             .attr("class", "numberText");
 
         tooltip.append("text")
             .text("population")
-            .attr("x", width + 15)
-            .attr("y", height)
+            .attr("x", tooltipWidth + 15)
+            .attr("y", tooltipHeight)
             .style("fill", "#6b747b")
             .attr("class", "textText");
     }

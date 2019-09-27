@@ -4,8 +4,8 @@ const margin = {
     bottom: 20,
     left: 30
 };
-const width = 1400;
-const height = 900;
+const width = 1600;
+const height = 1200;
 const range = (start, end) => Array.from({
     length: end - start
 }, (v, k) => k + start);
@@ -116,11 +116,14 @@ const getColor = countryMetrics => {
 
 function paint(data) {
     console.log(data);
+    // time_series("#global_time_series", d, rawData.filter(x => x.id == d.id), coords)
+
+
     d3.selectAll(".country")
         .on("mouseover", d => {
             if (metricsData[year][d.id] != undefined) {
                 let coords = getCoords("mapSvg")
-                chart("#tooltip", d, rawData.filter(x => x.id == d.id), coords)
+                time_series("#tooltip-Container", d, rawData.filter(x => x.id == d.id), coords)
             }
         })
         .on("mouseout", d => {
