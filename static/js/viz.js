@@ -123,13 +123,13 @@ function paint(data) {
                 chart("#tooltip", d, rawData.filter(x => x.id == d.id), coords)
             }
         })
-        .on("mouseout", d => {
-            d3
-                .select("body")
-                .select("#tooltip-Container")
-                .transition(200)
-                .style('opacity', 0)
-        })
+        // .on("mouseout", d => {
+        //     d3
+        //         .select("body")
+        //         .select("#tooltip-Container")
+        //         .transition(200)
+        //         .style('opacity', 0)
+        // })
         .on("click", d => getColor(data[d.id]))
         .transition()
         .duration(1000)
