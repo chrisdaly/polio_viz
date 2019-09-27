@@ -153,15 +153,15 @@ function paint(data) {
 // };
 
 d3.select("#cases").on("click", function(d) {
-    d3.select(this).classed("cases_active", true)
-    d3.select("#coverage").attr("class", '')
+    d3.select(this).classed("filter cases_active", true)
+    d3.select("#coverage").attr("class", 'filter')
     metricActive = 'incidents'
     controlsUpdated();
 });
 
 d3.select("#coverage").on("click", function(d) {
-    d3.select(this).classed("cover_active", true)
-    d3.select("#cases").attr("class", '')
+    d3.select(this).classed("filter cover_active", true)
+    d3.select("#cases").attr("class", 'filter')
     metricActive = 'coverage'
     controlsUpdated();
 });
