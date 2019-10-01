@@ -1,8 +1,4 @@
 function time_series(divId, geo, data, coords) {
-    console.log("\ndata");
-    console.log(data);
-    data_ = data;
-
     let margin = { top: 40, right: 80, bottom: 44, left: 10 };
     let tooltipWidth = 310 - margin.left - margin.right;
     let tooltipHeight = 205 - margin.top - margin.bottom;
@@ -14,6 +10,8 @@ function time_series(divId, geo, data, coords) {
     let { incidents, coverage, population, incidents_total } = data.filter(d => d.year == year)[0];
     data.sort((a, b) => a.year - b.year);
     let country = data[0].country_new;
+    console.log("COUNTRY: ", country);
+    console.log(data);
 
     function hideTooltip() {
         // d3.select("body")
@@ -68,8 +66,6 @@ function time_series(divId, geo, data, coords) {
             .domain([0, d3.max(data, d => (!isNaN(d.incidents_total) ? d.incidents_total : 0))])
             .range([tooltipHeight, 0]);
 
-        console.log("scaleIncidents", incidents_total);
-
         let scaleCoverage = d3
             .scaleLinear()
             .domain([0, 100]) //d3.max(data, d => d.coverage)])
@@ -113,7 +109,7 @@ function time_series(divId, geo, data, coords) {
             .defined(d => !isNaN(d.incidents_total))
             .x(d => scaleTime(d.year))
             .y(d => {
-                // console.log(d.year, d.incidents_total, scaleIncidents(d.incidents_total));
+                if (scaleIncidents.domain()[1] == 0) return tooltipHeight;
                 return scaleIncidents(d.incidents_total);
             });
 
@@ -126,7 +122,7 @@ function time_series(divId, geo, data, coords) {
         var filteredDataIncidents = data.filter(lineIncidents.defined());
         var filteredDataCoverage = data.filter(lineCoverage.defined());
 
-        console.log("filteredDataIncidents", filteredDataIncidents);
+        // console.log("filteredDataIncidents", filteredDataIncidents);
 
         // Aesthetics
         let colorPop = "#e2e2e2";
@@ -154,10 +150,7 @@ function time_series(divId, geo, data, coords) {
 
         let incidentsLineMissing = tooltip
             .append("path")
-            .attr("d", () => {
-                console.log(data.filter(lineIncidents.defined()));
-                return lineIncidents(data.filter(lineIncidents.defined()));
-            })
+            .attr("d", lineIncidents(data.filter(lineIncidents.defined())))
             .attr("class", "line dashed")
             .style("stroke", colorIncidents);
 
@@ -178,7 +171,6 @@ function time_series(divId, geo, data, coords) {
 
         // Circles.
         if (coverage != "null") {
-            console.log("coverage", coverage);
             let coverageCircle = tooltip
                 .append("circle")
                 .attr("cx", scaleTime(year))
@@ -191,7 +183,10 @@ function time_series(divId, geo, data, coords) {
             let incidentsCircle = tooltip
                 .append("circle")
                 .attr("cx", scaleTime(year))
-                .attr("cy", scaleIncidents(incidents_total))
+                .attr("cy", () => {
+                    if (scaleIncidents.domain()[1] == 0) return tooltipHeight;
+                    return scaleIncidents(incidents_total);
+                })
                 .attr("r", circleRadius)
                 .style("fill", colorIncidents);
         }
@@ -297,7 +292,7 @@ function time_series(divId, geo, data, coords) {
 
             tooltip
                 .append("text")
-                .text(incidents_total > 1 ? "cases" : "case")
+                .text(incidents_total == 1 ? "case" : "cases")
                 .attr("x", tooltipWidth + 15)
                 .attr("y", () => {
                     let mid = scaleCoverage.range()[0] / 2;
