@@ -325,21 +325,39 @@ function time_series(divId, geo, data, coords) {
         }
 
         // Population Text
-        tooltip
-            .append("text")
-            .text(nFormatter(population))
-            .attr("x", tooltipWidth + 15)
-            .attr("y", tooltipHeight - textOffset)
-            .style("fill", "#6b747b")
-            .attr("class", "numberText");
+        if (!isNaN(population)) {
+            tooltip
+                .append("text")
+                .text(nFormatter(population))
+                .attr("x", tooltipWidth + 15)
+                .attr("y", tooltipHeight - textOffset)
+                .style("fill", "#6b747b")
+                .attr("class", "numberText");
 
-        tooltip
-            .append("text")
-            .text("population")
-            .attr("x", tooltipWidth + 15)
-            .attr("y", tooltipHeight)
-            .style("fill", "#6b747b")
-            .attr("class", "textText");
+            tooltip
+                .append("text")
+                .text("population")
+                .attr("x", tooltipWidth + 15)
+                .attr("y", tooltipHeight)
+                .style("fill", "#6b747b")
+                .attr("class", "textText");
+        } else {
+            tooltip
+                .append("text")
+                .text("No")
+                .attr("x", tooltipWidth + 15)
+                .attr("y", tooltipHeight - textOffset)
+                .style("fill", "#6b747b")
+                .attr("class", "numberText");
+
+            tooltip
+                .append("text")
+                .text("data")
+                .attr("x", tooltipWidth + 15)
+                .attr("y", tooltipHeight)
+                .style("fill", "#6b747b")
+                .attr("class", "textText");
+        }
     }
 
     return makeChart();
