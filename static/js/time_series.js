@@ -1,6 +1,7 @@
 function time_series(divId, geo, data, coords) {
     console.log("\ndata");
     console.log(data);
+    data_ = data;
 
     let margin = { top: 40, right: 80, bottom: 44, left: 10 };
     let tooltipWidth = 310 - margin.left - margin.right;
@@ -47,22 +48,14 @@ function time_series(divId, geo, data, coords) {
             .duration(800)
             .style("opacity", 1);
 
-        d3.select("body")
-            .select(divId)
-            // .on("mouseout", hideTooltip)
-            .style("opacity", 0)
-            .style("display", "")
-            .transition()
-            .duration(800)
-            .style("opacity", 1);
-
         tooltip = d3
             .select(divId)
             .append("svg")
             .attr("width", tooltipWidth + margin.left + margin.right)
             .attr("height", tooltipHeight + margin.top + margin.bottom)
             .append("g")
-            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+            .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+            .attr("id", "tooltipChart");
 
         // Scale the range of the data
         let scaleTime = d3
@@ -70,9 +63,9 @@ function time_series(divId, geo, data, coords) {
             .domain(d3.extent(data, d => d.year))
             .range([0, tooltipWidth]);
 
-        let scaleIncidents = d3
+        scaleIncidents = d3
             .scaleLinear()
-            .domain([0, d3.max(data, d => d.incidents_total)])
+            .domain([0, d3.max(data, d => (!isNaN(d.incidents_total) ? d.incidents_total : 0))])
             .range([tooltipHeight, 0]);
 
         console.log("scaleIncidents", incidents_total);
@@ -120,7 +113,7 @@ function time_series(divId, geo, data, coords) {
             .defined(d => !isNaN(d.incidents_total))
             .x(d => scaleTime(d.year))
             .y(d => {
-                console.log(d.year, d.incidents_total);
+                // console.log(d.year, d.incidents_total, scaleIncidents(d.incidents_total));
                 return scaleIncidents(d.incidents_total);
             });
 
@@ -163,7 +156,7 @@ function time_series(divId, geo, data, coords) {
             .append("path")
             .attr("d", () => {
                 console.log(data.filter(lineIncidents.defined()));
-                lineIncidents(data.filter(lineIncidents.defined()));
+                return lineIncidents(data.filter(lineIncidents.defined()));
             })
             .attr("class", "line dashed")
             .style("stroke", colorIncidents);
@@ -171,7 +164,7 @@ function time_series(divId, geo, data, coords) {
         let incidentsLine = tooltip
             .append("path")
             .attr("d", lineIncidents(data))
-            .attr("class", "line")
+            .attr("class", "line incidents")
             .style("stroke", colorIncidents);
 
         let yearLine = tooltip
@@ -184,19 +177,24 @@ function time_series(divId, geo, data, coords) {
             .attr("y2", d3.min([scaleCoverage(coverage), scaleIncidents(incidents_total)]));
 
         // Circles.
-        let coverageCircle = tooltip
-            .append("circle")
-            .attr("cx", scaleTime(year))
-            .attr("cy", coverage ? scaleCoverage(coverage) : null)
-            .attr("r", coverage ? circleRadius : null)
-            .style("fill", colorCoverage);
+        if (coverage != "null") {
+            console.log("coverage", coverage);
+            let coverageCircle = tooltip
+                .append("circle")
+                .attr("cx", scaleTime(year))
+                .attr("cy", scaleCoverage(coverage))
+                .attr("r", circleRadius)
+                .style("fill", colorCoverage);
+        }
 
-        let incidentsCircle = tooltip
-            .append("circle")
-            .attr("cx", scaleTime(year))
-            .attr("cy", scaleIncidents(incidents_total))
-            .attr("r", incidents_total ? circleRadius : null) //Broken?
-            .style("fill", colorIncidents);
+        if (incidents_total != "null") {
+            let incidentsCircle = tooltip
+                .append("circle")
+                .attr("cx", scaleTime(year))
+                .attr("cy", scaleIncidents(incidents_total))
+                .attr("r", circleRadius)
+                .style("fill", colorIncidents);
+        }
 
         let yearCircle = tooltip
             .append("circle")
@@ -231,63 +229,105 @@ function time_series(divId, geo, data, coords) {
             .attr("class", "yearText");
 
         // Coverage Text
-        tooltip
-            .append("text")
-            .text(`${Math.round(coverage * 100) / 100}%`)
-            .attr("x", tooltipWidth + 15)
-            .attr("y", 0)
-            .style("fill", colorCoverage)
-            .attr("class", "numberText");
+        if (!isNaN(coverage)) {
+            tooltip
+                .append("text")
+                .text(`${Math.round(coverage * 100) / 100}%`)
+                .attr("x", tooltipWidth + 15)
+                .attr("y", 0)
+                .style("fill", colorCoverage)
+                .attr("class", "numberText");
 
-        tooltip
-            .append("text")
-            .text("vaccine")
-            .attr("x", tooltipWidth + 15)
-            .attr("y", textOffset)
-            .style("fill", colorCoverage)
-            .attr("class", "textText");
+            tooltip
+                .append("text")
+                .text("vaccine")
+                .attr("x", tooltipWidth + 15)
+                .attr("y", textOffset)
+                .style("fill", colorCoverage)
+                .attr("class", "textText");
 
-        tooltip
-            .append("text")
-            .text("coverage")
-            .attr("x", tooltipWidth + 15)
-            .attr("y", textOffset * 2)
-            .style("fill", colorCoverage)
-            .attr("class", "textText");
+            tooltip
+                .append("text")
+                .text("coverage")
+                .attr("x", tooltipWidth + 15)
+                .attr("y", textOffset * 2)
+                .style("fill", colorCoverage)
+                .attr("class", "textText");
+        } else {
+            tooltip
+                .append("text")
+                .text("No")
+                .attr("x", tooltipWidth + 15)
+                .attr("y", 0)
+                .style("fill", colorCoverage)
+                .attr("class", "numberText");
+
+            tooltip
+                .append("text")
+                .text("data")
+                .attr("x", tooltipWidth + 15)
+                .attr("y", textOffset)
+                .style("fill", colorCoverage)
+                .attr("class", "textText");
+        }
 
         // Incidents Text
-        tooltip
-            .append("text")
-            .text(Math.round(incidents_total * 100) / 100)
-            .attr("x", tooltipWidth + 15)
-            .attr("y", () => {
-                let mid = scaleCoverage.range()[0] / 2;
-                return mid - textOffset + manualOffset;
-            })
-            .style("fill", colorIncidents)
-            .attr("class", "numberText");
+        if (!isNaN(incidents_total)) {
+            tooltip
+                .append("text")
+                .text(incidents_total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","))
+                .attr("x", tooltipWidth + 15)
+                .attr("y", () => {
+                    let mid = scaleCoverage.range()[0] / 2;
+                    return mid - textOffset + manualOffset;
+                })
+                .style("fill", colorIncidents)
+                .attr("class", "numberText");
 
-        tooltip
-            .append("text")
-            .text("polio")
-            .attr("x", tooltipWidth + 15)
-            .attr("y", () => {
-                let mid = scaleCoverage.range()[0] / 2;
-                return mid + manualOffset;
-            })
-            .style("fill", colorIncidents)
-            .attr("class", "textText");
+            tooltip
+                .append("text")
+                .text("polio")
+                .attr("x", tooltipWidth + 15)
+                .attr("y", () => {
+                    let mid = scaleCoverage.range()[0] / 2;
+                    return mid + manualOffset;
+                })
+                .style("fill", colorIncidents)
+                .attr("class", "textText");
 
-        tooltip
-            .append("text")
-            .text("cases")
-            .attr("x", tooltipWidth + 15)
-            .attr("y", () => {
-                let mid = scaleCoverage.range()[0] / 2;
-                return mid + textOffset + manualOffset;
-            })
-            .style("fill", colorIncidents)
-            .attr("class", "textText");
+            tooltip
+                .append("text")
+                .text(incidents_total > 1 ? "cases" : "case")
+                .attr("x", tooltipWidth + 15)
+                .attr("y", () => {
+                    let mid = scaleCoverage.range()[0] / 2;
+                    return mid + textOffset + manualOffset;
+                })
+                .style("fill", colorIncidents)
+                .attr("class", "textText");
+        } else {
+            tooltip
+                .append("text")
+                .text("No")
+                .attr("x", tooltipWidth + 15)
+                .attr("y", () => {
+                    let mid = scaleCoverage.range()[0] / 2;
+                    return mid - textOffset + manualOffset;
+                })
+                .style("fill", colorIncidents)
+                .attr("class", "numberText");
+
+            tooltip
+                .append("text")
+                .text("data")
+                .attr("x", tooltipWidth + 15)
+                .attr("y", () => {
+                    let mid = scaleCoverage.range()[0] / 2;
+                    return mid + manualOffset;
+                })
+                .style("fill", colorIncidents)
+                .attr("class", "textText");
+        }
 
         // Population Text
         tooltip

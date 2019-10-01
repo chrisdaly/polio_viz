@@ -111,10 +111,11 @@ function paint(data) {
             }
         })
         .on("mouseout", d => {
-            // d3.select("body")
-            //     .select("#tooltip-Container")
-            //     .transition(200)
-            //     .style("opacity", 0);
+            d3.select("body")
+                .select("#tooltip-Container")
+                .transition()
+                .duration(1000)
+                .style("opacity", 0);
         })
         .on("click", d => getColor(data[d.id]))
         .transition()

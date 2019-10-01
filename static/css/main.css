@@ -410,6 +410,7 @@ tr:nth-child(odd) {
 }
 
 #tooltip-Container {
+    pointer-events: none;
     position: absolute;
     /*width: 600px;*/
     font-size: 15px;
@@ -557,4 +558,17 @@ text.countryText {
 .dashed {
     stroke-dasharray: 3;
     stroke-width: 2;
+}
+
+#tooltip_tail {
+    position: absolute;
+    bottom: -12px;
+    left: 148px;
+    width: 0;
+    height: 0;
+    border-right: 12px solid transparent;
+    border-left: 12px solid transparent;
+    border-top: 12px solid white;
+    font-size: 0;
+    line-height: 0;
 }
