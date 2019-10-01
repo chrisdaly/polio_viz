@@ -89,8 +89,9 @@ function draw() {
 
 const getColor = countryMetrics => {
     if (Object.entries(countryMetrics).length === 0) return "#F0F0F0";
-    const { coverage = 0, incidents = 0 } = countryMetrics;
-    console.log();
+    let { coverage = 0, incidents = 0 } = countryMetrics;
+    coverage = coverage != "null" ? coverage : 0;
+    incidents = incidents != "null" ? incidents : 0;
 
     let coverageRank = coverageScale(coverage);
     let incidentsRank = incidentsScale(incidents);
@@ -110,6 +111,7 @@ function paint(data) {
                 time_series("#tooltip-Container", d, rawData.filter(x => x.id == d.id), coords);
             }
         })
+        .on("click", d => getColor)
         .on("mouseout", d => {
             d3.select("body")
                 .select("#tooltip-Container")
