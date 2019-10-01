@@ -182,20 +182,19 @@ button#coverage {
     background-color: #ffffff;
     border-color: #3e90d0;
     color: #3e90d0;
-
 }
 
 /*hover filter buttons
 */
 
 button#cases:hover {
-    background-color: #FEE5F4;
+    background-color: #fee5f4;
     border-color: #be006b;
     color: #be006b;
 }
 
 button#coverage:hover {
-    background-color: #E4F0F9;
+    background-color: #e4f0f9;
     border-color: #3e90d0;
     color: #3e90d0;
 }
@@ -207,14 +206,12 @@ button#cases:active {
     background-color: #be006b;
     border-color: #be006b;
     color: #ffffff;
-
 }
 
 button#coverage:active {
     background-color: #3e90d0;
     border-color: #3e90d0;
     color: #ffffff;
-
 }
 
 /*active (clicked) buttons
@@ -234,7 +231,6 @@ button#coverage:active {
 
 /*END OF FILTER BUTTONS*/
 
-
 /*MAP START*/
 
 div#viz {
@@ -253,7 +249,6 @@ div#viz {
 }
 
 /*MAP END*/
-
 
 /*SOURCE AREA START*/
 
@@ -309,7 +304,7 @@ div#region_title {
     /*overflow-x: */
     padding-top: 5px;
     /*height*/
-    : 5%;
+    :5% ;
 }
 
 div#continent {
@@ -430,7 +425,6 @@ tr:nth-child(odd) {
     opacity: 0;
 }
 
-
 /*#tooltip .tooltip-planet {
     text-transform: uppercase;
     font-family: "Oswald", sans-serif;
@@ -491,15 +485,14 @@ body {
 .numberText {
     font-size: 12px;
     font-family: "AvantBook";
-    fill: #4A5491;
+    fill: #4a5491;
 }
 
 .textText {
     font-size: 12px;
     font-family: "AvantBook";
-    fill: #4A5491;
+    fill: #4a5491;
 }
-
 
 /*DROP DOWN*/
 .dropbtn {
@@ -517,13 +510,11 @@ body {
     outline: 0 !important;
     width: 500px;
     font-size: 14px;
-
 }
 
 .dropdown {
     position: relative;
     text-align: center;
-
 }
 
 .dropdown-content {
@@ -545,7 +536,7 @@ body {
 }
 
 .dropdown-content a:hover {
-    background-color: #f1f1f1
+    background-color: #f1f1f1;
 }
 
 .dropdown:hover .dropdown-content {
@@ -559,3 +550,11 @@ body {
     margin-right: 5px;
 }
 
+text.countryText {
+    text-anchor: middle;
+}
+
+.dashed {
+    stroke-dasharray: 3;
+    stroke-width: 2;
+}

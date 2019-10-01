@@ -6,9 +6,6 @@ const margin = {
 };
 const width = 1600;
 const height = 1200;
-const range = (start, end) => Array.from({
-    length: end - start
-}, (v, k) => k + start);
 const files = ["./static/data/world-50m.json", "./static/data/records.json"];
 let redundantCountries = [10, 304]; // Greenland, Antarctica
 let datasets;
@@ -16,21 +13,11 @@ let countriesData;
 let rawData;
 let year;
 let metricActive;
-const colors = [
-    "#d6abd9",
-    "#ff3fab",
-    "#be006b",
-    "#8bbce3",
-    "#882e94",
-    "#67045e",
-    "#3e90d0",
-    "#3a2489",
-    "#2b0055"
-];
+const colors = ["#d6abd9", "#ff3fab", "#be006b", "#8bbce3", "#882e94", "#67045e", "#3e90d0", "#3a2489", "#2b0055"];
 
 const n = Math.floor(Math.sqrt(colors.length));
 const coverageScale = d3.scaleThreshold([50, 85, 100], d3.range(n));
-const incidentsScale = d3.scaleThreshold([0.0001, .5, 1], d3.range(n));
+const incidentsScale = d3.scaleThreshold([0.0001, 0.5, 1], d3.range(n));
 
 const graticule = d3.geoGraticule();
 
@@ -62,17 +49,17 @@ function init(datasets) {
         .key(d => d.id)
         .object(rawData);
 
-    console.log("countriesData", countriesData);
-    console.log("rawData", rawData);
-    console.log("datadatadata", metricsData);
+    // console.log("countriesData", countriesData);
+    // console.log("rawData", rawData);
+    // console.log("datadatadata", metricsData);
     draw();
     // controlsUpdated('incidents')
 }
 
 function filterData(year, metrics) {
-    console.log('filterData')
-    console.log(year)
-    console.log(metrics)
+    // console.log("filterData");
+    // console.log(year);
+    // console.log(metrics);
     let data = metricsData[year];
     let dataFinal = {};
     Object.keys(data).map(id => {
@@ -97,14 +84,12 @@ function draw() {
         .attr("class", "country")
         .attr("d", path)
         .attr("opacity", 1)
-        .attr("fill", "#F0F0F0")
+        .attr("fill", "#F0F0F0");
 }
 
 const getColor = countryMetrics => {
     if (Object.entries(countryMetrics).length === 0) return "#F0F0F0";
-    const {
-        coverage = 0, incidents = 0
-    } = countryMetrics;
+    const { coverage = 0, incidents = 0 } = countryMetrics;
     console.log();
 
     let coverageRank = coverageScale(coverage);
@@ -118,20 +103,18 @@ function paint(data) {
     console.log(data);
     // time_series("#global_time_series", d, rawData.filter(x => x.id == d.id), coords)
 
-
     d3.selectAll(".country")
         .on("mouseover", d => {
             if (metricsData[year][d.id] != undefined) {
-                let coords = getCoords("mapSvg")
-                time_series("#tooltip-Container", d, rawData.filter(x => x.id == d.id), coords)
+                let coords = getCoords("mapSvg");
+                time_series("#tooltip-Container", d, rawData.filter(x => x.id == d.id), coords);
             }
         })
         .on("mouseout", d => {
-            d3
-                .select("body")
-                .select("#tooltip-Container")
-                .transition(200)
-                .style('opacity', 0)
+            // d3.select("body")
+            //     .select("#tooltip-Container")
+            //     .transition(200)
+            //     .style("opacity", 0);
         })
         .on("click", d => getColor(data[d.id]))
         .transition()
@@ -153,16 +136,16 @@ function paint(data) {
 // };
 
 d3.select("#cases").on("click", function(d) {
-    d3.select(this).classed("filter cases_active", true)
-    d3.select("#coverage").attr("class", 'filter')
-    metricActive = 'incidents'
+    d3.select(this).classed("filter cases_active", true);
+    d3.select("#coverage").attr("class", "filter");
+    metricActive = "incidents";
     controlsUpdated();
 });
 
 d3.select("#coverage").on("click", function(d) {
-    d3.select(this).classed("filter cover_active", true)
-    d3.select("#cases").attr("class", 'filter')
-    metricActive = 'coverage'
+    d3.select(this).classed("filter cover_active", true);
+    d3.select("#cases").attr("class", "filter");
+    metricActive = "coverage";
     controlsUpdated();
 });
 
@@ -176,7 +159,7 @@ d3.select("#mySlider").on("input", function(d) {
 });
 
 function getMetrics() {
-    console.log(getMetrics)
+    console.log(getMetrics);
     let metrics = [];
     if (document.querySelector('input[id="incidents"]').checked == true) {
         metrics.push("incidents");
@@ -192,11 +175,10 @@ function getMetrics() {
 }
 
 function controlsUpdated(metric) {
-    console.log('controlsUpdated')
-    console.log(metric)
+    // console.log("controlsUpdated");
+    // console.log(metric);
     // let metrics = getMetrics();
     year = document.getElementById("mySlider").value;
-    console.log(year)
     let dataFiltered = filterData(year, metricActive);
     paint(dataFiltered);
 }
