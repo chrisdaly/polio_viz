@@ -90,8 +90,8 @@ function draw() {
 const getColor = countryMetrics => {
     if (Object.entries(countryMetrics).length === 0) return "#F0F0F0";
     let { coverage = 0, incidents = 0 } = countryMetrics;
-    coverage = coverage != "null" ? coverage : 0;
-    incidents = incidents != "null" ? incidents : 0;
+    coverage = coverage != "null" ? coverage : null;
+    incidents = incidents != "null" ? incidents : null;
 
     let coverageRank = coverageScale(coverage);
     let incidentsRank = incidentsScale(incidents);
