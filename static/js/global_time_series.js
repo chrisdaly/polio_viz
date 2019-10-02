@@ -143,7 +143,7 @@ function global_time_series(divId, data) {
             .attr("y2", d3.min([scaleCoverage(coverage), scaleIncidents(incidents_total)]));
 
         // Circles.
-        if (coverage != "null") {
+        if (!isNaN(coverage)) {
             let coverageCircle = globalTimeseries
                 .append("circle")
                 .attr("cx", scaleTime(year))
@@ -197,13 +197,15 @@ function global_time_series(divId, data) {
             .attr("class", "yearText");
 
         // Coverage Text
-        globalTimeseries
-            .append("text")
-            .text(`${Math.round(coverage * 100) / 100}%`)
-            .attr("x", scaleTime(year))
-            .attr("y", scaleCoverage(coverage) - 20)
-            .style("fill", colorCoverage)
-            .attr("class", "numberText");
+        if (!isNaN(coverage)) {
+            globalTimeseries
+                .append("text")
+                .text(`${Math.round(coverage * 100) / 100}%`)
+                .attr("x", scaleTime(year))
+                .attr("y", scaleCoverage(coverage) - 20)
+                .style("fill", colorCoverage)
+                .attr("class", "numberText");
+        }
 
         // Incidents Text
         globalTimeseries
