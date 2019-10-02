@@ -34,18 +34,6 @@ function time_series(divId, geo, data, coords) {
         let left = centroid[0] + coords["left"] - 330 / 2;
         let top = centroid[1] + coords["top"] - (210 + 40);
 
-        d3.select("body")
-            .select(divId)
-            .style("left", `${left}px`)
-            .style("top", `${top}px`)
-            .attr("width", tooltipWidth + margin.left + margin.right)
-            .attr("height", tooltipHeight + margin.top + margin.bottom)
-            .style("opacity", 0)
-            .style("display", "")
-            .transition()
-            .duration(800)
-            .style("opacity", 1);
-
         tooltip = d3
             .select(divId)
             .append("svg")

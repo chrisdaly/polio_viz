@@ -104,6 +104,36 @@ function paint(data) {
     console.log(data);
     // time_series("#global_time_series", d, rawData.filter(x => x.id == d.id), coords)
 
+    function processGlobal(rawData) {
+        let nestedData = d3
+            .nest()
+            .key(d => d.year)
+            .rollup(v => {
+                let incidents = d3.sum(v, x => x.incidents);
+                let incidents_total = d3.sum(v, x => x.incidents_total);
+                let coverage = d3.mean(v, x => x.coverage);
+                let population = d3.sum(v, x => x.population);
+                return { incidents, coverage, population };
+            })
+            .entries(rawData);
+
+        globalData = [];
+        nestedData.forEach(d => {
+            x = {};
+            let { incidents, incidents_total, coverage, population } = d.value;
+            x["year"] = d.key;
+            x["incidents"] = incidents;
+            x["incidents_total"] = incidents_total;
+            x["coverage"] = coverage;
+            x["population"] = population;
+            globalData.push(x);
+        });
+
+        return globalData;
+    }
+    globalData = processGlobal(rawData);
+    global_time_series("#global_time_series", globalData);
+
     d3.selectAll(".country")
         .on("mouseover", d => {
             if (metricsData[year][d.id] != undefined) {
