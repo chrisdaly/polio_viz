@@ -41,10 +41,10 @@ function global_time_series(divId, data) {
             .domain([0, d3.max(data, d => (!isNaN(d.incidents_total) ? d.incidents_total : 0))])
             .range([globalTimeseriesHeight, 0]);
 
-        let scaleCoverage = d3
-            .scaleLinear()
-            .domain([0, 100]) //d3.max(data, d => d.coverage)])
-            .range([globalTimeseriesHeight, 0]);
+        // let scaleCoverage = d3
+        //     .scaleLinear()
+        //     .domain([0, 100]) //d3.max(data, d => d.coverage)])
+        //     .range([globalTimeseriesHeight, 0]);
 
         let scalePopulation = d3
             .scaleLinear()
@@ -67,10 +67,10 @@ function global_time_series(divId, data) {
             .scale(scalePopulation)
             .ticks(5);
 
-        let yAxisRight = d3
-            .axisRight()
-            .scale(scaleCoverage)
-            .ticks(5);
+        // let yAxisRight = d3
+        //     .axisRight()
+        //     .scale(scaleCoverage)
+        //     .ticks(5);
 
         // Path generators.
         let areaPopulation = d3
@@ -88,18 +88,18 @@ function global_time_series(divId, data) {
                 return scaleIncidents(d.incidents_total);
             });
 
-        let lineCoverage = d3
-            .line()
-            .defined(d => !isNaN(d.coverage))
-            .x(d => scaleTime(d.year))
-            .y(d => scaleCoverage(d.coverage));
+        // let lineCoverage = d3
+        //     .line()
+        //     .defined(d => !isNaN(d.coverage))
+        //     .x(d => scaleTime(d.year))
+        //     .y(d => scaleCoverage(d.coverage));
 
         var filteredDataIncidents = data.filter(lineIncidents.defined());
-        var filteredDataCoverage = data.filter(lineCoverage.defined());
+        // var filteredDataCoverage = data.filter(lineCoverage.defined());
 
         // Aesthetics
         let colorPop = "#e2e2e2";
-        let colorCoverage = "#3e90d0";
+        // let colorCoverage = "#3e90d0";
         let colorIncidents = "#be006b";
         let colorYear = "#c3c7cb";
 
@@ -109,17 +109,17 @@ function global_time_series(divId, data) {
             .attr("d", areaPopulation(data))
             .attr("fill", colorPop);
 
-        let coverageLineMissing = globalTimeseries
-            .append("path")
-            .attr("d", lineCoverage(data))
-            .attr("class", "line dashed")
-            .style("stroke", "red");
+        // let coverageLineMissing = globalTimeseries
+        //     .append("path")
+        //     .attr("d", lineCoverage(data))
+        //     .attr("class", "line dashed")
+        //     .style("stroke", "red");
 
-        let coverageLine = globalTimeseries
-            .append("path")
-            .attr("d", lineCoverage(filteredDataCoverage))
-            .attr("class", "line")
-            .style("stroke", colorCoverage);
+        // let coverageLine = globalTimeseries
+        //     .append("path")
+        //     .attr("d", lineCoverage(filteredDataCoverage))
+        //     .attr("class", "line")
+        //     .style("stroke", colorCoverage);
 
         let incidentsLineMissing = globalTimeseries
             .append("path")
@@ -140,17 +140,17 @@ function global_time_series(divId, data) {
             .attr("x1", scaleTime(year))
             .attr("y1", globalTimeseriesHeight + yearLineOffset)
             .attr("x2", scaleTime(year))
-            .attr("y2", d3.min([scaleCoverage(coverage), scaleIncidents(incidents_total)]));
+            .attr("y2", scaleIncidents(incidents_total));
 
         // Circles.
-        if (!isNaN(coverage)) {
-            let coverageCircle = globalTimeseries
-                .append("circle")
-                .attr("cx", scaleTime(year))
-                .attr("cy", scaleCoverage(coverage))
-                .attr("r", circleRadius)
-                .style("fill", colorCoverage);
-        }
+        // if (!isNaN(coverage)) {
+        //     let coverageCircle = globalTimeseries
+        //         .append("circle")
+        //         .attr("cx", scaleTime(year))
+        //         .attr("cy", scaleCoverage(coverage))
+        //         .attr("r", circleRadius)
+        //         .style("fill", colorCoverage);
+        // }
 
         if (incidents_total != "null") {
             let incidentsCircle = globalTimeseries
@@ -197,15 +197,15 @@ function global_time_series(divId, data) {
             .attr("class", "yearText");
 
         // Coverage Text
-        if (!isNaN(coverage)) {
-            globalTimeseries
-                .append("text")
-                .text(`${Math.round(coverage * 100) / 100}%`)
-                .attr("x", scaleTime(year))
-                .attr("y", scaleCoverage(coverage) - 20)
-                .style("fill", colorCoverage)
-                .attr("class", "numberText");
-        }
+        // if (!isNaN(coverage)) {
+        //     globalTimeseries
+        //         .append("text")
+        //         .text(`${Math.round(coverage * 100) / 100}%`)
+        //         .attr("x", scaleTime(year))
+        //         .attr("y", scaleCoverage(coverage) - 20)
+        //         .style("fill", colorCoverage)
+        //         .attr("class", "numberText");
+        // }
 
         // Incidents Text
         globalTimeseries
