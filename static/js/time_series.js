@@ -6,22 +6,13 @@ function time_series(divId, geo, data, coords) {
     let textOffset = 14;
     let manualOffset = 6;
     let circleRadius = 4;
-    console.log(data);
+
     let { incidents, coverage, population, incidents_total } = data.filter(d => d.year == year)[0];
     data.sort((a, b) => a.year - b.year);
     let country = data[0].country_new;
     console.log("COUNTRY: ", country);
-
-    function hideTooltip() {
-        // d3.select("body")
-        //     .select(divId)
-        //     .transition()
-        //     .duration(500)
-        //     .style("opacity", 0)
-        //     .transition()
-        //     .duration(1)
-        //     .style("display", "None");
-    }
+    console.log("data", data);
+    console.log("geo", geo);
 
     function makeChart() {
         // Interupt any mouseout transition.

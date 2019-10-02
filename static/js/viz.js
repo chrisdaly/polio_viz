@@ -12,7 +12,7 @@ let datasets;
 let countriesData;
 let rawData;
 let year;
-let metricActive;
+let metricActive = "incidents";
 const colors = ["#d6abd9", "#ff3fab", "#be006b", "#8bbce3", "#882e94", "#67045e", "#3e90d0", "#3a2489", "#2b0055"];
 
 const n = Math.floor(Math.sqrt(colors.length));
@@ -53,7 +53,7 @@ function init(datasets) {
     // console.log("rawData", rawData);
     // console.log("datadatadata", metricsData);
     draw();
-    // controlsUpdated('incidents')
+    controlsUpdated("incidents");
 }
 
 function filterData(year, metrics) {
@@ -88,6 +88,7 @@ function draw() {
 }
 
 const getColor = countryMetrics => {
+    console.log(countryMetrics);
     if (Object.entries(countryMetrics).length === 0) return "#F0F0F0";
     let { coverage = 0, incidents = 0 } = countryMetrics;
     coverage = coverage != "null" ? coverage : null;
@@ -101,45 +102,14 @@ const getColor = countryMetrics => {
 };
 
 function paint(data) {
+    console.log("paint");
+    console.log(year);
     console.log(data);
     // time_series("#global_time_series", d, rawData.filter(x => x.id == d.id), coords)
 
-    function processGlobal(rawData) {
-        let nestedData = d3
-            .nest()
-            .key(d => d.year)
-            .rollup(v => {
-                let incidents = d3.sum(v, x => x.incidents);
-                let incidents_total = d3.sum(v, x => x.incidents_total);
-                let coverage = d3.mean(v, x => x.coverage);
-                let population = d3.sum(v, x => x.population);
-                return { incidents, incidents_total, coverage, population };
-            })
-            .entries(rawData);
-
-        globalData = [];
-        nestedData.forEach(d => {
-            x = {};
-            let { incidents, incidents_total, coverage, population } = d.value;
-            x["year"] = d.key;
-            x["incidents"] = incidents;
-            x["incidents_total"] = incidents_total;
-            x["coverage"] = coverage;
-            x["population"] = population;
-            globalData.push(x);
-        });
-
-        return globalData;
-    }
-    globalData = processGlobal(rawData);
-    global_time_series("#global_time_series", globalData);
-
     d3.selectAll(".country")
         .on("mouseover", d => {
-            if (metricsData[year][d.id] != undefined) {
-                let coords = getCoords("mapSvg");
-                time_series("#tooltip-Container", d, rawData.filter(x => x.id == d.id), coords);
-            }
+            if (metricsData[year][d.id] != undefined) showTooltip(d, rawData);
         })
         .on("click", d => getColor)
         .on("mouseout", d => {
@@ -191,6 +161,15 @@ d3.select("#mySlider").on("input", function(d) {
     document.getElementById("year").innerHTML = this.value;
 });
 
+document.getElementById("countryDropdown").onchange = function() {
+    country = document.getElementById("countryDropdown").value;
+    id_ = rawData.filter(d => d.country == country)[0].id;
+    topo = countriesData.objects.countries.geometries.filter(d => d.id == id_)[0];
+    geo = topojson.feature(topo, topo.objects.countries).features;
+    console.log("geo", geo);
+    showTooltip(geo, rawData);
+};
+
 function getMetrics() {
     console.log(getMetrics);
     let metrics = [];
@@ -207,11 +186,44 @@ function getMetrics() {
     return metrics;
 }
 
-function controlsUpdated(metric) {
-    // console.log("controlsUpdated");
-    // console.log(metric);
-    // let metrics = getMetrics();
+function controlsUpdated() {
     year = document.getElementById("mySlider").value;
+    console.log(year, metricActive);
     let dataFiltered = filterData(year, metricActive);
     paint(dataFiltered);
+    globalData = processGlobal(rawData);
+    global_time_series("#global_time_series", globalData);
+}
+
+function processGlobal(rawData) {
+    let nestedData = d3
+        .nest()
+        .key(d => d.year)
+        .rollup(v => {
+            let incidents = d3.sum(v, x => x.incidents);
+            let incidents_total = d3.sum(v, x => x.incidents_total);
+            let coverage = d3.mean(v, x => x.coverage);
+            let population = d3.sum(v, x => x.population);
+            return { incidents, incidents_total, coverage, population };
+        })
+        .entries(rawData);
+
+    globalData = [];
+    nestedData.forEach(d => {
+        x = {};
+        let { incidents, incidents_total, coverage, population } = d.value;
+        x["year"] = d.key;
+        x["incidents"] = incidents;
+        x["incidents_total"] = incidents_total;
+        x["coverage"] = coverage;
+        x["population"] = population;
+        globalData.push(x);
+    });
+
+    return globalData;
+}
+
+function showTooltip(d, rawData) {
+    let coords = getCoords("mapSvg");
+    time_series("#tooltip-Container", d, rawData.filter(x => x.id == d.id), coords);
 }

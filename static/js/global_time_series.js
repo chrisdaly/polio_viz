@@ -1,6 +1,6 @@
 function global_time_series(divId, data) {
     console.log("global_time_series()");
-    let margin = { top: 40, right: 37, bottom: 44, left: 37 };
+    let margin = { top: 40, right: 40, bottom: 44, left: 40 };
     let globalTimeseriesWidth = document.getElementById(divId.replace("#", "")).offsetWidth - margin.left - margin.right;
     let globalTimeseriesHeight = 205 - margin.top - margin.bottom;
     let yearLineOffset = 15;
