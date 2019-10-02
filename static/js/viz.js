@@ -5,7 +5,7 @@ const margin = {
     left: 30
 };
 const width = 1600;
-const height = 1200;
+const height = 700;
 const files = ["./static/data/world-50m.json", "./static/data/records.json"];
 let redundantCountries = [10, 304]; // Greenland, Antarctica
 let datasets;
@@ -25,7 +25,7 @@ const projection = d3
     .geoMercator()
     .scale(150)
     .rotate([-11, 0])
-    .translate([width / 2, height / 2 - height / 10]); // Clipping out antartica
+    .translate([width / 2, height / 2 + 150]); // Clipping out antartica
 
 const path = d3.geoPath().projection(projection);
 
