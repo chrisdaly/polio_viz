@@ -6,12 +6,11 @@ function time_series(divId, geo, data, coords) {
     let textOffset = 14;
     let manualOffset = 6;
     let circleRadius = 4;
-
+    console.log(data);
     let { incidents, coverage, population, incidents_total } = data.filter(d => d.year == year)[0];
     data.sort((a, b) => a.year - b.year);
     let country = data[0].country_new;
     console.log("COUNTRY: ", country);
-    console.log(data);
 
     function hideTooltip() {
         // d3.select("body")
@@ -25,6 +24,11 @@ function time_series(divId, geo, data, coords) {
     }
 
     function makeChart() {
+        // Interupt any mouseout transition.
+        d3.select("body")
+            .select(divId)
+            .transition();
+
         d3.select("body")
             .select(divId)
             .select("svg")
@@ -33,9 +37,14 @@ function time_series(divId, geo, data, coords) {
         var centroid = path.centroid(geo);
         let left = centroid[0] + coords["left"] - 330 / 2;
         let top = centroid[1] + coords["top"] - (210 + 40);
+        console.log("left", left);
+        console.log("top", top);
 
         tooltip = d3
             .select(divId)
+            .style("opacity", 1)
+            .style("left", `${left}px`)
+            .style("top", `${top}px`)
             .append("svg")
             .attr("width", tooltipWidth + margin.left + margin.right)
             .attr("height", tooltipHeight + margin.top + margin.bottom)
@@ -151,7 +160,6 @@ function time_series(divId, geo, data, coords) {
         let yearLine = tooltip
             .append("line")
             .style("stroke", colorYear)
-            .attr("opacity", 1)
             .attr("x1", scaleTime(year))
             .attr("y1", tooltipHeight + yearLineOffset)
             .attr("x2", scaleTime(year))
@@ -190,7 +198,6 @@ function time_series(divId, geo, data, coords) {
         let yearAxis = tooltip
             .append("line")
             .style("stroke", colorYear)
-            .attr("opacity", 1)
             .attr("x1", 0)
             .attr("y1", tooltipHeight + yearLineOffset)
             .attr("x2", tooltipWidth)

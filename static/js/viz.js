@@ -23,9 +23,9 @@ const graticule = d3.geoGraticule();
 
 const projection = d3
     .geoMercator()
-    .scale(width / 3.5 / Math.PI)
+    .scale(150)
     .rotate([-11, 0])
-    .translate([width / 2, height / 2]);
+    .translate([width / 2, height / 2 - height / 10]); // Clipping out antartica
 
 const path = d3.geoPath().projection(projection);
 
@@ -113,7 +113,7 @@ function paint(data) {
                 let incidents_total = d3.sum(v, x => x.incidents_total);
                 let coverage = d3.mean(v, x => x.coverage);
                 let population = d3.sum(v, x => x.population);
-                return { incidents, coverage, population };
+                return { incidents, incidents_total, coverage, population };
             })
             .entries(rawData);
 
@@ -146,7 +146,7 @@ function paint(data) {
             d3.select("body")
                 .select("#tooltip-Container")
                 .transition()
-                .duration(1000)
+                .duration(2000)
                 .style("opacity", 0);
         })
         .on("click", d => getColor(data[d.id]))

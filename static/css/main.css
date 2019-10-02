@@ -572,3 +572,7 @@ text.countryText {
     font-size: 0;
     line-height: 0;
 }
+
+div#global_time_series {
+    height: 205px;
+}

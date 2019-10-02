@@ -1,12 +1,14 @@
 function global_time_series(divId, data) {
-    let margin = { top: 40, right: 80, bottom: 44, left: 10 };
-    let globalTimeseriesWidth = 310 - margin.left - margin.right;
+    console.log("global_time_series()");
+    let margin = { top: 40, right: 37, bottom: 44, left: 37 };
+    let globalTimeseriesWidth = document.getElementById(divId.replace("#", "")).offsetWidth - margin.left - margin.right;
     let globalTimeseriesHeight = 205 - margin.top - margin.bottom;
     let yearLineOffset = 15;
     let textOffset = 14;
     let manualOffset = 6;
     let circleRadius = 4;
     console.log("GLOBAL");
+    console.log(divId);
     console.log(data);
 
     let { incidents, coverage, population, incidents_total } = data.filter(d => d.year == year)[0];
@@ -20,6 +22,7 @@ function global_time_series(divId, data) {
 
         let globalTimeseries = d3
             .select(divId)
+            .style("opacity", 1)
             .append("svg")
             .attr("width", globalTimeseriesWidth + margin.left + margin.right)
             .attr("height", globalTimeseriesHeight + margin.top + margin.bottom)
@@ -133,7 +136,7 @@ function global_time_series(divId, data) {
         let yearLine = globalTimeseries
             .append("line")
             .style("stroke", colorYear)
-            .attr("opacity", 1)
+            .style("opacity", 1)
             .attr("x1", scaleTime(year))
             .attr("y1", globalTimeseriesHeight + yearLineOffset)
             .attr("x2", scaleTime(year))
@@ -172,162 +175,61 @@ function global_time_series(divId, data) {
         let yearAxis = globalTimeseries
             .append("line")
             .style("stroke", colorYear)
-            .attr("opacity", 1)
+            .style("opacity", 1)
             .attr("x1", 0)
             .attr("y1", globalTimeseriesHeight + yearLineOffset)
             .attr("x2", globalTimeseriesWidth)
             .attr("y2", globalTimeseriesHeight + yearLineOffset);
 
-        // Annotations
-        // let countryLabel = globalTimeseries
-        //     .append("text")
-        //     .text(country.toUpperCase())
-        //     .attr("x", 310 / 2)
-        //     .attr("y", -20)
-        //     .attr("class", "countryText");
+        // Annotations;
+        let countryLabel = globalTimeseries
+            .append("text")
+            .text("GLOBAL")
+            .attr("x", globalTimeseriesWidth / 2)
+            .attr("y", -20)
+            .attr("class", "countryText");
 
-        // let yearLabel = globalTimeseries
-        //     .append("text")
-        //     .text(year)
-        //     .attr("x", scaleTime(year))
-        //     .attr("y", globalTimeseriesHeight + yearLineOffset + textOffset + 12)
-        //     .attr("class", "yearText");
+        let yearLabel = globalTimeseries
+            .append("text")
+            .text(year)
+            .attr("x", scaleTime(year))
+            .attr("y", globalTimeseriesHeight + yearLineOffset + textOffset + 12)
+            .attr("class", "yearText");
 
         // Coverage Text
-        if (!isNaN(coverage)) {
-            globalTimeseries
-                .append("text")
-                .text(`${Math.round(coverage * 100) / 100}%`)
-                .attr("x", globalTimeseriesWidth + 15)
-                .attr("y", 0)
-                .style("fill", colorCoverage)
-                .attr("class", "numberText");
-
-            globalTimeseries
-                .append("text")
-                .text("vaccine")
-                .attr("x", globalTimeseriesWidth + 15)
-                .attr("y", textOffset)
-                .style("fill", colorCoverage)
-                .attr("class", "textText");
-
-            globalTimeseries
-                .append("text")
-                .text("coverage")
-                .attr("x", globalTimeseriesWidth + 15)
-                .attr("y", textOffset * 2)
-                .style("fill", colorCoverage)
-                .attr("class", "textText");
-        } else {
-            globalTimeseries
-                .append("text")
-                .text("No")
-                .attr("x", globalTimeseriesWidth + 15)
-                .attr("y", 0)
-                .style("fill", colorCoverage)
-                .attr("class", "numberText");
-
-            globalTimeseries
-                .append("text")
-                .text("data")
-                .attr("x", globalTimeseriesWidth + 15)
-                .attr("y", textOffset)
-                .style("fill", colorCoverage)
-                .attr("class", "textText");
-        }
+        globalTimeseries
+            .append("text")
+            .text(`${Math.round(coverage * 100) / 100}%`)
+            .attr("x", scaleTime(year))
+            .attr("y", scaleCoverage(coverage) - 20)
+            .style("fill", colorCoverage)
+            .attr("class", "numberText");
 
         // Incidents Text
-        if (!isNaN(incidents_total)) {
-            globalTimeseries
-                .append("text")
-                .text(incidents_total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","))
-                .attr("x", globalTimeseriesWidth + 15)
-                .attr("y", () => {
-                    let mid = scaleCoverage.range()[0] / 2;
-                    return mid - textOffset + manualOffset;
-                })
-                .style("fill", colorIncidents)
-                .attr("class", "numberText");
-
-            globalTimeseries
-                .append("text")
-                .text("polio")
-                .attr("x", globalTimeseriesWidth + 15)
-                .attr("y", () => {
-                    let mid = scaleCoverage.range()[0] / 2;
-                    return mid + manualOffset;
-                })
-                .style("fill", colorIncidents)
-                .attr("class", "textText");
-
-            globalTimeseries
-                .append("text")
-                .text(incidents_total == 1 ? "case" : "cases")
-                .attr("x", globalTimeseriesWidth + 15)
-                .attr("y", () => {
-                    let mid = scaleCoverage.range()[0] / 2;
-                    return mid + textOffset + manualOffset;
-                })
-                .style("fill", colorIncidents)
-                .attr("class", "textText");
-        } else {
-            globalTimeseries
-                .append("text")
-                .text("No")
-                .attr("x", globalTimeseriesWidth + 15)
-                .attr("y", () => {
-                    let mid = scaleCoverage.range()[0] / 2;
-                    return mid - textOffset + manualOffset;
-                })
-                .style("fill", colorIncidents)
-                .attr("class", "numberText");
-
-            globalTimeseries
-                .append("text")
-                .text("data")
-                .attr("x", globalTimeseriesWidth + 15)
-                .attr("y", () => {
-                    let mid = scaleCoverage.range()[0] / 2;
-                    return mid + manualOffset;
-                })
-                .style("fill", colorIncidents)
-                .attr("class", "textText");
-        }
+        globalTimeseries
+            .append("text")
+            .text(incidents_total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","))
+            .attr("x", scaleTime(year))
+            .attr("y", scaleIncidents(incidents_total) - 20)
+            .style("fill", colorIncidents)
+            .attr("class", "numberText");
 
         // Population Text
-        if (!isNaN(population)) {
-            globalTimeseries
-                .append("text")
-                .text(nFormatter(population))
-                .attr("x", globalTimeseriesWidth + 15)
-                .attr("y", globalTimeseriesHeight - textOffset)
-                .style("fill", "#6b747b")
-                .attr("class", "numberText");
+        // globalTimeseries
+        //     .append("text")
+        //     .text(nFormatter(population))
+        //     .attr("x", globalTimeseriesWidth + 15)
+        //     .attr("y", globalTimeseriesHeight - textOffset)
+        //     .style("fill", "#6b747b")
+        //     .attr("class", "numberText");
 
-            globalTimeseries
-                .append("text")
-                .text("population")
-                .attr("x", globalTimeseriesWidth + 15)
-                .attr("y", globalTimeseriesHeight)
-                .style("fill", "#6b747b")
-                .attr("class", "textText");
-        } else {
-            globalTimeseries
-                .append("text")
-                .text("No")
-                .attr("x", globalTimeseriesWidth + 15)
-                .attr("y", globalTimeseriesHeight - textOffset)
-                .style("fill", "#6b747b")
-                .attr("class", "numberText");
-
-            globalTimeseries
-                .append("text")
-                .text("data")
-                .attr("x", globalTimeseriesWidth + 15)
-                .attr("y", globalTimeseriesHeight)
-                .style("fill", "#6b747b")
-                .attr("class", "textText");
-        }
+        // globalTimeseries
+        //     .append("text")
+        //     .text("population")
+        //     .attr("x", globalTimeseriesWidth + 15)
+        //     .attr("y", globalTimeseriesHeight)
+        //     .style("fill", "#6b747b")
+        //     .attr("class", "textText");
     }
 
     return makeChart();
