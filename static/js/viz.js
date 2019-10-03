@@ -152,9 +152,9 @@ d3.select("#coverage").on("click", function(d) {
     controlsUpdated();
 });
 
-document.getElementById("mySlider").onchange = function() {
-    controlsUpdated();
-};
+// document.getElementById("mySlider").onchange = function() {
+//     controlsUpdated();
+// };
 
 d3.select("#mySlider").on("input", function(d) {
     controlsUpdated();
@@ -227,3 +227,37 @@ function showTooltip(d, rawData) {
     let coords = getCoords("mapSvg");
     time_series("#tooltip-Container", d, rawData.filter(x => x.id == d.id), coords);
 }
+
+
+sider = d3.select("#mySlider")
+playButton = d3.select("#playbuttontext")
+
+playButton
+    .on("click", function() {
+        console.log("clicked")
+        var button = d3.select(this);
+        if (button.text() == "Pause") {
+            moving = false;
+            clearInterval(timer);
+            // timer = 0;
+            button.text("Play");
+        } else {
+            moving = true;
+            timer = setInterval(step, 100);
+            button.text("Pause");
+        }
+    })
+
+
+// function step() {
+// update(x.invert(currentValue));
+// currentValue = currentValue + (targetValue / 151);
+// if (currentValue > targetValue) {
+//     moving = false;
+//     currentValue = 0;
+//     clearInterval(timer);
+//     // timer = 0;
+//     playButton.text("Play");
+//     console.log("Slider moving: " + moving);
+// }
+// }
