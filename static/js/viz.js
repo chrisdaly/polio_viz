@@ -12,8 +12,12 @@ let datasets;
 let countriesData;
 let rawData;
 let year;
+let topography;
 let metricActive = "incidents";
 const colors = ["#d6abd9", "#ff3fab", "#be006b", "#8bbce3", "#882e94", "#67045e", "#3e90d0", "#3a2489", "#2b0055"];
+slider = d3.select("#mySlider")
+playButton = d3.select("#playbuttontext")
+
 
 const n = Math.floor(Math.sqrt(colors.length));
 const coverageScale = d3.scaleThreshold([50, 85, 100], d3.range(n));
@@ -42,6 +46,7 @@ Promise.all(files.map(f => d3.json(f))).then(init);
 function init(datasets) {
     countriesData = datasets[0];
     countriesData.objects.countries.geometries = countriesData.objects.countries.geometries.filter(d => !redundantCountries.includes(d.id));
+    topography = topojson.feature(countriesData, countriesData.objects.countries).features
     rawData = datasets[1];
     metricsData = d3
         .nest()
@@ -78,7 +83,7 @@ function filterData(year, metrics) {
 function draw() {
     countries = svg
         .selectAll(".country")
-        .data(topojson.feature(countriesData, countriesData.objects.countries).features)
+        .data(topography)
         .enter()
         .append("path")
         .attr("class", "country")
@@ -88,7 +93,7 @@ function draw() {
 }
 
 const getColor = countryMetrics => {
-    console.log(countryMetrics);
+    // console.log(countryMetrics);
     if (Object.entries(countryMetrics).length === 0) return "#F0F0F0";
     let { coverage = 0, incidents = 0 } = countryMetrics;
     coverage = coverage != "null" ? coverage : null;
@@ -104,7 +109,7 @@ const getColor = countryMetrics => {
 function paint(data) {
     console.log("paint");
     console.log(year);
-    console.log(data);
+    // console.log(data);
     // time_series("#global_time_series", d, rawData.filter(x => x.id == d.id), coords)
 
     d3.selectAll(".country")
@@ -152,11 +157,9 @@ d3.select("#coverage").on("click", function(d) {
     controlsUpdated();
 });
 
-// document.getElementById("mySlider").onchange = function() {
-//     controlsUpdated();
-// };
 
-d3.select("#mySlider").on("input", function(d) {
+slider.on("input", function(d) {
+    console.log("slider input")
     controlsUpdated();
     document.getElementById("year").innerHTML = this.value;
 });
@@ -164,9 +167,9 @@ d3.select("#mySlider").on("input", function(d) {
 document.getElementById("countryDropdown").onchange = function() {
     country = document.getElementById("countryDropdown").value;
     id_ = rawData.filter(d => d.country == country)[0].id;
-    topo = countriesData.objects.countries.geometries.filter(d => d.id == id_)[0];
-    geo = topojson.feature(topo, topo.objects.countries).features;
-    console.log("geo", geo);
+    console.log("country:", country)
+    console.log("id:", id_)
+    geo = topography.filter(d => d.id == id_).slice(-1)[0] 
     showTooltip(geo, rawData);
 };
 
@@ -224,17 +227,17 @@ function processGlobal(rawData) {
 }
 
 function showTooltip(d, rawData) {
+    console.log("d", d)
     let coords = getCoords("mapSvg");
     time_series("#tooltip-Container", d, rawData.filter(x => x.id == d.id), coords);
+
 }
 
-
-sider = d3.select("#mySlider")
-playButton = d3.select("#playbuttontext")
 
 playButton
     .on("click", function() {
         console.log("clicked")
+        console.log("year", year)
         var button = d3.select(this);
         if (button.text() == "Pause") {
             moving = false;
@@ -249,15 +252,16 @@ playButton
     })
 
 
-// function step() {
-// update(x.invert(currentValue));
-// currentValue = currentValue + (targetValue / 151);
-// if (currentValue > targetValue) {
-//     moving = false;
-//     currentValue = 0;
-//     clearInterval(timer);
-//     // timer = 0;
-//     playButton.text("Play");
-//     console.log("Slider moving: " + moving);
-// }
-// }
+function step() {
+    console.log("step")
+    // update(x.invert(currentValue));
+    // currentValue = currentValue + (targetValue / 151);
+    // if (currentValue > targetValue) {
+    //     moving = false;
+    //     currentValue = 0;
+    //     clearInterval(timer);
+    //     // timer = 0;
+    //     playButton.text("Play");
+    //     console.log("Slider moving: " + moving);
+    // }
+}

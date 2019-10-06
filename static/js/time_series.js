@@ -11,8 +11,8 @@ function time_series(divId, geo, data, coords) {
     data.sort((a, b) => a.year - b.year);
     let country = data[0].country_new;
     console.log("COUNTRY: ", country);
-    console.log("data", data);
-    console.log("geo", geo);
+    // console.log("data", data);
+    // console.log("geo", geo);
 
     function makeChart() {
         // Interupt any mouseout transition.
@@ -28,8 +28,8 @@ function time_series(divId, geo, data, coords) {
         var centroid = path.centroid(geo);
         let left = centroid[0] + coords["left"] - 330 / 2;
         let top = centroid[1] + coords["top"] - (210 + 40);
-        console.log("left", left);
-        console.log("top", top);
+        // console.log("left", left);
+        // console.log("top", top);
 
         tooltip = d3
             .select(divId)
