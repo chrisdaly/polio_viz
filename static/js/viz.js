@@ -258,7 +258,10 @@ function step() {
     let dataFiltered = filterData(year, metricActive);
     globalData = processGlobal(rawData);
     global_time_series("#global_time_series", globalData);
-    time_series("#tooltip-Container", geo, year, countryData, coords);
+    if (countryData != null) {
+        time_series("#tooltip-Container", geo, year, countryData, coords);
+
+    }
     update(dataFiltered);
     year = String(parseInt(year) + 1)
 }
