@@ -17,7 +17,11 @@ let metricActive = "incidents";
 const colors = ["#d6abd9", "#ff3fab", "#be006b", "#8bbce3", "#882e94", "#67045e", "#3e90d0", "#3a2489", "#2b0055"];
 slider = d3.select("#mySlider")
 playButton = d3.select("#playbuttontext")
-
+const duration = 500
+let tooltipVisible = false
+let geo
+let coords
+let countryData
 
 const n = Math.floor(Math.sqrt(colors.length));
 const coverageScale = d3.scaleThreshold([50, 85, 100], d3.range(n));
@@ -106,14 +110,13 @@ const getColor = countryMetrics => {
     return colors[rank];
 };
 
-function paint(data) {
-    console.log("paint");
+function update(data) {
+    console.log("update");
     console.log(year);
-    // console.log(data);
-    // time_series("#global_time_series", d, rawData.filter(x => x.id == d.id), coords)
 
     d3.selectAll(".country")
         .on("mouseover", d => {
+            tooltipVisible = true
             if (metricsData[year][d.id] != undefined) showTooltip(d, rawData);
         })
         .on("click", d => getColor)
@@ -121,8 +124,10 @@ function paint(data) {
             d3.select("body")
                 .select("#tooltip-Container")
                 .transition()
-                .duration(2000)
+                .duration(1000)
                 .style("opacity", 0);
+
+            tooltipVisible = false
         })
         .on("click", d => getColor(data[d.id]))
         .transition()
@@ -135,27 +140,6 @@ function paint(data) {
             }
         });
 }
-
-// d3.select("#buttonIncidents").on("click", controlsUpdated)
-// d3.select("#buttonCoverage").on("click", controlsUpdated)
-// document.getElementById("#buttonIncidents").onchange = function() {
-//     console.log("#")
-//     controlsUpdated('incidents');
-// };
-
-d3.select("#cases").on("click", function(d) {
-    d3.select(this).classed("filter cases_active", true);
-    d3.select("#coverage").attr("class", "filter");
-    metricActive = "incidents";
-    controlsUpdated();
-});
-
-d3.select("#coverage").on("click", function(d) {
-    d3.select(this).classed("filter cover_active", true);
-    d3.select("#cases").attr("class", "filter");
-    metricActive = "coverage";
-    controlsUpdated();
-});
 
 
 slider.on("input", function(d) {
@@ -193,7 +177,7 @@ function controlsUpdated() {
     year = document.getElementById("mySlider").value;
     console.log(year, metricActive);
     let dataFiltered = filterData(year, metricActive);
-    paint(dataFiltered);
+    update(dataFiltered);
     globalData = processGlobal(rawData);
     global_time_series("#global_time_series", globalData);
 }
@@ -228,9 +212,10 @@ function processGlobal(rawData) {
 
 function showTooltip(d, rawData) {
     console.log("d", d)
-    let coords = getCoords("mapSvg");
-    time_series("#tooltip-Container", d, rawData.filter(x => x.id == d.id), coords);
-
+    geo = d
+    coords = getCoords("mapSvg");
+    countryData = rawData.filter(x => x.id == d.id)
+    time_series("#tooltip-Container", geo, year, countryData, coords);
 }
 
 
@@ -238,15 +223,21 @@ playButton
     .on("click", function() {
         console.log("clicked")
         console.log("year", year)
-        var button = d3.select(this);
+        button = d3.select(this);
         if (button.text() == "Pause") {
             moving = false;
             clearInterval(timer);
             // timer = 0;
             button.text("Play");
-        } else {
+        } 
+        else if (button.text() == "Restart"){
+            year = "1980"
+            button.text("Play");
+            step()
+        }
+        else {
             moving = true;
-            timer = setInterval(step, 100);
+            timer = setInterval(step, duration * 1.5);
             button.text("Pause");
         }
     })
@@ -254,14 +245,22 @@ playButton
 
 function step() {
     console.log("step")
-    // update(x.invert(currentValue));
-    // currentValue = currentValue + (targetValue / 151);
-    // if (currentValue > targetValue) {
-    //     moving = false;
-    //     currentValue = 0;
-    //     clearInterval(timer);
-    //     // timer = 0;
-    //     playButton.text("Play");
-    //     console.log("Slider moving: " + moving);
-    // }
+    console.log("year", year)
+    if (year == 2019) {
+         moving = false;
+        clearInterval(timer);
+        // timer = 0;
+         button.text("Restart");
+
+    }
+    document.getElementById("year").innerHTML = year;
+    document.querySelector('input[type=range]').value = year;
+    let dataFiltered = filterData(year, metricActive);
+    globalData = processGlobal(rawData);
+    global_time_series("#global_time_series", globalData);
+    time_series("#tooltip-Container", geo, year, countryData, coords);
+    update(dataFiltered);
+    year = String(parseInt(year) + 1)
 }
+
+// TODO: store current mouseover info, resuse it when update()

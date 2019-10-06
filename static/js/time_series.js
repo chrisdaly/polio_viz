@@ -1,4 +1,4 @@
-function time_series(divId, geo, data, coords) {
+function time_series(divId, geo, year, data, coords) {
     let margin = { top: 40, right: 80, bottom: 44, left: 10 };
     let tooltipWidth = 310 - margin.left - margin.right;
     let tooltipHeight = 205 - margin.top - margin.bottom;
@@ -7,7 +7,7 @@ function time_series(divId, geo, data, coords) {
     let manualOffset = 6;
     let circleRadius = 4;
 
-    let { incidents, coverage, population, incidents_total } = data.filter(d => d.year == year)[0];
+    let { incidents, coverage, population, incidents_total } = data.filter(d => d.year == parseInt(year))[0];
     data.sort((a, b) => a.year - b.year);
     let country = data[0].country_new;
     console.log("COUNTRY: ", country);
