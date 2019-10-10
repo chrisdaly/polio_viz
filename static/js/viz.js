@@ -22,14 +22,11 @@ let geo
 let coords
 let countryData
 const colors = ["#DCDEED", "#B8BDDC", "#959CCA", "#525CA3", "#3E457A"]
-
-colorScale = d3.scaleThreshold()
-    .domain([1, 20, 100, 1000, 40000])
-    .range(colors);
+const thresholds = [1, 20, 100, 1000, 40000]
+const colorScale = d3.scaleThreshold().domain().range(colors);
 
 console.log("COLOR THRESHOLDS:")
 colors.forEach(color => console.log(`%c${color} : [${colorScale.invertExtent(color)}]`, `color: ${color}`))
-
 
 const graticule = d3.geoGraticule();
 
