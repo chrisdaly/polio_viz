@@ -23,7 +23,7 @@ let coords
 let countryData
 const colors = ["#DCDEED", "#B8BDDC", "#959CCA", "#525CA3", "#3E457A"]
 const thresholds = [1, 20, 100, 1000, 40000]
-const colorScale = d3.scaleThreshold().domain().range(colors);
+colorScale = d3.scaleThreshold().domain(thresholds).range(colors);
 
 console.log("COLOR THRESHOLDS:")
 colors.forEach(color => console.log(`%c${color} : [${colorScale.invertExtent(color)}]`, `color: ${color}`))
