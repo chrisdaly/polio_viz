@@ -1,5 +1,5 @@
 function global_time_series(divId, data) {
-    console.log("global_time_series()");
+    // console.log("global_time_series()");
     let margin = { top: 40, right: 40, bottom: 44, left: 40 };
     let globalTimeseriesWidth = document.getElementById(divId.replace("#", "")).offsetWidth - margin.left - margin.right;
     let globalTimeseriesHeight = 205 - margin.top - margin.bottom;
@@ -7,9 +7,9 @@ function global_time_series(divId, data) {
     let textOffset = 14;
     let manualOffset = 6;
     let circleRadius = 4;
-    console.log("GLOBAL");
-    console.log(divId);
-    console.log(data);
+    // console.log("GLOBAL");
+    // console.log(divId);
+    // console.log(data);
 
     let { incidents, coverage, population, incidents_total } = data.filter(d => d.year == year)[0];
     data.sort((a, b) => a.year - b.year);

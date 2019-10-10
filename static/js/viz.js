@@ -21,10 +21,15 @@ let tooltipVisible = false
 let geo
 let coords
 let countryData
+const colors = ["#DCDEED", "#B8BDDC", "#959CCA", "#525CA3", "#3E457A"]
 
 colorScale = d3.scaleThreshold()
-    .domain([0, 5, 100, 10000, 40000])
-    .range(["#DCDEED", "#B8BDDC", "#959CCA", "#525CA3", "#3E457A"]);
+    .domain([1, 20, 100, 1000, 40000])
+    .range(colors);
+
+console.log("COLOR THRESHOLDS:")
+colors.forEach(color => console.log(`%c${color} : [${colorScale.invertExtent(color)}]`, `color: ${color}`))
+
 
 const graticule = d3.geoGraticule();
 
@@ -78,6 +83,7 @@ function filterData(year, metrics) {
                     dataFinal[id][metric] = data[id][0][metric];
                 }
             });
+            dataFinal[id]["country"] = data[id][0]["country"]
         }
     });
     return dataFinal;
@@ -96,16 +102,17 @@ function draw() {
 }
 
 function update(data) {
-    console.log("update");
-    console.log(year);
+    // console.log("update");
+    // console.log(year);
 
     d3.selectAll(".country")
         .on("mouseover", d => {
             if (data[d.id] != null) {
-                console.log(data[d.id]['incidents_total'])
+                console.log(data[d.id]['country'], data[d.id]['incidents_total'])
+                tooltipVisible = true
+                if (metricsData[year][d.id] != undefined) showTooltip(d, rawData);
             }
-            tooltipVisible = true
-            if (metricsData[year][d.id] != undefined) showTooltip(d, rawData);
+
         })
         .on("mouseout", d => {
             d3.select("body")
@@ -165,7 +172,7 @@ function getMetrics() {
 
 function controlsUpdated() {
     year = document.getElementById("mySlider").value;
-    console.log(year, metricActive);
+    // console.log(year, metricActive);
     let dataFiltered = filterData(year, metricActive);
     update(dataFiltered);
     globalData = processGlobal(rawData);

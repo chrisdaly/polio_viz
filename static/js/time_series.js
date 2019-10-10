@@ -10,7 +10,7 @@ function time_series(divId, geo, year, data, coords) {
     let { incidents, coverage, population, incidents_total } = data.filter(d => d.year == parseInt(year))[0];
     data.sort((a, b) => a.year - b.year);
     let country = data[0].country_new;
-    console.log("COUNTRY: ", country);
+    // console.log("COUNTRY: ", country);
     // console.log("data", data);
     // console.log("geo", geo);
 
