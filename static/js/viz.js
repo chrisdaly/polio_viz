@@ -13,8 +13,7 @@ let countriesData;
 let rawData;
 let year;
 let topography;
-let metricActive = "incidents";
-const colors = ["#d6abd9", "#ff3fab", "#be006b", "#8bbce3", "#882e94", "#67045e", "#3e90d0", "#3a2489", "#2b0055"];
+let metricActive = "incidents_total";
 slider = d3.select("#mySlider")
 playButton = d3.select("#playbuttontext")
 const duration = 500
@@ -23,9 +22,9 @@ let geo
 let coords
 let countryData
 
-const n = Math.floor(Math.sqrt(colors.length));
-const coverageScale = d3.scaleThreshold([50, 85, 100], d3.range(n));
-const incidentsScale = d3.scaleThreshold([0.0001, 0.5, 1], d3.range(n));
+colorScale = d3.scaleThreshold()
+    .domain([0, 5, 100, 10000, 40000])
+    .range(["#DCDEED", "#B8BDDC", "#959CCA", "#525CA3", "#3E457A"]);
 
 const graticule = d3.geoGraticule();
 
@@ -96,30 +95,18 @@ function draw() {
         .attr("fill", "#F0F0F0");
 }
 
-const getColor = countryMetrics => {
-    // console.log(countryMetrics);
-    if (Object.entries(countryMetrics).length === 0) return "#F0F0F0";
-    let { coverage = 0, incidents = 0 } = countryMetrics;
-    coverage = coverage != "null" ? coverage : null;
-    incidents = incidents != "null" ? incidents : null;
-
-    let coverageRank = coverageScale(coverage);
-    let incidentsRank = incidentsScale(incidents);
-    let rank = coverageRank * n + incidentsRank;
-    // console.log(`coverageRank: ${coverageRank}, incidentsRank: ${incidentsRank}, rank: ${coverageRank * n + incidentsRank}, color: ${colors[rank]}`);
-    return colors[rank];
-};
-
 function update(data) {
     console.log("update");
     console.log(year);
 
     d3.selectAll(".country")
         .on("mouseover", d => {
+            if (data[d.id] != null) {
+                console.log(data[d.id]['incidents_total'])
+            }
             tooltipVisible = true
             if (metricsData[year][d.id] != undefined) showTooltip(d, rawData);
         })
-        .on("click", d => getColor)
         .on("mouseout", d => {
             d3.select("body")
                 .select("#tooltip-Container")
@@ -129,31 +116,34 @@ function update(data) {
 
             tooltipVisible = false
         })
-        .on("click", d => getColor(data[d.id]))
         .transition()
         .duration(1000)
         .attr("fill", d => {
             if (data[d.id] != null) {
-                return getColor(data[d.id]);
-            } else {
-                return "#F0F0F0";
+                if ((data[d.id]["incidents_total"] != null) & (data[d.id]["incidents_total"] != "null")) {
+                    return colorScale(data[d.id]["incidents_total"])
+                } else {
+                    return "#F1F2F3"
+                }
+
             }
-        });
+            return "#F1F2F3"
+        })
 }
 
 
-slider.on("input", function(d) {
+slider.on("input", function (d) {
     console.log("slider input")
     controlsUpdated();
     document.getElementById("year").innerHTML = this.value;
 });
 
-document.getElementById("countryDropdown").onchange = function() {
+document.getElementById("countryDropdown").onchange = function () {
     country = document.getElementById("countryDropdown").value;
     id_ = rawData.filter(d => d.country == country)[0].id;
     console.log("country:", country)
     console.log("id:", id_)
-    geo = topography.filter(d => d.id == id_).slice(-1)[0] 
+    geo = topography.filter(d => d.id == id_).slice(-1)[0]
     showTooltip(geo, rawData);
 };
 
@@ -211,7 +201,7 @@ function processGlobal(rawData) {
 }
 
 function showTooltip(d, rawData) {
-    console.log("d", d)
+    // console.log("d", d)
     geo = d
     coords = getCoords("mapSvg");
     countryData = rawData.filter(x => x.id == d.id)
@@ -220,7 +210,7 @@ function showTooltip(d, rawData) {
 
 
 playButton
-    .on("click", function() {
+    .on("click", function () {
         console.log("clicked")
         console.log("year", year)
         button = d3.select(this);
@@ -229,8 +219,8 @@ playButton
             clearInterval(timer);
             // timer = 0;
             button.text("Play");
-        } 
-        else if (button.text() == "Restart"){
+        }
+        else if (button.text() == "Restart") {
             year = "1980"
             button.text("Play");
             step()
@@ -247,10 +237,10 @@ function step() {
     console.log("step")
     console.log("year", year)
     if (year == 2019) {
-         moving = false;
+        moving = false;
         clearInterval(timer);
         // timer = 0;
-         button.text("Restart");
+        button.text("Restart");
 
     }
     document.getElementById("year").innerHTML = year;
