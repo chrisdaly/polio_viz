@@ -81,6 +81,11 @@ hr#topline {
     margin-top: 12px;
 }
 
+/*Getting rid of 'gobal'*/
+#global_time_series {
+    fill: #ffffff;
+}
+
 /*SLIDER START*/
 
 /*#slider {
@@ -121,12 +126,19 @@ hr#topline {
 
 
 p {
-    display: block;
-    margin-block-start: 0em;
-    margin-block-end: 0em;
-    margin-inline-start: 0px;
-    margin-inline-end: 0px;
-    margin-left: 5px;
+    font-size: 18px;
+    color: #353A3E;
+}
+
+p#start {
+    margin-left: 40px;
+    text-align: left;
+}
+
+p#end {
+    margin-right: 40px;
+    text-align: right;
+    margin-top: -44px;
 }
 
 div#chart_title_detailed {

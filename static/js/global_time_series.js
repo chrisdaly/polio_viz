@@ -3,7 +3,7 @@ function global_time_series(divId, data) {
     let margin = {
         top: 40,
         right: 40,
-        bottom: 44,
+        bottom: 31,
         left: 40
     };
     let globalTimeseriesWidth = document.getElementById(divId.replace("#", "")).offsetWidth - margin.left - margin.right;
