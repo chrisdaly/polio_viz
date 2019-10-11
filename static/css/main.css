@@ -155,7 +155,7 @@ button#play:hover {
 
 /*FILTER BUTTONS*/
 
-.filter {
+/*.filter {
     position: center;
     border-radius: 40px;
     border: 1.3px solid;
@@ -167,12 +167,12 @@ button#play:hover {
     margin-right: 5px;
     font-family: "AvantBook";
     font-size: 14px;
-}
+}*/
 
 /*inactive filter buttons
 */
 
-button#cases {
+/*button#cases {
     background-color: #ffffff;
     border-color: #be006b;
     color: #be006b;
@@ -182,12 +182,12 @@ button#coverage {
     background-color: #ffffff;
     border-color: #3e90d0;
     color: #3e90d0;
-}
+}*/
 
 /*hover filter buttons
 */
 
-button#cases:hover {
+/*button#cases:hover {
     background-color: #fee5f4;
     border-color: #be006b;
     color: #be006b;
@@ -197,12 +197,12 @@ button#coverage:hover {
     background-color: #e4f0f9;
     border-color: #3e90d0;
     color: #3e90d0;
-}
+}*/
 
 /*active buttons
 */
 
-button#cases:active {
+/*button#cases:active {
     background-color: #be006b;
     border-color: #be006b;
     color: #ffffff;
@@ -212,12 +212,11 @@ button#coverage:active {
     background-color: #3e90d0;
     border-color: #3e90d0;
     color: #ffffff;
-}
-
+}*/
 /*active (clicked) buttons
 */
 
-.cases_active {
+/*.cases_active {
     background-color: #be006b !important;
     border-color: #be006b !important;
     color: #ffffff !important;
@@ -227,7 +226,7 @@ button#coverage:active {
     background-color: #3e90d0 !important;
     border-color: #3e90d0 !important;
     color: #ffffff !important;
-}
+}*/
 
 /*END OF FILTER BUTTONS*/
 
@@ -254,10 +253,9 @@ div#viz {
 
 div#caption {
     text-align: center;
-    font-size: 10px;
-    color: #c3c7cb;
-    text-transform: uppercase;
-    margin-bottom: 20px;
+    font-size: 14px;
+    color: #353A3E;
+    padding: 20px;
 }
 
 hr#bottomline {
@@ -304,7 +302,7 @@ div#region_title {
     /*overflow-x: */
     padding-top: 5px;
     /*height*/
-    :5% ;
+    : 5%;
 }
 
 div#continent {
@@ -419,8 +417,8 @@ tr:nth-child(odd) {
     border-radius: 10px;
     background: rgba(255, 255, 255);
     color: #000;
-    box-shadow: 1.5px 2.5px #dee0e2;
-    border: 1.3px solid #f2f2f2;
+    box-shadow: 1.5px 2.5px 3.5px #A5ACB1;
+    border: 1.3px solid #F1F2F3;
     text-align: center;
     cursor: default;
     opacity: 0;
@@ -484,13 +482,13 @@ body {
 }
 
 .numberText {
-    font-size: 12px;
-    font-family: "AvantBook";
+    font-size: 13px;
+    font-family: "AvantDemi";
     fill: #4a5491;
 }
 
 .textText {
-    font-size: 12px;
+    font-size: 11px;
     font-family: "AvantBook";
     fill: #4a5491;
 }

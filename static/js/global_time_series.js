@@ -1,6 +1,11 @@
 function global_time_series(divId, data) {
     // console.log("global_time_series()");
-    let margin = { top: 40, right: 40, bottom: 44, left: 40 };
+    let margin = {
+        top: 40,
+        right: 40,
+        bottom: 44,
+        left: 40
+    };
     let globalTimeseriesWidth = document.getElementById(divId.replace("#", "")).offsetWidth - margin.left - margin.right;
     let globalTimeseriesHeight = 205 - margin.top - margin.bottom;
     let yearLineOffset = 15;
@@ -11,7 +16,12 @@ function global_time_series(divId, data) {
     // console.log(divId);
     // console.log(data);
 
-    let { incidents, coverage, population, incidents_total } = data.filter(d => d.year == year)[0];
+    let {
+        incidents,
+        coverage,
+        population,
+        incidents_total
+    } = data.filter(d => d.year == year)[0];
     data.sort((a, b) => a.year - b.year);
 
     function makeChart() {
@@ -98,10 +108,10 @@ function global_time_series(divId, data) {
         // var filteredDataCoverage = data.filter(lineCoverage.defined());
 
         // Aesthetics
-        let colorPop = "#e2e2e2";
+        let colorPop = "#F1F2F3";
         // let colorCoverage = "#3e90d0";
-        let colorIncidents = "#be006b";
-        let colorYear = "#c3c7cb";
+        let colorIncidents = "#525CA3";
+        let colorYear = "#A5ACB1";
 
         // Drawing
         let populationArea = globalTimeseries

@@ -25,6 +25,35 @@
 
  /* Border-Box */
 
+ * {
+     font-family: "AvantBook", sans-serif;
+ }
+
+ @font-face {
+     font-family: "AvantMedium";
+     src: url("./ITC Avant Garde Gothic Medium.otf") format("opentype");
+ }
+
+ @font-face {
+     font-family: "AvantExtraLight";
+     src: url("./ITCAvantGardeStd-XLt.otf") format("opentype");
+ }
+
+ @font-face {
+     font-family: "AvantBook";
+     src: url("./ITCAvantGardeStd-Bk.otf") format("opentype");
+ }
+
+ @font-face {
+     font-family: "AvantDemi";
+     src: url("./ITCAvantGardeStd-Demi.otf") format("opentype");
+ }
+
+ @font-face {
+     font-family: "AvantBold";
+     src: url("./ITCAvantGardeStd-Bold.otf") format("opentype");
+ }
+
  *,
  *:before,
  *:after {
