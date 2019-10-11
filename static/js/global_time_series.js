@@ -7,7 +7,7 @@ function global_time_series(divId, data) {
         left: 40
     };
     let globalTimeseriesWidth = document.getElementById(divId.replace("#", "")).offsetWidth - margin.left - margin.right;
-    let globalTimeseriesHeight = 205 - margin.top - margin.bottom;
+    let globalTimeseriesHeight = 250 - margin.top - margin.bottom;
     let yearLineOffset = 15;
     let textOffset = 14;
     let manualOffset = 6;

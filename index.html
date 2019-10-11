@@ -10,20 +10,21 @@
 </head>
 
 <body>
-    <hr id="topline" class="" align="center" width="100%">
-    <div class="Row">
-        <div id="chart_title_detailed" class="Column">
-            <p>COUNT OF POLIO CASES <br> </br> BY COUNTRY <br> </br> BETWEEN 1980 AND 2018</p>
-        </div>
-        <div id="chart_title" class="Column">
-            <p> Global cases of polio in </p>
-            <h2><span id="year">1980</span></h2>
-        </div>
-        <div id="playbuttontext" class="Column">
-            <p>PLAY </p><br> </br>
-            <button type="button" id="play"></button>
-        </div>
+    <h1>GLOBAL CASES OF POLIO IN</span></h1>
+    <h2><span id="year">1980</span></h2>
+    <!-- <div class="Row">
+    <div id="chart_title_detailed" class="Column">
+        <p>COUNT OF POLIO CASES <br> </br> BY COUNTRY <br> </br> BETWEEN 1980 AND 2018</p>
     </div>
+    <div id="chart_title" class="Column">
+        <p> Global cases of polio in </p>
+        <h2><span id="year">1980</span></h2>
+    </div>
+    <div id="playbuttontext" class="Column">
+        <p>PLAY </p><br> </br>
+        <button type="button" id="play"></button>
+    </div>
+</div> -->
     <div id="global_time_series"></div>
     <div id="viz">
         <div id="toggles">
@@ -32,11 +33,13 @@
             <!-- <button type="button" id="cases" class="filter">POLIO CASES</button>
 <button type="button" id="coverage" class="filter">VACCINE COVERAGE</button> -->
         </div>
+        <img src="timeserieslegend.png" alt="Time Series Legend" />
         <div id="tooltip-Container">
             <div class="tooltip"></div>
             <div id="tooltip_tail"></div>
         </div>
     </div>
+    <img src="heatmaplegend.png" alt="Heat Map Legend" />
     <div class="dropdown">
         <select class="ui search dropdown" id="countryDropdown">
             <option value="Afghanistan">Afghanistan</option>
