@@ -278,7 +278,7 @@ function time_series(divId, geo, year, data, coords) {
 
             tooltip
                 .append("text")
-                .text("polio")
+                .text("polio cases")
                 .attr("x", tooltipWidth + 15)
                 .attr("y", () => {
                     let mid = scaleIncidents.range()[0] / 2;
@@ -287,16 +287,16 @@ function time_series(divId, geo, year, data, coords) {
                 .style("fill", colorIncidents)
                 .attr("class", "textText");
 
-            tooltip
-                .append("text")
-                .text(incidents_total == 1 ? "case" : "cases")
-                .attr("x", tooltipWidth + 15)
-                .attr("y", () => {
-                    let mid = scaleIncidents.range()[0] / 2;
-                    return mid + textOffset + manualOffset;
-                })
-                .style("fill", colorIncidents)
-                .attr("class", "textText");
+            // tooltip
+            //     .append("text")
+            //     .text(incidents_total == 1 ? "case" : "cases")
+            //     .attr("x", tooltipWidth + 15)
+            //     .attr("y", () => {
+            //         let mid = scaleIncidents.range()[0] / 2;
+            //         return mid + textOffset + manualOffset;
+            //     })
+            //     .style("fill", colorIncidents)
+            //     .attr("class", "textText");
         } else {
             tooltip
                 .append("text")
