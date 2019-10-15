@@ -41,6 +41,7 @@ h1 {
     font-family: "AvantDemi";
 }
 
+
 div#content_top,
 div#content_bottom {
     padding-left: px;
@@ -81,10 +82,6 @@ hr#topline {
     margin-top: 26px;
 }
 
-/*Getting rid of 'gobal'*/
-#global_time_series {
-    fill: #ffffff;
-}
 
 /*SLIDER START*/
 
@@ -179,8 +176,18 @@ div#chart_title {
 }
 
 /*YEAR*/
-h2 {
+/*h2 {
     font-size: 36px;
+    text-align: middle;
+    color: #525ca3;
+    margin-bottom: 20px;
+    margin-top: 15px;
+    padding-top: 10px;
+    font-family: "AvantBold";
+}*/
+
+#year {
+    font-size: 86px;
     text-align: middle;
     color: #525ca3;
     margin-bottom: 20px;
@@ -212,6 +219,13 @@ button#play {
 
 button#play:hover {
     box-shadow: 0.5px 1.5px 0.5px #dee0e2;
+}
+
+.countryText {
+    fill: #525ca3;
+    font-family: "AvantDemi";
+    font-size: 15px;
+
 }
 
 /*END OF UPFRONT*/

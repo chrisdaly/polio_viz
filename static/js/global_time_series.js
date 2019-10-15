@@ -192,12 +192,12 @@ function global_time_series(divId, data) {
             .attr("y2", globalTimeseriesHeight + yearLineOffset);
 
         // Annotations;
-        let countryLabel = globalTimeseries
-            .append("text")
-            .text("GLOBAL")
-            .attr("x", globalTimeseriesWidth / 2)
-            .attr("y", -20)
-            .attr("class", "countryText");
+        // let countryLabel = globalTimeseries
+        //     .append("text")
+        //     .text("GLOBAL")
+        //     .attr("x", globalTimeseriesWidth / 2)
+        //     .attr("y", -20)
+        //     .attr("class", "countryText");
 
         let yearLabel = globalTimeseries
             .append("text")
