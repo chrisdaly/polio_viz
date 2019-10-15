@@ -32570,7 +32570,11 @@ Floated Menu / Item
  select.ui.dropdown {
      height: 38px;
      padding: 0.5em;
-     border: 1px solid rgba(34, 36, 38, 0.15);
+     border: 1px solid #525CA3;
+     color: #525CA3;
+     font-family: "AvantBook";
+     font-size: 14px;
+     border-radius: 50px;
      visibility: visible;
  }
 
@@ -32767,6 +32771,7 @@ Floated Menu / Item
      min-width: '';
  }
 
+ /* KELLY HERE */
  /* Search Dropdown */
 
  .ui.search.dropdown>input.search {
@@ -32781,6 +32786,7 @@ Floated Menu / Item
      outline: none;
      -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
      padding: inherit;
+
  }
 
  /* Text Layering */

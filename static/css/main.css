@@ -187,10 +187,11 @@ div#chart_title {
 }*/
 
 #year {
+    display: block;
     font-size: 86px;
-    text-align: middle;
+    text-align: center;
     color: #525ca3;
-    margin-bottom: 20px;
+    margin-bottom: 0px;
     margin-top: 15px;
     padding-top: 10px;
     font-family: "AvantBold";
@@ -313,8 +314,8 @@ img {
     display: block;
     margin-left: auto;
     margin-right: auto;
-    width: 457px;
-    height: 87px;
+    width: 500px;
+    height: 95.18599562px;
 }
 
 div#viz {
@@ -643,7 +644,7 @@ text.countryText {
 
 .dashed {
     stroke-dasharray: 2 6;
-    stroke-width: 2.7;
+    stroke-width: 2.25;
 }
 
 #tooltip_tail {
@@ -663,4 +664,5 @@ text.countryText {
 
 div#global_time_series {
     height: 205px;
+    margin-top: 0px;
 }
