@@ -184,19 +184,22 @@ function global_time_series(divId, data) {
             .attr("r", circleRadius)
             .style("fill", colorIncidents);
         //KELLY HERE
-        let yearCircleTick1 = globalTimeseries
-            .append("circle")
-            .attr("cx", globalTimeseriesWidth / 40)
-            .attr("cy", globalTimeseriesHeight + yearLineOffset)
-            .attr("r", 2.25)
-            .style("fill", colorYear);
+        // let yearCircleTick1 = globalTimeseries
+        //     .append("circle")
+        //     .attr("cx", globalTimeseriesWidth / 41)
+        //     // .attr("cx", function(d) {
+        //     //     return Math.sqrt(d);
+        //     // })
+        //     .attr("cy", globalTimeseriesHeight + yearLineOffset)
+        //     .attr("r", 2.25)
+        //     .style("fill", colorYear);
 
-        let yearCircleTick2 = globalTimeseries
-            .append("circle")
-            .attr("cx", (globalTimeseriesWidth / 40) + (globalTimeseriesWidth / 40))
-            .attr("cy", globalTimeseriesHeight + yearLineOffset)
-            .attr("r", 2.25)
-            .style("fill", colorYear);
+        // let yearCircleTick2 = globalTimeseries
+        //     .append("circle")
+        //     .attr("cx", (globalTimeseriesWidth / 40) + (globalTimeseriesWidth / 40))
+        //     .attr("cy", globalTimeseriesHeight + yearLineOffset)
+        //     .attr("r", 2.25)
+        //     .style("fill", colorYear);
 
         // Bottom year axis.
         let yearAxis = globalTimeseries
