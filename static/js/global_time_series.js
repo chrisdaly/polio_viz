@@ -182,7 +182,7 @@ function global_time_series(divId, data) {
             .attr("cx", scaleTime(year))
             .attr("cy", globalTimeseriesHeight + yearLineOffset)
             .attr("r", circleRadius)
-            .style("fill", colorIncidents);
+            .style("fill", colorYear);
         //KELLY HERE
         // let yearCircleTick1 = globalTimeseries
         //     .append("circle")
@@ -252,7 +252,7 @@ function global_time_series(divId, data) {
             .append("text")
             .text(incidents_total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","))
             .attr("x", scaleTime(year))
-            .attr("y", scaleIncidents(incidents_total) - 30)
+            .attr("y", scaleIncidents(incidents_total) - 25)
             .style("fill", colorIncidents)
             .attr("class", "numberText");
 

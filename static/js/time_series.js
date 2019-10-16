@@ -268,7 +268,7 @@ function time_series(divId, geo, year, data, coords) {
             tooltip
                 .append("text")
                 .text(incidents_total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","))
-                .attr("x", tooltipWidth + 15)
+                .attr("x", tooltipWidth + 12)
                 .attr("y", () => {
                     let mid = scaleIncidents.range()[0] / 2;
                     return mid - textOffset + manualOffset;
@@ -279,7 +279,7 @@ function time_series(divId, geo, year, data, coords) {
             tooltip
                 .append("text")
                 .text("polio cases")
-                .attr("x", tooltipWidth + 15)
+                .attr("x", tooltipWidth + 12)
                 .attr("y", () => {
                     let mid = scaleIncidents.range()[0] / 2;
                     return mid + manualOffset;
@@ -301,7 +301,7 @@ function time_series(divId, geo, year, data, coords) {
             tooltip
                 .append("text")
                 .text("No")
-                .attr("x", tooltipWidth + 15)
+                .attr("x", tooltipWidth + 12)
                 .attr("y", () => {
                     let mid = scaleIncidents.range()[0] / 2;
                     return mid - textOffset + manualOffset;
@@ -312,7 +312,7 @@ function time_series(divId, geo, year, data, coords) {
             tooltip
                 .append("text")
                 .text("data")
-                .attr("x", tooltipWidth + 15)
+                .attr("x", tooltipWidth + 12)
                 .attr("y", () => {
                     let mid = scaleIncidents.range()[0] / 2;
                     return mid + manualOffset;
@@ -326,33 +326,33 @@ function time_series(divId, geo, year, data, coords) {
             tooltip
                 .append("text")
                 .text(nFormatter(population))
-                .attr("x", tooltipWidth + 15)
+                .attr("x", tooltipWidth + 12)
                 .attr("y", tooltipHeight - textOffset)
-                .style("fill", "#6b747b")
+                .style("fill", "#A5ACB1")
                 .attr("class", "TTnumberText");
 
             tooltip
                 .append("text")
                 .text("population")
-                .attr("x", tooltipWidth + 15)
+                .attr("x", tooltipWidth + 12)
                 .attr("y", tooltipHeight)
-                .style("fill", "#6b747b")
+                .style("fill", "#A5ACB1")
                 .attr("class", "textText");
         } else {
             tooltip
                 .append("text")
                 .text("No")
-                .attr("x", tooltipWidth + 15)
+                .attr("x", tooltipWidth + 12)
                 .attr("y", tooltipHeight - textOffset)
-                .style("fill", "#6b747b")
+                .style("fill", "#A5ACB1")
                 .attr("class", "TTnumberText");
 
             tooltip
                 .append("text")
                 .text("data")
-                .attr("x", tooltipWidth + 15)
+                .attr("x", tooltipWidth + 12)
                 .attr("y", tooltipHeight)
-                .style("fill", "#6b747b")
+                .style("fill", "#A5ACB1")
                 .attr("class", "textText");
         }
     }
