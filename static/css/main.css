@@ -63,12 +63,14 @@ h1 {
     font-size: 14px;
     color: #A5ACB1;
     text-transform: uppercase;
-    line-height: 14px;
     padding: 0px;
+    margin-top: -12px;
 }
 
-#playbuttontext.hover {
-    font-family: "AvantBold";
+#playbuttontext:hover {
+    font-family: "AvantDemi";
+    cursor: pointer;
+}
 }
 
 header span {
@@ -157,6 +159,10 @@ div#content_bottom {
     margin-top: 36px;
     margin-right: 40px;
     margin-left: 40px;
+}
+
+#mySlider:hover {
+    cursor: pointer;
 }
 
 
