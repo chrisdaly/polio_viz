@@ -3,9 +3,9 @@ function time_series(divId, geo, year, data, coords) {
         top: 40,
         right: 80,
         bottom: 44,
-        left: 10
+        left: 15
     };
-    let tooltipWidth = 315 - margin.left - margin.right;
+    let tooltipWidth = 320 - margin.left - margin.right;
     let tooltipHeight = 175 - margin.top - margin.bottom;
     let yearLineOffset = 15;
     let textOffset = 14;
@@ -274,7 +274,7 @@ function time_series(divId, geo, year, data, coords) {
                     return mid - textOffset + manualOffset;
                 })
                 .style("fill", colorIncidents)
-                .attr("class", "numberText");
+                .attr("class", "TTnumberText");
 
             tooltip
                 .append("text")
@@ -307,7 +307,7 @@ function time_series(divId, geo, year, data, coords) {
                     return mid - textOffset + manualOffset;
                 })
                 .style("fill", colorIncidents)
-                .attr("class", "numberText");
+                .attr("class", "TTnumberText");
 
             tooltip
                 .append("text")
@@ -329,7 +329,7 @@ function time_series(divId, geo, year, data, coords) {
                 .attr("x", tooltipWidth + 15)
                 .attr("y", tooltipHeight - textOffset)
                 .style("fill", "#6b747b")
-                .attr("class", "numberText");
+                .attr("class", "TTnumberText");
 
             tooltip
                 .append("text")
@@ -345,7 +345,7 @@ function time_series(divId, geo, year, data, coords) {
                 .attr("x", tooltipWidth + 15)
                 .attr("y", tooltipHeight - textOffset)
                 .style("fill", "#6b747b")
-                .attr("class", "numberText");
+                .attr("class", "TTnumberText");
 
             tooltip
                 .append("text")

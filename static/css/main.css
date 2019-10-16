@@ -33,16 +33,73 @@ html {
     font-family: "AvantBook";
 }
 
+
+header {
+    border-bottom: 1px solid #000;
+    margin-top: 10px;
+}
+
 h1 {
     font-size: 36px;
     text-align: center;
     color: #353A3E;
     padding-top: 10px;
     font-family: "AvantDemi";
+    display: inline-block;
+    vertical-align: middle;
+}
+
+/*header>h1 {
+    display: inline-block;
+}*/
+
+header span {
+    float: right;
+    display: inline-block;
+
+}
+
+h3 {
+    margin-left: 40px;
+    margin-right: 40px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+
+}
+
+#x_axis_start {
+    display: inline-block;
+    float: left;
+}
+
+#x_axis_end {
+    display: inline-block;
+    float: right;
+}
+
+.numberText {
+    font-size: 18px;
+    font-family: "AvantDemi";
+    text-anchor: middle;
+}
+
+.yearText {
+    text-anchor: middle;
+    font-family: "AvantBook";
+    font-size: 13px;
+    color: #2fa4dd !important;
+}
+
+#dotted {
+    border-style: dashed;
+    border-width: 20px;
+    border-height: 10px;
+
+
 }
 
 
-div#content_top,
+/*div#content_top,
 div#content_bottom {
     padding-left: px;
     z-index: 10;
@@ -52,9 +109,8 @@ div#content_bottom {
     color: #2b2b38;
     margin-top: 0px;
     margin-bottom: 30px;
-}
-
-hr#topline {
+}*/
+/*hr#topline {
     border-top-style: solid;
     border-color: #c3c7cb;
     border-width: 1px;
@@ -69,7 +125,7 @@ hr#topline {
 .Column {
     display: table-cell;
     border: none;
-}
+}*/
 
 #mySlider {
     width: 1744px;
@@ -128,7 +184,7 @@ p {
     margin-bottom: 0px
 }
 
-p#start {
+/*p#start {
     margin-left: 40px;
     text-align: left;
 }
@@ -147,7 +203,7 @@ div#chart_title_detailed {
     text-transform: uppercase;
     line-height: 9px;
     padding: 3px;
-}
+}*/
 
 /*div#chart_title {
     position: relative;
@@ -159,7 +215,7 @@ div#chart_title_detailed {
     padding: 3px;
 }*/
 
-div#chart_title {
+/*div#chart_title {
     text-align: left;
     font-size: 16px;
     line-height: 22px;
@@ -173,6 +229,12 @@ div#chart_title {
     text-transform: uppercase;
     line-height: 14px;
     margin-top: 10px;
+}*/
+
+div#ui.icon.buttons {
+    display: inline-block;
+    float: right;
+    margin: 0px;
 }
 
 /*YEAR*/
@@ -197,7 +259,7 @@ div#chart_title {
     font-family: "AvantBold";
 }
 
-div#playbuttontext {
+#playbuttontext {
     position: relative;
     text-align: right;
     font-size: 14px;
@@ -207,7 +269,11 @@ div#playbuttontext {
     padding: 3px;
 }
 
-button#play {
+#playbuttontext.hover {
+    font-family: "AvantBold";
+}
+
+/*button#play {
     display: block;
     float: right;
     height: 32px;
@@ -220,7 +286,7 @@ button#play {
 
 button#play:hover {
     box-shadow: 0.5px 1.5px 0.5px #dee0e2;
-}
+}*/
 
 .countryText {
     fill: #525ca3;
@@ -494,6 +560,7 @@ tr:nth-child(odd) {
     /*fill: #DCDCDC;*/
 }
 
+
 #tooltip-Container {
     pointer-events: none;
     position: absolute;
@@ -568,7 +635,7 @@ body {
     shape-rendering: crispEdges;
 }
 
-.numberText {
+.TTnumberText {
     font-size: 13px;
     font-family: "AvantDemi";
     fill: #4a5491;
@@ -581,7 +648,7 @@ body {
 }
 
 /*DROP DOWN*/
-.dropbtn {
+/*.dropbtn {
     position: relative;
     text-align: center;
     background-color: #ffffff;
@@ -596,16 +663,17 @@ body {
     outline: 0 !important;
     width: 500px;
     font-size: 14px;
-}
+}*/
 
 .dropdown {
     position: relative;
     text-align: center;
     margin-top: 10px;
     margin-bottom: 15px;
+
 }
 
-.dropdown-content {
+/*.dropdown-content {
     display: none;
     position: absolute;
     background-color: #f9f9f9;
@@ -634,9 +702,9 @@ body {
 .dropdown:hover .dropbtn {
     background-color: #525ca3;
     color: white;
-    /*width: 200px;*/
+    width: 200px;
     margin-right: 5px;
-}
+}*/
 
 text.countryText {
     text-anchor: middle;

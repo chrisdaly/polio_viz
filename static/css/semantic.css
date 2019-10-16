@@ -32560,6 +32560,7 @@ Floated Menu / Item
      transition: width 0.1s ease, -webkit-box-shadow 0.1s ease;
      transition: box-shadow 0.1s ease, width 0.1s ease;
      transition: box-shadow 0.1s ease, width 0.1s ease, -webkit-box-shadow 0.1s ease;
+
  }
 
  .ui.selection.dropdown.visible,

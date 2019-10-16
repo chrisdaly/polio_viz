@@ -3,7 +3,7 @@ function global_time_series(divId, data) {
     let margin = {
         top: 40,
         right: 40,
-        bottom: 31,
+        bottom: 20,
         left: 40
     };
     let globalTimeseriesWidth = document.getElementById(divId.replace("#", "")).offsetWidth - margin.left - margin.right;
@@ -179,7 +179,7 @@ function global_time_series(divId, data) {
             .attr("cx", scaleTime(year))
             .attr("cy", globalTimeseriesHeight + yearLineOffset)
             .attr("r", circleRadius)
-            .style("fill", colorYear);
+            .style("fill", colorIncidents);
 
         // Bottom year axis.
         let yearAxis = globalTimeseries
@@ -190,6 +190,16 @@ function global_time_series(divId, data) {
             .attr("y1", globalTimeseriesHeight + yearLineOffset)
             .attr("x2", globalTimeseriesWidth)
             .attr("y2", globalTimeseriesHeight + yearLineOffset);
+
+        let yearAxisDot = globalTimeseries
+            .append("line")
+            .style("stroke", colorYear)
+            .style("opacity", 1)
+            .attr("x1", 0)
+            .attr("y1", globalTimeseriesHeight + yearLineOffset)
+            .attr("x2", globalTimeseriesWidth)
+            .attr("y2", globalTimeseriesHeight + yearLineOffset)
+            .attr("class", "dotted");
 
         // Annotations;
         // let countryLabel = globalTimeseries
@@ -222,7 +232,7 @@ function global_time_series(divId, data) {
             .append("text")
             .text(incidents_total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","))
             .attr("x", scaleTime(year))
-            .attr("y", scaleIncidents(incidents_total) - 20)
+            .attr("y", scaleIncidents(incidents_total) - 30)
             .style("fill", colorIncidents)
             .attr("class", "numberText");
 
