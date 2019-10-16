@@ -151,6 +151,9 @@ function global_time_series(divId, data) {
             .attr("y1", globalTimeseriesHeight + yearLineOffset)
             .attr("x2", scaleTime(year))
             .attr("y2", scaleIncidents(incidents_total));
+        // .call(d3.axisBottom()
+        //     .ticks(40)
+        //     .tickFormat(d3.format(".0s")));
 
         // Circles.
         // if (!isNaN(coverage)) {
@@ -180,6 +183,20 @@ function global_time_series(divId, data) {
             .attr("cy", globalTimeseriesHeight + yearLineOffset)
             .attr("r", circleRadius)
             .style("fill", colorIncidents);
+        //KELLY HERE
+        let yearCircleTick1 = globalTimeseries
+            .append("circle")
+            .attr("cx", globalTimeseriesWidth / 40)
+            .attr("cy", globalTimeseriesHeight + yearLineOffset)
+            .attr("r", 2.25)
+            .style("fill", colorYear);
+
+        let yearCircleTick2 = globalTimeseries
+            .append("circle")
+            .attr("cx", (globalTimeseriesWidth / 40) + (globalTimeseriesWidth / 40))
+            .attr("cy", globalTimeseriesHeight + yearLineOffset)
+            .attr("r", 2.25)
+            .style("fill", colorYear);
 
         // Bottom year axis.
         let yearAxis = globalTimeseries
@@ -191,15 +208,15 @@ function global_time_series(divId, data) {
             .attr("x2", globalTimeseriesWidth)
             .attr("y2", globalTimeseriesHeight + yearLineOffset);
 
-        let yearAxisDot = globalTimeseries
-            .append("line")
-            .style("stroke", colorYear)
-            .style("opacity", 1)
-            .attr("x1", 0)
-            .attr("y1", globalTimeseriesHeight + yearLineOffset)
-            .attr("x2", globalTimeseriesWidth)
-            .attr("y2", globalTimeseriesHeight + yearLineOffset)
-            .attr("class", "dotted");
+        // let yearAxisDot = globalTimeseries
+        //     .append("line")
+        //     .style("stroke", colorYear)
+        //     .style("opacity", 1)
+        //     .attr("x1", 0)
+        //     .attr("y1", globalTimeseriesHeight + yearLineOffset)
+        //     .attr("x2", globalTimeseriesWidth)
+        //     .attr("y2", globalTimeseriesHeight + yearLineOffset)
+        //     .attr("class", "dotted");
 
         // Annotations;
         // let countryLabel = globalTimeseries
