@@ -25,6 +25,35 @@
 
  /* Border-Box */
 
+ * {
+     font-family: "AvantBook", sans-serif;
+ }
+
+ @font-face {
+     font-family: "AvantMedium";
+     src: url("./ITC Avant Garde Gothic Medium.otf") format("opentype");
+ }
+
+ @font-face {
+     font-family: "AvantExtraLight";
+     src: url("./ITCAvantGardeStd-XLt.otf") format("opentype");
+ }
+
+ @font-face {
+     font-family: "AvantBook";
+     src: url("./ITCAvantGardeStd-Bk.otf") format("opentype");
+ }
+
+ @font-face {
+     font-family: "AvantDemi";
+     src: url("./ITCAvantGardeStd-Demi.otf") format("opentype");
+ }
+
+ @font-face {
+     font-family: "AvantBold";
+     src: url("./ITCAvantGardeStd-Bold.otf") format("opentype");
+ }
+
  *,
  *:before,
  *:after {
@@ -32531,6 +32560,7 @@ Floated Menu / Item
      transition: width 0.1s ease, -webkit-box-shadow 0.1s ease;
      transition: box-shadow 0.1s ease, width 0.1s ease;
      transition: box-shadow 0.1s ease, width 0.1s ease, -webkit-box-shadow 0.1s ease;
+
  }
 
  .ui.selection.dropdown.visible,
@@ -32541,7 +32571,11 @@ Floated Menu / Item
  select.ui.dropdown {
      height: 38px;
      padding: 0.5em;
-     border: 1px solid rgba(34, 36, 38, 0.15);
+     border: 1px solid #525CA3;
+     color: #525CA3;
+     font-family: "AvantBook";
+     font-size: 14px;
+     border-radius: 50px;
      visibility: visible;
  }
 
@@ -32738,6 +32772,7 @@ Floated Menu / Item
      min-width: '';
  }
 
+ /* KELLY HERE */
  /* Search Dropdown */
 
  .ui.search.dropdown>input.search {
@@ -32752,6 +32787,7 @@ Floated Menu / Item
      outline: none;
      -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
      padding: inherit;
+
  }
 
  /* Text Layering */

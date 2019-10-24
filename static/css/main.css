@@ -33,15 +33,93 @@ html {
     font-family: "AvantBook";
 }
 
+
 h1 {
-    font-size: 40px;
-    text-align: left;
-    color: #525ca3;
+    font-size: 36px;
+    text-align: center;
+    color: #353A3E;
     padding-top: 10px;
+    font-family: "AvantDemi";
+    display: block;
+    vertical-align: middle;
+    padding-bottom: 0px;
+    margin: 0px;
+}
+
+#year {
+    display: block;
+    font-size: 76px;
+    text-align: center;
+    color: #525ca3;
+    margin-bottom: 0px;
+    margin-top: 0px;
+    padding-top: 0px;
     font-family: "AvantBold";
 }
 
-div#content_top,
+#playbuttontext {
+    position: relative;
+    text-align: center;
+    font-size: 14px;
+    color: #A5ACB1;
+    text-transform: uppercase;
+    padding: 0px;
+    margin-top: -12px;
+}
+
+#playbuttontext:hover {
+    font-family: "AvantDemi";
+    cursor: pointer;
+}
+}
+
+header span {
+    float: right;
+    display: block;
+
+}
+
+h3 {
+    margin-left: 40px;
+    margin-right: 40px;
+    margin-top: 10px;
+    margin-bottom: 0px;
+    color: #353A3E;
+
+}
+
+#x_axis_start {
+    display: inline-block;
+    float: left;
+}
+
+#x_axis_end {
+    display: inline-block;
+    float: right;
+}
+
+.numberText {
+    font-size: 18px;
+    font-family: "AvantDemi";
+    text-anchor: middle;
+}
+
+.yearText {
+    text-anchor: middle;
+    font-family: "AvantBook";
+    font-size: 13px;
+    color: #2fa4dd !important;
+}
+
+#dotted {
+    border-style: dashed;
+    border-width: 20px;
+    border-height: 10px;
+
+}
+
+
+/*div#content_top,
 div#content_bottom {
     padding-left: px;
     z-index: 10;
@@ -51,9 +129,8 @@ div#content_bottom {
     color: #2b2b38;
     margin-top: 0px;
     margin-bottom: 30px;
-}
-
-hr#topline {
+}*/
+/*hr#topline {
     border-top-style: solid;
     border-color: #c3c7cb;
     border-width: 1px;
@@ -68,15 +145,81 @@ hr#topline {
 .Column {
     display: table-cell;
     border: none;
+}*/
+
+
+#mySlider {
+    width: 100%;
+    -webkit-appearance: none;
+    /*    Override default CSS styles appearance: none;*/
+    height: 8px;
+    background: none;
+    outline: none;
+    opacity: 1;
+    margin-top: 36px;
+    margin-right: 40px;
+    margin-left: 40px;
 }
 
+#mySlider:hover {
+    cursor: pointer;
+}
+
+
+/*SLIDER START*/
+
+/*#slider {
+    -webkit-appearance: none;
+    width: 1074px;
+    height: 8px;
+    border-radius: 5px;
+    background: #d3d3d3;
+    outline: none;
+    opacity: 0.7;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+}
+
+#slider:hover {
+    opacity: 1;
+}
+
+#slider:-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #4CAF50;
+    cursor: pointer;
+}
+
+#slider:-moz-range-thumb {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background: #4CAF50;
+    cursor: pointer;
+}*/
+
+/*SLIDER END*/
+
+
 p {
-    display: block;
-    margin-block-start: 0em;
-    margin-block-end: 0em;
-    margin-inline-start: 0px;
-    margin-inline-end: 0px;
-    margin-left: 5px;
+    font-size: 18px;
+    color: #353A3E;
+    margin-bottom: 0px
+}
+
+/*p#start {
+    margin-left: 40px;
+    text-align: left;
+}
+
+p#end {
+    margin-right: 40px;
+    text-align: right;
+    margin-top: -44px;
 }
 
 div#chart_title_detailed {
@@ -87,7 +230,7 @@ div#chart_title_detailed {
     text-transform: uppercase;
     line-height: 9px;
     padding: 3px;
-}
+}*/
 
 /*div#chart_title {
     position: relative;
@@ -99,7 +242,7 @@ div#chart_title_detailed {
     padding: 3px;
 }*/
 
-div#chart_title {
+/*div#chart_title {
     text-align: left;
     font-size: 16px;
     line-height: 22px;
@@ -113,10 +256,16 @@ div#chart_title {
     text-transform: uppercase;
     line-height: 14px;
     margin-top: 10px;
+}*/
+
+div#ui.icon.buttons {
+    display: inline-block;
+    float: right;
+    margin: 0px;
 }
 
 /*YEAR*/
-h2 {
+/*h2 {
     font-size: 36px;
     text-align: middle;
     color: #525ca3;
@@ -124,19 +273,9 @@ h2 {
     margin-top: 15px;
     padding-top: 10px;
     font-family: "AvantBold";
-}
+}*/
 
-div#playbuttontext {
-    position: relative;
-    text-align: right;
-    font-size: 14px;
-    color: #c3c7cb;
-    text-transform: uppercase;
-    line-height: 14px;
-    padding: 3px;
-}
-
-button#play {
+/*button#play {
     display: block;
     float: right;
     height: 32px;
@@ -149,13 +288,20 @@ button#play {
 
 button#play:hover {
     box-shadow: 0.5px 1.5px 0.5px #dee0e2;
+}*/
+
+.countryText {
+    fill: #525ca3;
+    font-family: "AvantDemi";
+    font-size: 15px;
+
 }
 
 /*END OF UPFRONT*/
 
 /*FILTER BUTTONS*/
 
-.filter {
+/*.filter {
     position: center;
     border-radius: 40px;
     border: 1.3px solid;
@@ -167,12 +313,12 @@ button#play:hover {
     margin-right: 5px;
     font-family: "AvantBook";
     font-size: 14px;
-}
+}*/
 
 /*inactive filter buttons
 */
 
-button#cases {
+/*button#cases {
     background-color: #ffffff;
     border-color: #be006b;
     color: #be006b;
@@ -182,12 +328,12 @@ button#coverage {
     background-color: #ffffff;
     border-color: #3e90d0;
     color: #3e90d0;
-}
+}*/
 
 /*hover filter buttons
 */
 
-button#cases:hover {
+/*button#cases:hover {
     background-color: #fee5f4;
     border-color: #be006b;
     color: #be006b;
@@ -197,12 +343,12 @@ button#coverage:hover {
     background-color: #e4f0f9;
     border-color: #3e90d0;
     color: #3e90d0;
-}
+}*/
 
 /*active buttons
 */
 
-button#cases:active {
+/*button#cases:active {
     background-color: #be006b;
     border-color: #be006b;
     color: #ffffff;
@@ -212,12 +358,11 @@ button#coverage:active {
     background-color: #3e90d0;
     border-color: #3e90d0;
     color: #ffffff;
-}
-
+}*/
 /*active (clicked) buttons
 */
 
-.cases_active {
+/*.cases_active {
     background-color: #be006b !important;
     border-color: #be006b !important;
     color: #ffffff !important;
@@ -227,11 +372,19 @@ button#coverage:active {
     background-color: #3e90d0 !important;
     border-color: #3e90d0 !important;
     color: #ffffff !important;
-}
+}*/
 
 /*END OF FILTER BUTTONS*/
 
 /*MAP START*/
+
+img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 500px;
+    height: 95.18599562px;
+}
 
 div#viz {
     /*position: absolute;*/
@@ -254,10 +407,10 @@ div#viz {
 
 div#caption {
     text-align: center;
-    font-size: 10px;
-    color: #c3c7cb;
-    text-transform: uppercase;
-    margin-bottom: 20px;
+    font-size: 14px;
+    color: #353A3E;
+    padding-bottom: 20px;
+
 }
 
 hr#bottomline {
@@ -304,7 +457,7 @@ div#region_title {
     /*overflow-x: */
     padding-top: 5px;
     /*height*/
-    :5% ;
+    : 5%;
 }
 
 div#continent {
@@ -409,6 +562,7 @@ tr:nth-child(odd) {
     /*fill: #DCDCDC;*/
 }
 
+
 #tooltip-Container {
     pointer-events: none;
     position: absolute;
@@ -419,8 +573,8 @@ tr:nth-child(odd) {
     border-radius: 10px;
     background: rgba(255, 255, 255);
     color: #000;
-    box-shadow: 1.5px 2.5px #dee0e2;
-    border: 1.3px solid #f2f2f2;
+    box-shadow: 1.5px 2.5px 3.5px #A5ACB1;
+    border: 1.3px solid #F1F2F3;
     text-align: center;
     cursor: default;
     opacity: 0;
@@ -483,20 +637,20 @@ body {
     shape-rendering: crispEdges;
 }
 
-.numberText {
-    font-size: 12px;
-    font-family: "AvantBook";
+.TTnumberText {
+    font-size: 13px;
+    font-family: "AvantDemi";
     fill: #4a5491;
 }
 
 .textText {
-    font-size: 12px;
+    font-size: 11px;
     font-family: "AvantBook";
     fill: #4a5491;
 }
 
 /*DROP DOWN*/
-.dropbtn {
+/*.dropbtn {
     position: relative;
     text-align: center;
     background-color: #ffffff;
@@ -511,14 +665,33 @@ body {
     outline: 0 !important;
     width: 500px;
     font-size: 14px;
-}
+}*/
 
 .dropdown {
     position: relative;
     text-align: center;
+    margin-top: 10px;
+    margin-bottom: 15px;
+
 }
 
-.dropdown-content {
+#countryDropdown {
+    -webkit-appearance: none;
+    background-color: white;
+    border: 1px solid #525CA3;
+    text-align: center;
+    width: 35%;
+    min-width: 330px;
+    padding-left: 15px;
+
+}
+
+/*#option.value {
+    -webkit-appearance: none;
+    font-family: "AvantBook";
+}*/
+
+/*.dropdown-content {
     display: none;
     position: absolute;
     background-color: #f9f9f9;
@@ -547,17 +720,17 @@ body {
 .dropdown:hover .dropbtn {
     background-color: #525ca3;
     color: white;
-    /*width: 200px;*/
+    width: 200px;
     margin-right: 5px;
-}
+}*/
 
 text.countryText {
     text-anchor: middle;
 }
 
 .dashed {
-    stroke-dasharray: 3;
-    stroke-width: 2;
+    stroke-dasharray: 2 6;
+    stroke-width: 2.25;
 }
 
 #tooltip_tail {
@@ -571,8 +744,11 @@ text.countryText {
     border-top: 12px solid white;
     font-size: 0;
     line-height: 0;
+    /*    box-shadow: 1.5px 2.5px 3.5px #A5ACB1;*/
+
 }
 
 div#global_time_series {
     height: 205px;
+    margin-top: 0px;
 }

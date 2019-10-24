@@ -136,13 +136,13 @@ function update(data) {
 }
 
 
-slider.on("input", function (d) {
+slider.on("input", function(d) {
     console.log("slider input")
     controlsUpdated();
     document.getElementById("year").innerHTML = this.value;
 });
 
-document.getElementById("countryDropdown").onchange = function () {
+document.getElementById("countryDropdown").onchange = function() {
     country = document.getElementById("countryDropdown").value;
     id_ = rawData.filter(d => d.country == country)[0].id;
     console.log("country:", country)
@@ -185,14 +185,24 @@ function processGlobal(rawData) {
             let incidents_total = d3.sum(v, x => x.incidents_total);
             let coverage = d3.mean(v, x => x.coverage);
             let population = d3.sum(v, x => x.population);
-            return { incidents, incidents_total, coverage, population };
+            return {
+                incidents,
+                incidents_total,
+                coverage,
+                population
+            };
         })
         .entries(rawData);
 
     globalData = [];
     nestedData.forEach(d => {
         x = {};
-        let { incidents, incidents_total, coverage, population } = d.value;
+        let {
+            incidents,
+            incidents_total,
+            coverage,
+            population
+        } = d.value;
         x["year"] = d.key;
         x["incidents"] = incidents;
         x["incidents_total"] = incidents_total;
@@ -214,7 +224,7 @@ function showTooltip(d, rawData) {
 
 
 playButton
-    .on("click", function () {
+    .on("click", function() {
         console.log("clicked")
         console.log("year", year)
         button = d3.select(this);
@@ -223,13 +233,11 @@ playButton
             clearInterval(timer);
             // timer = 0;
             button.text("Play");
-        }
-        else if (button.text() == "Restart") {
+        } else if (button.text() == "Restart") {
             year = "1980"
             button.text("Play");
             step()
-        }
-        else {
+        } else {
             moving = true;
             timer = setInterval(step, duration * 1.5);
             button.text("Pause");

@@ -1,13 +1,23 @@
 function time_series(divId, geo, year, data, coords) {
-    let margin = { top: 40, right: 80, bottom: 44, left: 10 };
-    let tooltipWidth = 310 - margin.left - margin.right;
-    let tooltipHeight = 205 - margin.top - margin.bottom;
+    let margin = {
+        top: 40,
+        right: 80,
+        bottom: 44,
+        left: 15
+    };
+    let tooltipWidth = 320 - margin.left - margin.right;
+    let tooltipHeight = 175 - margin.top - margin.bottom;
     let yearLineOffset = 15;
     let textOffset = 14;
     let manualOffset = 6;
     let circleRadius = 4;
 
-    let { incidents, coverage, population, incidents_total } = data.filter(d => d.year == parseInt(year))[0];
+    let {
+        incidents,
+        coverage,
+        population,
+        incidents_total
+    } = data.filter(d => d.year == parseInt(year))[0];
     data.sort((a, b) => a.year - b.year);
     let country = data[0].country_new;
     // console.log("COUNTRY: ", country);
@@ -113,10 +123,10 @@ function time_series(divId, geo, year, data, coords) {
         // console.log("filteredDataIncidents", filteredDataIncidents);
 
         // Aesthetics
-        let colorPop = "#e2e2e2";
+        let colorPop = "#F1F2F3";
         // let colorCoverage = "#3e90d0";
-        let colorIncidents = "#be006b";
-        let colorYear = "#c3c7cb";
+        let colorIncidents = "#525CA3";
+        let colorYear = "#A5ACB1";
 
         // Drawing
         let populationArea = tooltip
@@ -258,18 +268,18 @@ function time_series(divId, geo, year, data, coords) {
             tooltip
                 .append("text")
                 .text(incidents_total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","))
-                .attr("x", tooltipWidth + 15)
+                .attr("x", tooltipWidth + 12)
                 .attr("y", () => {
                     let mid = scaleIncidents.range()[0] / 2;
                     return mid - textOffset + manualOffset;
                 })
                 .style("fill", colorIncidents)
-                .attr("class", "numberText");
+                .attr("class", "TTnumberText");
 
             tooltip
                 .append("text")
-                .text("polio")
-                .attr("x", tooltipWidth + 15)
+                .text("polio cases")
+                .attr("x", tooltipWidth + 12)
                 .attr("y", () => {
                     let mid = scaleIncidents.range()[0] / 2;
                     return mid + manualOffset;
@@ -277,32 +287,32 @@ function time_series(divId, geo, year, data, coords) {
                 .style("fill", colorIncidents)
                 .attr("class", "textText");
 
-            tooltip
-                .append("text")
-                .text(incidents_total == 1 ? "case" : "cases")
-                .attr("x", tooltipWidth + 15)
-                .attr("y", () => {
-                    let mid = scaleIncidents.range()[0] / 2;
-                    return mid + textOffset + manualOffset;
-                })
-                .style("fill", colorIncidents)
-                .attr("class", "textText");
+            // tooltip
+            //     .append("text")
+            //     .text(incidents_total == 1 ? "case" : "cases")
+            //     .attr("x", tooltipWidth + 15)
+            //     .attr("y", () => {
+            //         let mid = scaleIncidents.range()[0] / 2;
+            //         return mid + textOffset + manualOffset;
+            //     })
+            //     .style("fill", colorIncidents)
+            //     .attr("class", "textText");
         } else {
             tooltip
                 .append("text")
                 .text("No")
-                .attr("x", tooltipWidth + 15)
+                .attr("x", tooltipWidth + 12)
                 .attr("y", () => {
                     let mid = scaleIncidents.range()[0] / 2;
                     return mid - textOffset + manualOffset;
                 })
                 .style("fill", colorIncidents)
-                .attr("class", "numberText");
+                .attr("class", "TTnumberText");
 
             tooltip
                 .append("text")
                 .text("data")
-                .attr("x", tooltipWidth + 15)
+                .attr("x", tooltipWidth + 12)
                 .attr("y", () => {
                     let mid = scaleIncidents.range()[0] / 2;
                     return mid + manualOffset;
@@ -316,33 +326,33 @@ function time_series(divId, geo, year, data, coords) {
             tooltip
                 .append("text")
                 .text(nFormatter(population))
-                .attr("x", tooltipWidth + 15)
+                .attr("x", tooltipWidth + 12)
                 .attr("y", tooltipHeight - textOffset)
-                .style("fill", "#6b747b")
-                .attr("class", "numberText");
+                .style("fill", "#A5ACB1")
+                .attr("class", "TTnumberText");
 
             tooltip
                 .append("text")
                 .text("population")
-                .attr("x", tooltipWidth + 15)
+                .attr("x", tooltipWidth + 12)
                 .attr("y", tooltipHeight)
-                .style("fill", "#6b747b")
+                .style("fill", "#A5ACB1")
                 .attr("class", "textText");
         } else {
             tooltip
                 .append("text")
                 .text("No")
-                .attr("x", tooltipWidth + 15)
+                .attr("x", tooltipWidth + 12)
                 .attr("y", tooltipHeight - textOffset)
-                .style("fill", "#6b747b")
-                .attr("class", "numberText");
+                .style("fill", "#A5ACB1")
+                .attr("class", "TTnumberText");
 
             tooltip
                 .append("text")
                 .text("data")
-                .attr("x", tooltipWidth + 15)
+                .attr("x", tooltipWidth + 12)
                 .attr("y", tooltipHeight)
-                .style("fill", "#6b747b")
+                .style("fill", "#A5ACB1")
                 .attr("class", "textText");
         }
     }

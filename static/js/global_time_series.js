@@ -1,8 +1,13 @@
 function global_time_series(divId, data) {
     // console.log("global_time_series()");
-    let margin = { top: 40, right: 40, bottom: 44, left: 40 };
+    let margin = {
+        top: 40,
+        right: 40,
+        bottom: 20,
+        left: 40
+    };
     let globalTimeseriesWidth = document.getElementById(divId.replace("#", "")).offsetWidth - margin.left - margin.right;
-    let globalTimeseriesHeight = 205 - margin.top - margin.bottom;
+    let globalTimeseriesHeight = 250 - margin.top - margin.bottom;
     let yearLineOffset = 15;
     let textOffset = 14;
     let manualOffset = 6;
@@ -11,7 +16,12 @@ function global_time_series(divId, data) {
     // console.log(divId);
     // console.log(data);
 
-    let { incidents, coverage, population, incidents_total } = data.filter(d => d.year == year)[0];
+    let {
+        incidents,
+        coverage,
+        population,
+        incidents_total
+    } = data.filter(d => d.year == year)[0];
     data.sort((a, b) => a.year - b.year);
 
     function makeChart() {
@@ -98,10 +108,10 @@ function global_time_series(divId, data) {
         // var filteredDataCoverage = data.filter(lineCoverage.defined());
 
         // Aesthetics
-        let colorPop = "#e2e2e2";
+        let colorPop = "#F1F2F3";
         // let colorCoverage = "#3e90d0";
-        let colorIncidents = "#be006b";
-        let colorYear = "#c3c7cb";
+        let colorIncidents = "#525CA3";
+        let colorYear = "#A5ACB1";
 
         // Drawing
         let populationArea = globalTimeseries
@@ -141,6 +151,9 @@ function global_time_series(divId, data) {
             .attr("y1", globalTimeseriesHeight + yearLineOffset)
             .attr("x2", scaleTime(year))
             .attr("y2", scaleIncidents(incidents_total));
+        // .call(d3.axisBottom()
+        //     .ticks(40)
+        //     .tickFormat(d3.format(".0s")));
 
         // Circles.
         // if (!isNaN(coverage)) {
@@ -170,6 +183,23 @@ function global_time_series(divId, data) {
             .attr("cy", globalTimeseriesHeight + yearLineOffset)
             .attr("r", circleRadius)
             .style("fill", colorYear);
+        //KELLY HERE
+        // let yearCircleTick1 = globalTimeseries
+        //     .append("circle")
+        //     .attr("cx", globalTimeseriesWidth / 41)
+        //     // .attr("cx", function(d) {
+        //     //     return Math.sqrt(d);
+        //     // })
+        //     .attr("cy", globalTimeseriesHeight + yearLineOffset)
+        //     .attr("r", 2.25)
+        //     .style("fill", colorYear);
+
+        // let yearCircleTick2 = globalTimeseries
+        //     .append("circle")
+        //     .attr("cx", (globalTimeseriesWidth / 40) + (globalTimeseriesWidth / 40))
+        //     .attr("cy", globalTimeseriesHeight + yearLineOffset)
+        //     .attr("r", 2.25)
+        //     .style("fill", colorYear);
 
         // Bottom year axis.
         let yearAxis = globalTimeseries
@@ -181,13 +211,23 @@ function global_time_series(divId, data) {
             .attr("x2", globalTimeseriesWidth)
             .attr("y2", globalTimeseriesHeight + yearLineOffset);
 
+        // let yearAxisDot = globalTimeseries
+        //     .append("line")
+        //     .style("stroke", colorYear)
+        //     .style("opacity", 1)
+        //     .attr("x1", 0)
+        //     .attr("y1", globalTimeseriesHeight + yearLineOffset)
+        //     .attr("x2", globalTimeseriesWidth)
+        //     .attr("y2", globalTimeseriesHeight + yearLineOffset)
+        //     .attr("class", "dotted");
+
         // Annotations;
-        let countryLabel = globalTimeseries
-            .append("text")
-            .text("GLOBAL")
-            .attr("x", globalTimeseriesWidth / 2)
-            .attr("y", -20)
-            .attr("class", "countryText");
+        // let countryLabel = globalTimeseries
+        //     .append("text")
+        //     .text("GLOBAL")
+        //     .attr("x", globalTimeseriesWidth / 2)
+        //     .attr("y", -20)
+        //     .attr("class", "countryText");
 
         let yearLabel = globalTimeseries
             .append("text")
@@ -212,7 +252,7 @@ function global_time_series(divId, data) {
             .append("text")
             .text(incidents_total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","))
             .attr("x", scaleTime(year))
-            .attr("y", scaleIncidents(incidents_total) - 20)
+            .attr("y", scaleIncidents(incidents_total) - 25)
             .style("fill", colorIncidents)
             .attr("class", "numberText");
 
