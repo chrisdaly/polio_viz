@@ -6,7 +6,7 @@ const margin = {
 };
 const width = 1600;
 const height = 700;
-const files = ["./static/data/world-50m.json", "./static/data/records.json"];
+const files = [".static/data/world-50m.json", ".static/data/records.json"];
 let redundantCountries = [10, 304]; // Greenland, Antarctica
 let datasets;
 let countriesData;
